@@ -1,0 +1,19 @@
+import { requisicao } from '@/api/cliente'
+import type { CadastroSegundoFatorResposta, TokenResposta, UsuarioLogado } from '@/api/tipos'
+
+export function entrar(login: string, senha: string) {
+  return requisicao<TokenResposta>('POST', '/auth/login', { corpo: { login, senha } })
+}
+
+/** Com o token de segundo fator pendente: gera o segredo e devolve a URI otpauth (com o segredo dentro). */
+export function cadastrarSegundoFator(tokenPendente: string) {
+  return requisicao<CadastroSegundoFatorResposta>('POST', '/auth/segundo-fator/cadastro', { token: tokenPendente })
+}
+
+export function validarSegundoFator(tokenPendente: string, codigo: string) {
+  return requisicao<TokenResposta>('POST', '/auth/segundo-fator/validacao', { token: tokenPendente, corpo: { codigo } })
+}
+
+export function usuarioLogado(sinal?: AbortSignal) {
+  return requisicao<UsuarioLogado>('GET', '/usuarios/eu', { sinal })
+}
