@@ -172,13 +172,14 @@ export function AppLayout() {
         <div aria-hidden="true" className="fixed inset-0 z-[25] bg-slate-900/40" onClick={() => setMenuAberto(false)} />
       )}
 
-      {/* div, e não aside: abaixo de 1024px ela vira diálogo, papel que o aside não aceita. O marco é o nav. */}
+      {/* div, e não aside: abaixo de 1024px ela vira diálogo, papel que o aside não aceita. Fora disso, é uma região
+          nomeada, para a marca e o usuário não ficarem fora de um marco. */}
       <div
         id="menu-lateral"
         inert={!lateralVisivel}
-        role={!desktop && menuAberto ? 'dialog' : undefined}
+        role={!desktop && menuAberto ? 'dialog' : 'region'}
         aria-modal={!desktop && menuAberto ? true : undefined}
-        aria-label={!desktop && menuAberto ? 'Menu principal' : undefined}
+        aria-label={!desktop && menuAberto ? 'Menu principal' : 'Menu lateral'}
         className={`superficie-escura fixed inset-y-0 left-0 z-30 flex w-lateral flex-col bg-lateral transition-transform duration-200 ${
           lateralVisivel ? 'translate-x-0' : '-translate-x-full'
         }`}

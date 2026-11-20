@@ -14,8 +14,8 @@ export interface ItemDeMenu {
 }
 
 /**
- * Tabela única das telas autenticadas. O menu e a guarda de rota usam a mesma regra (podeAcessar). Os cards
- * seguintes só trocam a página de cada item; o FE-02 entrega a rota com a página "Em construção".
+ * Tabela única das telas autenticadas. O menu e a guarda de rota usam a mesma regra (podeAcessar). A página de
+ * cada item entregue fica em PAGINAS (App.tsx); as outras mostram "Em construção" até o card delas.
  */
 export const ITENS_DE_MENU: readonly ItemDeMenu[] = [
   {
