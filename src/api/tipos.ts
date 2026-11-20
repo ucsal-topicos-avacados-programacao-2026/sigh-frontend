@@ -41,3 +41,32 @@ export interface Pagina<T> {
   content: T[]
   page: { size: number; number: number; totalElements: number; totalPages: number }
 }
+
+/** Paciente já cadastrado na rede (POST /api/pacientes/busca). */
+export interface PacienteResumo {
+  id: string
+  nome: string
+  /** ISO, AAAA-MM-DD. */
+  dataNascimento: string
+}
+
+/** Manifestação do paciente sobre o compartilhamento amplo no primeiro cadastro (RF-002). Ausente: não se manifestou. */
+export type ManifestacaoInicial = 'AUTORIZADO' | 'NEGADO'
+
+export interface AdmissaoRequisicao {
+  cpf: string
+  instituicaoId: string
+  motivo: string
+  /** Só no primeiro cadastro; com o CPF já na rede, a API ignora os três. */
+  nome?: string
+  dataNascimento?: string
+  consentimentoInicial?: ManifestacaoInicial
+}
+
+export interface AdmissaoResposta {
+  pacienteId: string
+  prontuarioId: string
+  atendimentoId: string
+  /** false: o CPF já estava na rede e o atendimento foi vinculado ao prontuário existente (RN-004). */
+  novoCadastro: boolean
+}

@@ -88,3 +88,14 @@ As telas de cada item são entregues nos cards FE-03 a FE-08. Até lá, a rota e
 - aviso de conteúdo gerado por IA;
 - toast;
 - diálogo de confirmação.
+
+## Pacientes (FE-03)
+
+Tela do Administrativo para receber o paciente na instituição ativa (RF-001, RF-002, RN-004).
+
+1. **Busca pelo CPF na rede** (`POST /api/pacientes/busca`). O CPF é conferido no navegador com a mesma regra da API (dígitos verificadores, sem todos os dígitos iguais) e vai no corpo da requisição, nunca na URL. Ele não é guardado no navegador.
+2. **Paciente já na rede:** a tela mostra nome e nascimento e pede só o motivo. O atendimento é aberto no prontuário que ele já tem; cadastro e consentimento não mudam aqui.
+3. **CPF fora da rede:** cadastro com nome, data de nascimento, consentimento inicial e motivo (`POST /api/pacientes/admissoes`). O consentimento tem três opções: autoriza o compartilhamento na rede, não autoriza, ou não se manifestou agora (o campo não vai, e vale como não autorizado até o paciente decidir).
+4. **CPF cadastrado por outra recepção ao mesmo tempo:** a API abre o atendimento no prontuário existente, e a tela avisa que os dados digitados não foram usados.
+
+Trocar a instituição ativa recomeça a tela. Erros de campo da API aparecem no próprio campo; 403, 409 e falhas de rede aparecem num alerta.
