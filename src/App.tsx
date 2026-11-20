@@ -2,11 +2,18 @@ import { Navigate, Route, Routes } from 'react-router'
 import { RotaProtegida } from '@/auth/RotaProtegida'
 import { useSessao } from '@/auth/SessaoProvider'
 import { AppLayout } from '@/layout/AppLayout'
+import type { ComponentType } from 'react'
 import { EmConstrucao, Inicio, NaoEncontrada } from '@/paginas/comuns/PaginasComuns'
+import { Pacientes } from '@/paginas/pacientes/Pacientes'
 import { CadastrarSegundoFator } from '@/paginas/publicas/CadastrarSegundoFator'
 import { Entrar } from '@/paginas/publicas/Entrar'
 import { ValidarSegundoFator } from '@/paginas/publicas/ValidarSegundoFator'
 import { ITENS_DE_MENU } from '@/rotas'
+
+/** Telas já entregues, por caminho do menu. As outras mostram "Em construção" até o card delas. */
+const PAGINAS: Partial<Record<string, ComponentType>> = {
+  '/pacientes': Pacientes,
+}
 
 /** Telas de entrada só sem sessão: quem já entrou vai para o início. */
 function SoSemSessao({ children }: { children: React.ReactNode }) {
@@ -24,11 +31,16 @@ export function App() {
       <Route element={<RotaProtegida><AppLayout /></RotaProtegida>}>
         <Route index element={<Inicio />} />
         {ITENS_DE_MENU.map((item) => (
-          <Route key={item.caminho} path={item.caminho} element={<RotaProtegida rota={item}><EmConstrucao item={item} /></RotaProtegida>} />
+          <Route key={item.caminho} path={item.caminho} element={<RotaProtegida rota={item}><Pagina item={item} /></RotaProtegida>} />
         ))}
         {/* Endereço desconhecido: sem sessão, a guarda leva ao login; com sessão, "não encontrada" no shell. */}
         <Route path="*" element={<NaoEncontrada />} />
       </Route>
     </Routes>
   )
+}
+
+function Pagina({ item }: { item: (typeof ITENS_DE_MENU)[number] }) {
+  const Entregue = PAGINAS[item.caminho]
+  return Entregue ? <Entregue /> : <EmConstrucao item={item} />
 }
