@@ -10,7 +10,7 @@ import { CampoTexto } from '@/componentes/Campo'
 import { Painel } from '@/componentes/Painel'
 import { TituloPagina } from '@/componentes/TituloPagina'
 import { erroDoCpf, mascararCpf } from '@/paginas/pacientes/cpf'
-import { formatarData, idade } from '@/paginas/pacientes/datas'
+import { formatarData, idade } from '@/util/datas'
 import { FormularioDeAdmissao } from '@/paginas/pacientes/FormularioDeAdmissao'
 import { mensagemDoErro } from '@/paginas/pacientes/mensagens'
 
