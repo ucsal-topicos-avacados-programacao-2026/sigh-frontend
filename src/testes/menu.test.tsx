@@ -12,10 +12,10 @@ async function itensDoMenu() {
 describe('menu por perfil (FE-02: o perfil vê somente o menu permitido)', () => {
   const casos: [string, Perfil[], string[]][] = [
     ['paciente', ['PACIENTE'], ['Meu prontuário', 'Consentimentos']],
-    ['enfermeiro', ['ENFERMEIRO'], ['Triagem', 'Atendimentos']],
-    ['médico', ['MEDICO'], ['Atendimentos']],
-    ['administrativo', ['ADMINISTRATIVO'], ['Pacientes', 'Leitos', 'Internações']],
-    ['auditor', ['AUDITOR_GESTOR'], ['Auditoria', 'Relatórios']],
+    ['enfermeiro', ['ENFERMEIRO'], ['Painel', 'Triagem', 'Atendimentos']],
+    ['médico', ['MEDICO'], ['Painel', 'Atendimentos']],
+    ['administrativo', ['ADMINISTRATIVO'], ['Painel', 'Pacientes', 'Leitos', 'Internações']],
+    ['auditor', ['AUDITOR_GESTOR'], ['Painel', 'Auditoria', 'Relatórios']],
   ]
 
   it.each(casos)('%s', async (_nome, perfis, esperado) => {
@@ -34,11 +34,36 @@ describe('menu por perfil (FE-02: o perfil vê somente o menu permitido)', () =>
     renderizar('/', logado)
     expect(await screen.findByText('Escolha a instituição', { selector: 'p' })).toBeInTheDocument()
     expect(await itensDoMenu()).toEqual([])
+    // A pilha de cartões do início também escolhe: e o início vai para o painel da instituição escolhida.
+    await userEvent.click(screen.getByRole('button', { name: /Hospital B/ }))
+    expect(await screen.findByRole('heading', { level: 1, name: 'Painel' })).toBeInTheDocument()
+    expect(screen.getByLabelText('Instituição ativa')).toHaveValue('hospital-b')
 
     await userEvent.selectOptions(screen.getByLabelText('Instituição ativa'), 'hospital-b')
-    expect(await itensDoMenu()).toEqual(['Triagem', 'Atendimentos'])
+    expect(await itensDoMenu()).toEqual(['Painel', 'Triagem', 'Atendimentos'])
     await userEvent.selectOptions(screen.getByLabelText('Instituição ativa'), 'hospital-a')
-    expect(await itensDoMenu()).toEqual(['Atendimentos'])
+    expect(await itensDoMenu()).toEqual(['Painel', 'Atendimentos'])
+  })
+
+  it('no início, as setas não escolhem a instituição: só Enter, Espaço ou clique, porque escolher sai da página', async () => {
+    const logado = usuario(['ADMINISTRATIVO'], [
+      { ...HOSPITAL_A, perfis: ['ADMINISTRATIVO'] },
+      { ...HOSPITAL_B, perfis: ['ADMINISTRATIVO'] },
+      { instituicaoId: 'hospital-c', instituicaoNome: 'Hospital C', perfis: ['ADMINISTRATIVO'] },
+    ])
+    renderizar('/', logado)
+    const grupo = await screen.findByRole('group', { name: 'Hospital em que vai trabalhar' })
+    expect(within(grupo).queryAllByRole('radio')).toHaveLength(0)
+    const teclado = userEvent.setup()
+    within(grupo).getByRole('button', { name: /Hospital A/ }).focus()
+    await teclado.keyboard('{ArrowDown}{ArrowDown}')
+    expect(screen.getByRole('heading', { level: 1, name: 'Início' })).toBeInTheDocument()
+    await teclado.tab()
+    await teclado.tab()
+    expect(within(grupo).getByRole('button', { name: /Hospital C/ })).toHaveFocus()
+    await teclado.keyboard('{Enter}')
+    expect(await screen.findByRole('heading', { level: 1, name: 'Painel' })).toBeInTheDocument()
+    expect(screen.getByLabelText('Instituição ativa')).toHaveValue('hospital-c')
   })
 
   it('o item da página atual é marcado para o leitor de tela', async () => {
@@ -68,8 +93,13 @@ describe('guarda de rota', () => {
   })
 
   it('o início leva à primeira tela do menu', async () => {
-    renderizar('/', usuario(['AUDITOR_GESTOR']))
-    expect(await screen.findByRole('heading', { level: 1, name: 'Auditoria' })).toBeInTheDocument()
+    renderizar('/', usuario(['PACIENTE']))
+    expect(await screen.findByRole('heading', { level: 1, name: 'Meu prontuário' })).toBeInTheDocument()
+  })
+
+  it('para os perfis de trabalho e o gestor, a primeira tela é o painel', async () => {
+    renderizar('/', usuario(['AUDITOR_GESTOR']), { 'GET /api/instituicoes': { status: 200, corpo: [] } })
+    expect(await screen.findByRole('heading', { level: 1, name: 'Painel' })).toBeInTheDocument()
   })
 })
 
@@ -83,7 +113,7 @@ describe('shell autenticado', () => {
   })
 
   it('só com o teclado: pular para o conteúdo, percorrer o menu e abrir uma tela', async () => {
-    renderizar('/', usuario(['ADMINISTRATIVO'], [{ ...HOSPITAL_A, perfis: ['ADMINISTRATIVO'] }]))
+    renderizar('/pacientes', usuario(['ADMINISTRATIVO'], [{ ...HOSPITAL_A, perfis: ['ADMINISTRATIVO'] }]))
     const titulo = await screen.findByRole('heading', { level: 1, name: 'Pacientes' })
     // A página leva o foco ao título ao abrir; espera isso acontecer para não cair no meio do Tab abaixo.
     await waitFor(() => expect(titulo).toHaveFocus())
@@ -96,6 +126,7 @@ describe('shell autenticado', () => {
 
     ;(document.activeElement as HTMLElement | null)?.blur()
     await teclado.tab() // pular para o conteúdo
+    await teclado.tab() // Painel
     await teclado.tab() // Pacientes
     await teclado.tab() // Leitos
     expect(screen.getByRole('link', { name: 'Leitos' })).toHaveFocus()
@@ -106,7 +137,7 @@ describe('shell autenticado', () => {
   })
 
   it('sem violações de acessibilidade', async () => {
-    const { container } = renderizar('/', usuario(['ADMINISTRATIVO'], [{ ...HOSPITAL_A, perfis: ['ADMINISTRATIVO'] }]))
+    const { container } = renderizar('/pacientes', usuario(['ADMINISTRATIVO'], [{ ...HOSPITAL_A, perfis: ['ADMINISTRATIVO'] }]))
     await screen.findByRole('heading', { level: 1, name: 'Pacientes' })
     expect(await violacoesDeAcessibilidade(container)).toEqual([])
   })
