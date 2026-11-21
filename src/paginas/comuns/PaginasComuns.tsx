@@ -10,7 +10,6 @@ import type { ItemDeMenu } from '@/rotas'
 const LINK_PRIMARIO =
   'inline-flex min-h-alvo items-center justify-center rounded-controle bg-primaria px-4 text-corpo font-semibold text-white shadow-botao hover:bg-primaria-hover lg:min-h-controle'
 
-/** "/": vai para a primeira tela do menu; sem nenhuma, explica por quê. */
 export function Inicio() {
   const inicio = useInicio()
   const { vinculos, instituicaoAtiva, usuario, escolherInstituicao } = useSessao()
@@ -42,7 +41,6 @@ export function Inicio() {
   )
 }
 
-/** Página provisória das telas que outros cards entregam. */
 export function EmConstrucao({ item }: { item: ItemDeMenu }) {
   return (
     <>

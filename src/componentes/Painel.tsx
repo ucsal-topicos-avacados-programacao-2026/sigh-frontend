@@ -6,7 +6,6 @@ interface PropriedadesPainel {
   acoes?: ReactNode
   carregando?: boolean
   children: ReactNode
-  /** Sem o espaçamento interno, para tabela ocupar a largura do painel. */
   semRespiro?: boolean
 }
 

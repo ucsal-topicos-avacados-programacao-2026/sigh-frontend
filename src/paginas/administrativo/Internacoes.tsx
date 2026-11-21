@@ -18,7 +18,6 @@ import { ATUALIZAR_A_CADA_MS, SITUACAO_DO_ATENDIMENTO } from '@/paginas/administ
 import { formatarDataHora } from '@/util/datas'
 import { useAtualizacaoPeriodica } from '@/util/useAtualizacaoPeriodica'
 
-/** FE-04: internar, transferir e dar alta, com a fila de espera quando não há leito livre (RF-005, RF-006). */
 export function Internacoes() {
   const { instituicaoAtiva } = useSessao()
   if (!instituicaoAtiva) return null
@@ -37,7 +36,6 @@ function GestaoDeInternacoes({ instituicao }: { instituicao: VinculoAtivo }) {
   const [aDarAlta, setADarAlta] = useState<InternacaoAtiva | null>(null)
   const { avisar } = useToast()
 
-  /** Toda operação muda leitos, fila, internações e pedidos: tudo é buscado de novo (critério do FE-04). */
   function atualizar() {
     leitos.recarregar()
     fila.recarregar()
@@ -56,8 +54,6 @@ function GestaoDeInternacoes({ instituicao }: { instituicao: VinculoAtivo }) {
     setConcluidas((n) => n + 1)
   }
 
-  // Depois de cada operação, o foco vai para o título. A linha do botão que abriu o diálogo pode sumir na recarga, e
-  // o foco se perderia no <body>. Como efeito, roda depois de o diálogo fechar (e devolver o foco ao botão).
   const [concluidas, setConcluidas] = useState(0)
   useEffect(() => {
     if (concluidas > 0) document.querySelector<HTMLElement>('main h1')?.focus()

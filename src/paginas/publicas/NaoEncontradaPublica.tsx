@@ -2,7 +2,6 @@ import { Link } from 'react-router'
 import { TituloPagina } from '@/componentes/TituloPagina'
 import { CartaoDeEntrada } from '@/paginas/publicas/CartaoDeEntrada'
 
-/** Endereço desconhecido sem sessão: o cartão do login, sem formulário. */
 export function NaoEncontradaPublica() {
   return (
     <CartaoDeEntrada>

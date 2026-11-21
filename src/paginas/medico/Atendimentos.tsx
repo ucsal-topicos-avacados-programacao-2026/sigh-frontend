@@ -22,10 +22,6 @@ const ATUALIZAR_A_CADA_MS = 30_000
 const LINK_DE_ACAO =
   'inline-flex min-h-alvo items-center justify-center gap-2 rounded-controle px-4 text-corpo font-semibold lg:min-h-controle'
 
-/**
- * FE-07: por onde o médico chega ao paciente. A fila de triagem (por prioridade) e os atendimentos em andamento, que
- * saem da fila no primeiro registro do médico. O enfermeiro vê as mesmas listas e consulta o histórico.
- */
 export function Atendimentos() {
   const { instituicaoAtiva } = useSessao()
   if (!instituicaoAtiva) return null
@@ -35,7 +31,6 @@ export function Atendimentos() {
 function ListasDeAtendimento({ instituicao }: { instituicao: VinculoAtivo }) {
   const id = instituicao.instituicaoId
   const { usuario } = useSessao()
-  // O enfermeiro também chega aqui: só o médico abre o atendimento; o enfermeiro consulta o histórico.
   const medico = perfilLiberado('MEDICO', { perfis: usuario?.perfis ?? [], instituicaoAtiva: instituicao })
   const emAndamento = useConsulta((sinal) => atendimentosEmAndamento(id, sinal), [id])
   const fila = useConsulta((sinal) => filaDeAtendimento(id, sinal), [id])

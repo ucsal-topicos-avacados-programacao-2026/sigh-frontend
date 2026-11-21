@@ -15,7 +15,6 @@ import { formatarData } from '@/util/datas'
 const numero = new Intl.NumberFormat('pt-BR')
 const porcentagem = new Intl.NumberFormat('pt-BR', { style: 'percent', maximumFractionDigits: 1 })
 
-/** Parte das emergências no total, ou "—" sem acessos (não há divisão por zero na tela). */
 function parteDeEmergencias(total: number, emergencias: number) {
   return total === 0 ? '—' : porcentagem.format(emergencias / total)
 }
@@ -27,10 +26,6 @@ const COLUNAS: Coluna<IndicadorInstituicao>[] = [
   { titulo: 'Parte em emergência', numerica: true, celula: (i) => parteDeEmergencias(i.totalAcessos, i.acessosEmergencia) },
 ]
 
-/**
- * FE-08: relatório de conformidade por período e instituição (RF-011), a partir de GET /auditoria/indicadores.
- * O filtro de instituição é aplicado aqui: a API devolve todas as instituições com acesso no período.
- */
 export function Relatorios() {
   const [filtros, setFiltros] = useState<Filtros>(() => ({ ...periodoPadrao(), instituicaoId: '', soEmergencias: false }))
   const consulta = useConsulta((sinal) => buscarIndicadores({ inicio: filtros.inicio, fim: filtros.fim }, sinal), [filtros.inicio, filtros.fim])

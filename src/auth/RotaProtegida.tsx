@@ -12,12 +12,10 @@ function enderecoConhecido(caminho: string) {
   return caminho === '/' || ITENS_DE_MENU.some((item) => matchPath({ path: item.caminho, end: true }, caminho))
 }
 
-/** Exige sessão; com rota de perfis, exige também o perfil liberado na instituição ativa. */
 export function RotaProtegida({ rota, children }: { rota?: RotaComPerfis; children: ReactNode }) {
   const { estado, usuario, instituicaoAtiva, recarregar, sair } = useSessao()
   const local = useLocation()
   if (estado === 'anonimo') {
-    // Endereço que não existe: mostra o 404 em vez de pedir login para nada.
     if (!enderecoConhecido(local.pathname)) return <NaoEncontradaPublica />
     return <Navigate to="/entrar" replace state={{ de: local.pathname }} />
   }
@@ -30,7 +28,6 @@ export function RotaProtegida({ rota, children }: { rota?: RotaComPerfis; childr
           acao={
             <div className="flex flex-wrap gap-2">
               <Botao onClick={recarregar}>Tentar de novo</Botao>
-              {/* Num computador compartilhado, dá para encerrar a sessão mesmo sem o servidor. */}
               <Botao variante="secundario" onClick={() => sair({ texto: 'Você saiu do SIGH.', tom: 'info' })}>
                 Sair
               </Botao>

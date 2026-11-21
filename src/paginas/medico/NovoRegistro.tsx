@@ -9,7 +9,6 @@ import { Botao } from '@/componentes/Botao'
 import { AreaDeTexto, CampoTexto, Selecao } from '@/componentes/Campo'
 import { Painel } from '@/componentes/Painel'
 
-/** Ordem do formulário: o que o médico mais registra primeiro. A conduta vai na evolução. */
 const TIPOS: { valor: TipoRegistro; rotulo: string }[] = [
   { valor: 'EVOLUCAO', rotulo: 'Evolução e conduta' },
   { valor: 'DIAGNOSTICO', rotulo: NOME_DO_TIPO_DE_REGISTRO.DIAGNOSTICO },
@@ -20,13 +19,11 @@ const TIPOS: { valor: TipoRegistro; rotulo: string }[] = [
 ]
 
 const LIMITE_CATEGORIA = 50
-/** Formato do CID-10 na API (RegistroClinicoRequestDTO). */
 const CID10 = /^[A-Z][0-9]{2}(\.[0-9]{1,2})?$/
 
 type Campo = 'conteudo' | 'categoriaInformacao' | 'codigoCID10'
 type Erros = Partial<Record<Campo, string>>
 
-/** Registro clínico no atendimento (RF-006, RF-007): evolução, diagnóstico com CID-10, prescrição e resumo de alta. */
 export function NovoRegistro({ atendimentoId, categorias, aoRegistrar }: { atendimentoId: string; categorias: string[]; aoRegistrar: () => void }) {
   const listaId = useId()
   const [tipo, setTipo] = useState<TipoRegistro>('EVOLUCAO')
@@ -38,7 +35,6 @@ export function NovoRegistro({ atendimentoId, categorias, aoRegistrar }: { atend
 
   async function enviar(evento: FormEvent) {
     evento.preventDefault()
-    // O campo já converte para maiúsculas enquanto se digita.
     const codigo = cid.trim()
     const novos: Erros = {
       conteudo: conteudo.trim() ? undefined : 'Escreva o registro.',

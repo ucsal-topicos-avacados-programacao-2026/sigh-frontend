@@ -10,10 +10,6 @@ const ContextoDoToast = createContext<(texto: string) => void>(() => {})
 
 const DURACAO = 5000
 
-/**
- * Confirmações curtas de ação concluída ("Segredo copiado."). Erro nunca vai em toast. A região de anúncio
- * existe sempre no DOM, para o leitor de tela ler o que entrar nela.
- */
 export function ProvedorDeToast({ children }: { children: ReactNode }) {
   const [mensagens, setMensagens] = useState<Mensagem[]>([])
   const proximo = useRef(1)

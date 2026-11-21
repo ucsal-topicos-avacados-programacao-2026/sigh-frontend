@@ -15,22 +15,15 @@ import { formatarData, idade } from '@/util/datas'
 import { FormularioDeAdmissao } from '@/paginas/pacientes/FormularioDeAdmissao'
 import { mensagemDoErro } from '@/paginas/pacientes/mensagens'
 
-/** Onde a recepção está: buscar, abrir atendimento de quem já está na rede, cadastrar ou atendimento aberto. */
 type Etapa =
   | { tipo: 'busca' }
   | { tipo: 'encontrado'; cpf: string; paciente: PacienteResumo }
   | { tipo: 'novo'; cpf: string }
   | { tipo: 'concluido'; nome: string | null; resposta: AdmissaoResposta; cadastroTentado: boolean }
 
-/**
- * Tela Pacientes do Administrativo (FE-03): busca o CPF na rede (RF-001), cadastra quem ainda não existe com o
- * consentimento inicial (RF-002) e abre o atendimento, sempre no prontuário único do paciente (RN-004).
- * O CPF fica só no estado da tela: não vai para a URL nem para o armazenamento do navegador.
- */
 export function Pacientes() {
   const { instituicaoAtiva } = useSessao()
   if (!instituicaoAtiva) return null
-  // Trocar a instituição recomeça a tela: o atendimento sempre é aberto na instituição que está no topo.
   return <RecepcaoDePacientes key={instituicaoAtiva.instituicaoId} instituicao={instituicaoAtiva} />
 }
 
@@ -40,7 +33,6 @@ function RecepcaoDePacientes({ instituicao }: { instituicao: VinculoAtivo }) {
   const [erroGeral, setErroGeral] = useState<string>()
   const [buscando, setBuscando] = useState(false)
   const [etapa, setEtapa] = useState<Etapa>({ tipo: 'busca' })
-  /** Admissão em envio: o CPF fica travado, para a resposta não chegar com outro CPF na tela. */
   const [admitindo, setAdmitindo] = useState(false)
   const campoCpf = useRef<HTMLInputElement>(null)
   const controle = useRef<AbortController | null>(null)
@@ -51,7 +43,6 @@ function RecepcaoDePacientes({ instituicao }: { instituicao: VinculoAtivo }) {
     setCpf(mascararCpf(texto))
     setErroCpf(undefined)
     setErroGeral(undefined)
-    // Outro CPF: a busca em andamento e o que foi encontrado ou começado a cadastrar não valem para ele.
     controle.current?.abort()
     controle.current = null
     setBuscando(false)
@@ -99,7 +90,6 @@ function RecepcaoDePacientes({ instituicao }: { instituicao: VinculoAtivo }) {
     setErroCpf(undefined)
     setErroGeral(undefined)
     setEtapa({ tipo: 'busca' })
-    // Depois de pintar: o campo volta a ficar habilitado.
     window.setTimeout(() => campoCpf.current?.focus(), 0)
   }
 
@@ -172,7 +162,6 @@ function RecepcaoDePacientes({ instituicao }: { instituicao: VinculoAtivo }) {
   )
 }
 
-/** Painel que recebe o foco ao aparecer, para o leitor de tela ler o resultado da busca. */
 function PainelComFoco({
   titulo,
   subtitulo,
@@ -236,7 +225,6 @@ function AtendimentoAberto({ etapa, instituicaoId, aoRecomecar }: { etapa: Extra
   const titulo = useRef<HTMLHeadingElement>(null)
   useEffect(() => titulo.current?.focus(), [])
   const { resposta, nome, cadastroTentado } = etapa
-  // Outra recepção cadastrou o mesmo CPF enquanto este cadastro era preenchido: a API usou o prontuário existente.
   const cadastroJaExistia = cadastroTentado && !resposta.novoCadastro
   return (
     <section aria-labelledby="atendimento-aberto" className="rounded-painel border border-sucesso-borda bg-superficie">

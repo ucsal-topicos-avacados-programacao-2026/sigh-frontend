@@ -18,14 +18,9 @@ export const SINAIS_VAZIOS: CamposDosSinais = {
   saturacaoOxigenio: '',
 }
 
-/** Aceita vírgula como separador decimal ("38,5"). */
 const numero = (texto: string) => Number(texto.trim().replace(',', '.'))
 const umaCasa = (texto: string) => /^\d+([.,]\d)?$/.test(texto.trim())
 
-/**
- * As mesmas regras do SinaisVitaisDTO da API: todos opcionais; pressão "sistólica/diastólica"; frequências inteiras
- * e positivas; temperatura positiva com até uma casa; saturação de 0 a 100 com até uma casa.
- */
 export function validarSinais(campos: CamposDosSinais): { erros: ErrosDosSinais; sinais: SinaisVitais } {
   const erros: ErrosDosSinais = {}
   const sinais: SinaisVitais = {}

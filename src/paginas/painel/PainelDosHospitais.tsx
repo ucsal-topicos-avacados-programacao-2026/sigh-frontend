@@ -21,11 +21,6 @@ import { useAtualizacaoPeriodica } from '@/util/useAtualizacaoPeriodica'
 
 const TIPO = { PUBLICA: 'Hospital público', PRIVADA: 'Hospital privado' } as const
 
-/**
- * Painel (FE-09): os números de agora de um hospital, escolhido numa pilha de cartões. O médico, o enfermeiro e o
- * administrativo veem os hospitais do vínculo, e escolher um cartão troca a instituição ativa. O auditor/gestor vê
- * toda a rede (RF-011). Só contagens e tempos: nenhum dado de paciente sai da API nesta tela.
- */
 export function PainelDosHospitais() {
   const { usuario, vinculos, instituicaoAtiva, escolherInstituicao } = useSessao()
   const gestor = usuario?.perfis.includes('AUDITOR_GESTOR') ?? false
@@ -45,13 +40,11 @@ export function PainelDosHospitais() {
 
   function escolher(id: string) {
     if (gestor) setEscolhidoPeloGestor(id)
-    // Onde a pessoa tem vínculo, o cartão também troca a instituição do topo (e o menu que vem com ela).
     if (vinculos.some((v) => v.instituicaoId === id)) escolherInstituicao(id)
   }
 
   const painel = useConsulta(selecionado ? (sinal) => painelDaInstituicao(selecionado, sinal) : null, [selecionado])
   useAtualizacaoPeriodica(painel.recarregar, ATUALIZAR_A_CADA_MS)
-  // Na troca de hospital, os números do anterior não aparecem como se fossem do novo.
   const dados = painel.dados?.instituicaoId === selecionado ? painel.dados : undefined
 
   const subtitulo = dados
@@ -65,13 +58,11 @@ export function PainelDosHospitais() {
         trilha="Visão geral"
         subtitulo={subtitulo}
         acoes={
-          // Sem "carregando": a atualização automática não desabilita o botão nem tira o foco de quem está nele.
           <Botao variante="secundario" icone={RefreshCw} onClick={painel.recarregar} disabled={!selecionado}>
             Atualizar
           </Botao>
         }
       />
-      {/* A terceira coluna é um pouco mais larga: é a da pilha, onde o nome do hospital precisa caber. */}
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.3fr)_minmax(0,1fr)]">
         {gestor && rede.erro ? (
           <div className="sm:col-span-2 lg:col-span-1 lg:col-start-3 lg:row-start-1">

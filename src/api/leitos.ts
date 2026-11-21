@@ -9,20 +9,15 @@ import type {
   StatusLeito,
 } from '@/api/tipos'
 
-/** Rotas do administrativo para leitos, internações e transferências (RF-005, RF-006). */
-
-/** Todos os leitos da instituição numa página só: a instituição tem dezenas, não milhares. */
 export const leitosDaInstituicao = (instituicaoId: string, sinal?: AbortSignal) =>
   requisicao<Pagina<Leito>>('GET', '/leitos', { consulta: { instituicaoId, size: 500, sort: 'codigo' }, sinal })
 
-/** Leitos livres de uma categoria em outra instituição: as vagas do destino de uma transferência. */
 export const leitosLivres = (instituicaoId: string, categoria: CategoriaLeito, sinal?: AbortSignal) =>
   requisicao<Pagina<Leito>>('GET', '/leitos', { consulta: { instituicaoId, categoria, status: 'LIVRE', size: 500 }, sinal })
 
 export const cadastrarLeito = (dados: { instituicaoId: string; codigo: string; setor: string; categoria: CategoriaLeito }) =>
   requisicao<Leito>('POST', '/leitos', { corpo: dados })
 
-/** Livre, em higienização ou bloqueado; o ocupado só muda por internação, transferência ou alta. */
 export const alterarStatusDoLeito = (leitoId: string, status: Exclude<StatusLeito, 'OCUPADO'>) =>
   requisicao<Leito>('PATCH', `/leitos/${encodeURIComponent(leitoId)}/status`, { corpo: { status } })
 

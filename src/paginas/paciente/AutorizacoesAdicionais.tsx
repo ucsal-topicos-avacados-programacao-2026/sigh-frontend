@@ -18,14 +18,9 @@ interface Propriedades {
   historico: RegistroDoHistorico[] | undefined
   restricoes: Restricao[] | undefined
   autorizacoes: Consulta<AutorizacaoAdicional[]>
-  /** Decisão vigente do compartilhamento amplo; null: nunca se manifestou; undefined: ainda carregando. */
   compartilhamento: DecisaoConsentimento | null | undefined
 }
 
-/**
- * Onde a autorização adicional faz efeito (RegistroClinicoRepository.historicoVisivel): só onde o compartilhamento
- * vale (autorizado; ou, revogado, nas instituições que já tinham atendido) ou na instituição que fez o registro.
- */
 function avisoDeDependencia(compartilhamento: DecisaoConsentimento | null | undefined) {
   if (compartilhamento === undefined || compartilhamento === 'AUTORIZADO') return null
   const agora = compartilhamento === 'REVOGADO' ? 'Você revogou o compartilhamento na rede.' : 'O compartilhamento na rede não está autorizado.'
@@ -36,7 +31,6 @@ function avisoDeDependencia(compartilhamento: DecisaoConsentimento | null | unde
   return `${agora} Por isso, uma autorização adicional só faz efeito ${quem}. Para liberar a outras instituições, autorize também o compartilhamento, acima.`
 }
 
-/** Autorização adicional explícita (RF-009): libera uma informação restrita para uma instituição. */
 export function AutorizacoesAdicionais({ paciente, historico, restricoes, autorizacoes, compartilhamento }: Propriedades) {
   const instituicoes = useConsulta((sinal) => instituicoesDaRede(sinal), [])
   const [instituicaoId, setInstituicaoId] = useState('')

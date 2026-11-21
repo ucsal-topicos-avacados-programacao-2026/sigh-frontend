@@ -1,10 +1,8 @@
-/** CPF no front: a mesma regra do back-end (Cpf.ehValido), para avisar antes de enviar. A API confere de novo. */
 
 export function somenteDigitos(texto: string) {
   return texto.replace(/\D/g, '').slice(0, 11)
 }
 
-/** Máscara progressiva enquanto digita: 000.000.000-00. */
 export function mascararCpf(texto: string) {
   const d = somenteDigitos(texto)
   if (d.length <= 3) return d
@@ -26,7 +24,6 @@ export function cpfValido(texto: string) {
   return digitoVerificador(d, 9) === Number(d[9]) && digitoVerificador(d, 10) === Number(d[10])
 }
 
-/** Mensagem do campo, ou undefined quando o CPF está certo. */
 export function erroDoCpf(texto: string) {
   const d = texto.replace(/\D/g, '')
   if (d.length === 0) return 'Informe o CPF.'

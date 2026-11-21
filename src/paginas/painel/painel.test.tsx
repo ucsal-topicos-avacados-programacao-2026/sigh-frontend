@@ -43,7 +43,6 @@ const NUMEROS: Record<string, PainelDaInstituicao> = {
   'hospital-c': painel('hospital-c', 'Hospital C', { chegadasHoje: 9 }),
 }
 
-/** GET /painel devolve os números da instituição pedida. */
 const rotaDoPainel: Rotas[string] = (_corpo, url) => {
   const id = new URL(url, 'http://localhost').searchParams.get('instituicaoId') ?? ''
   const numeros = NUMEROS[id]
@@ -119,7 +118,6 @@ describe('FE-09: painel por hospital', () => {
     const respostaB = new Promise<void>((resolver) => (soltarB = resolver))
     renderizar('/painel', administrativoEmDois(), { 'GET /painel': rotaDoPainel })
     await screen.findByText('67%', { selector: 'p' })
-    // O simulador responde na hora; a resposta do hospital B espera a promessa, como uma rede lenta.
     const fetchOriginal = globalThis.fetch
     vi.stubGlobal('fetch', async (...args: Parameters<typeof fetch>) => {
       if (String(args[0]).includes('hospital-b')) await respostaB
@@ -164,7 +162,6 @@ describe('FE-09: painel por hospital', () => {
     await waitFor(() => expect(chegadasHoje()).toHaveTextContent('9'))
     expect(screen.queryByLabelText('Instituição ativa')).not.toBeInTheDocument()
     expect(pedidosDoPainel(chamadas)).toEqual(['hospital-a', 'hospital-c'])
-    // O gestor não opera a fila nem os leitos: o painel não oferece essas telas.
     expect(screen.queryByRole('link', { name: 'Abrir leitos' })).not.toBeInTheDocument()
     expect(screen.queryByRole('link', { name: 'Abrir triagem' })).not.toBeInTheDocument()
   })

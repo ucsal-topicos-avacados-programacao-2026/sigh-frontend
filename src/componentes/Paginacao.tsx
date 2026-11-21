@@ -2,19 +2,15 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Botao } from '@/componentes/Botao'
 
 interface PropriedadesPaginacao {
-  /** Nome da lista, para o leitor de tela: "Páginas dos acessos". */
   rotulo: string
-  /** Página atual, a partir de 0, como o Spring. */
   pagina: number
   totalPaginas: number
   totalItens: number
-  /** "acessos", "registros"… */
   nomeDosItens: string
   carregando?: boolean
   aoMudar: (pagina: number) => void
 }
 
-/** Anterior e Próxima, com "Página X de Y". Some quando cabe tudo numa página. */
 export function Paginacao({ rotulo, pagina, totalPaginas, totalItens, nomeDosItens, carregando = false, aoMudar }: PropriedadesPaginacao) {
   const paginas = Math.max(1, totalPaginas)
   if (paginas <= 1) return null

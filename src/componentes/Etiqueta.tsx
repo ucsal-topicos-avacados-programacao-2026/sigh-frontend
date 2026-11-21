@@ -25,7 +25,6 @@ const TOM: Record<TomDaEtiqueta, string> = {
   'risco-azul': 'border-info-borda bg-risco-azul-fundo text-risco-azul',
 }
 
-/** O texto é o significado; a cor só reforça (WCAG 1.4.1). Não é interativa. */
 export function Etiqueta({ tom, texto, icone: Icone }: { tom: TomDaEtiqueta; texto: string; icone?: LucideIcon }) {
   return (
     <span className={`inline-flex items-center gap-1 rounded-etiqueta border px-2 py-0.5 text-rotulo font-semibold whitespace-nowrap ${TOM[tom]}`}>

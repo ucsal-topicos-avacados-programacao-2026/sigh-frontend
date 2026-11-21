@@ -8,12 +8,8 @@ import { apagarToken, guardarToken, lerToken, tokenGuardado } from '@/auth/token
 
 const CHAVE_INSTITUICAO = 'sigh.instituicao'
 
-/** indisponivel: há token, mas o servidor não respondeu ao carregar o usuário (rede); a sessão continua. */
 export type EstadoDaSessao = 'carregando' | 'anonimo' | 'autenticado' | 'indisponivel'
 
-
-
-/** Segundo fator pendente: o token de 5 minutos fica só em memória, nunca no armazenamento do navegador. */
 export interface EntradaPendente {
   token: string
   etapa: Exclude<EtapaAutenticacao, 'ACESSO_LIBERADO'>
@@ -23,12 +19,9 @@ interface Sessao {
   estado: EstadoDaSessao
   usuario: UsuarioLogado | null
   instituicaoAtiva: VinculoAtivo | null
-  /** Vínculos em que o usuário opera com perfil de instituição, para o seletor do cabeçalho. */
   vinculos: VinculoAtivo[]
   entradaPendente: EntradaPendente | null
-  /** Aviso para a tela de login (sessão expirada, por exemplo). */
   aviso: AvisoDaSessao | null
-  /** Tenta de novo carregar o usuário, depois de uma falha de rede. */
   recarregar: () => void
   iniciarEntrada: (pendente: EntradaPendente) => void
   concluirEntrada: (tokenDeAcesso: string) => Promise<void>
@@ -51,7 +44,6 @@ function guardarInstituicao(id: string | null) {
     if (id) window.sessionStorage.setItem(CHAVE_INSTITUICAO, id)
     else window.sessionStorage.removeItem(CHAVE_INSTITUICAO)
   } catch {
-    // Sem armazenamento: a escolha vale só até recarregar a página.
   }
 }
 
@@ -84,7 +76,6 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
     })
   }, [sair])
 
-  /** Agenda o fim da sessão para quando o token vence (8 h, sem renovação na API). */
   const agendarExpiracao = useCallback(
     (token: string) => {
       window.clearTimeout(expiracaoRef.current)
@@ -106,9 +97,7 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
         setEstado('autenticado')
       } catch (falha) {
         if (falha instanceof DOMException && falha.name === 'AbortError') return
-        // 401: o cliente já encerrou a sessão com o aviso certo.
         if (falha instanceof ErroApi && falha.status === 401) return
-        // Rede ou servidor fora: a sessão continua, e a tela oferece tentar de novo.
         if (!(falha instanceof ErroApi) || falha.status >= 500) {
           setEstado('indisponivel')
           return
@@ -119,7 +108,6 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
     [sair],
   )
 
-  // Ao abrir a página com um token guardado, a fonte da verdade é o GET /usuarios/eu.
   useEffect(() => {
     const token = tokenRef.current
     if (!token) return
@@ -154,7 +142,6 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
     [usuario],
   )
 
-  // Instituição ativa: a escolhida, se o vínculo ainda existe; com um vínculo só, ele.
   const instituicaoAtiva = useMemo(() => {
     const escolhida = vinculos.find((vinculo) => vinculo.instituicaoId === instituicaoId)
     if (escolhida) return escolhida
@@ -192,7 +179,6 @@ export function SessaoProvider({ children }: { children: ReactNode }) {
   return <ContextoDaSessao.Provider value={valor}>{children}</ContextoDaSessao.Provider>
 }
 
-// Contexto e hook juntos, como de costume em React.
 // oxlint-disable-next-line react/only-export-components
 export function useSessao() {
   const sessao = useContext(ContextoDaSessao)

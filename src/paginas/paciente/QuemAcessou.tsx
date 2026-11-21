@@ -34,7 +34,6 @@ const COLUNAS: Coluna<AcessoDoPaciente>[] = [
   },
 ]
 
-/** Quem consultou o prontuário (RF-008): profissional, instituição, data e finalidade, do mais recente ao mais antigo. */
 export function QuemAcessou({ paciente }: { paciente: PacienteGerenciado }) {
   const [pagina, setPagina] = useState(0)
   const consulta = useConsulta((sinal) => buscarAcessos(paciente.pacienteId, pagina, POR_PAGINA, sinal), [paciente.pacienteId, pagina])

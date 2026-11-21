@@ -7,7 +7,6 @@ function base64Url(texto: string) {
     .replace(/=+$/, '')
 }
 
-/** Token fictício no formato da API (sem assinatura válida: o front não confere a assinatura). */
 export function tokenFicticio(login: string, perfis: Perfil[], validoPorSegundos = 3600) {
   const cabecalho = base64Url(JSON.stringify({ alg: 'HS256' }))
   const conteudo = base64Url(

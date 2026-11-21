@@ -143,7 +143,6 @@ describe('FE-07: resumo por IA (RF-004)', () => {
     const painel = await regiao('Resumo do histórico por IA')
     await userEvent.click(within(painel).getByRole('button', { name: 'Gerar resumo do histórico' }))
     expect(await within(painel).findByText(/A IA está gerando o resumo/)).toBeInTheDocument()
-    // O prontuário original já está disponível enquanto gera.
     expect(await artigo(/Diagnóstico/)).toBeInTheDocument()
 
     expect(await within(painel).findByText('Sugestão gerada por IA — sujeita à validação profissional')).toBeInTheDocument()
@@ -311,10 +310,6 @@ describe('FE-07: encerrar', () => {
 })
 
 describe('FE-07: auditoria — uma consulta ao histórico por vez (RF-008)', () => {
-  /**
-   * Pedidos que chegaram à API. O useConsulta adia o pedido para o microtask, então o da montagem de ensaio do StrictMode
-   * nem sai: cada pedido registrado aqui seria um acesso na auditoria.
-   */
   const consultasAoHistorico = (chamadas: { chave: string }[]) => chamadas.filter((c) => c.chave === 'GET /atendimentos/a1/historico').length
 
   it('abrir o atendimento consulta o histórico uma vez; salvar um registro, mais uma', async () => {
@@ -322,7 +317,6 @@ describe('FE-07: auditoria — uma consulta ao histórico por vez (RF-008)', () 
     await artigo(/Diagnóstico/)
     await new Promise((r) => setTimeout(r, 50))
     expect(consultasAoHistorico(chamadas)).toBe(1)
-    // As categorias do formulário vêm do mesmo prontuário, sem outra consulta.
     const painel = await regiao('Novo registro')
     const lista = document.getElementById(within(painel).getByLabelText('Categoria da informação').getAttribute('list') ?? '')
     expect([...(lista?.querySelectorAll('option') ?? [])].map((o) => o.value)).toEqual(['Clínica geral', 'Alergias'])
@@ -369,7 +363,6 @@ describe('FE-07: registro depois do acesso de emergência', () => {
     await userEvent.type(within(painel).getByLabelText('Registro'), 'Evolução nova.')
     await userEvent.click(within(painel).getByRole('button', { name: 'Salvar registro' }))
     expect(await within(prontuario).findByText('Evolução nova.', { selector: 'p' })).toBeInTheDocument()
-    // O restrito da emergência continua, e o novo vem primeiro (mais recente).
     expect(within(prontuario).getByText('Episódio depressivo.')).toBeInTheDocument()
     expect(within(prontuario).getAllByRole('article')[0]).toHaveTextContent('Evolução nova.')
   })

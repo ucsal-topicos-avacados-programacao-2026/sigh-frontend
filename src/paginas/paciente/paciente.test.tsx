@@ -114,12 +114,10 @@ describe('FE-05: Meu prontuário — histórico na rede', () => {
     const { chamadas } = await abrir('/meu-prontuario', {
       'POST /api/pacientes/p1/restricoes': { status: 201, corpo: RESTRICOES[1] },
     })
-    // O terceiro registro: a restrição vai para o registro escolhido, e não para o primeiro da lista.
     const evolucao = await screen.findByRole('article', { name: /Evolução/ })
     await userEvent.click(within(evolucao).getByRole('button', { name: 'Restringir este registro' }))
     const dialogo = screen.getByRole('alertdialog', { name: 'Restringir este registro?' })
     expect(dialogo).toHaveTextContent('Evolução de 01/09/2026, Hospital A')
-    // A restrição vale para todas as instituições, inclusive a que fez o registro (historicoVisivel).
     expect(dialogo).toHaveTextContent('Nenhuma instituição da rede vê essa informação, nem a que fez o registro')
     const buscasAntes = chamadas.filter((c) => c.chave === 'GET /api/pacientes/p1/historico').length
     await userEvent.click(within(dialogo).getByRole('button', { name: 'Restringir' }))
@@ -164,7 +162,6 @@ describe('FE-05: Meu prontuário — quem acessou (RF-008)', () => {
   it('a coluna da página não passa da largura da tela: a tabela rola dentro do painel (FE-11, WCAG 1.4.10)', async () => {
     await abrir('/meu-prontuario')
     const painel = await regiao('Quem acessou seu prontuário')
-    // grid-cols-1 é repeat(1, minmax(0, 1fr)): sem ele, a coluna implícita do grid cresce até a largura mínima da tabela.
     expect(painel.parentElement).toHaveClass('grid-cols-1')
   })
 
@@ -295,7 +292,6 @@ describe('FE-05: Consentimentos — informações restritas (RF-009)', () => {
     expect(await within(painel).findByText('Categoria: Saúde mental')).toBeInTheDocument()
     expect(within(painel).getByText('Registro: Exame de 02/10/2026, Hospital B')).toBeInTheDocument()
     expect(within(painel).getByText('Restrições encerradas (1)')).toBeInTheDocument()
-    // A encerrada não está em vigor: sem botão de encerrar.
     expect(within(painel).getAllByRole('button', { name: /^Encerrar restrição/ })).toHaveLength(2)
     expect(within(painel).queryByRole('button', { name: 'Encerrar restrição: Categoria: Dermatologia' })).not.toBeInTheDocument()
     expect(await violacoesDeAcessibilidade(document.body)).toEqual([])
@@ -352,13 +348,11 @@ describe('FE-05: Consentimentos — autorizações adicionais (RF-009)', () => {
     expect(within(painel).getByLabelText('Instituição')).toHaveAccessibleDescription('Escolha a instituição.')
     expect(within(painel).getByLabelText('O que liberar')).toHaveAccessibleDescription('Escolha o que liberar.')
 
-    // Só o que está restrito em vigor pode ser liberado (a encerrada fica de fora).
     expect(within(within(painel).getByLabelText('O que liberar')).getAllByRole('option').map((o) => o.textContent)).toEqual([
       'Escolha',
       'Categoria: Saúde mental',
       'Registro: Exame de 02/10/2026, Hospital B',
     ])
-    // Sem instituição, não envia.
     await userEvent.selectOptions(within(painel).getByLabelText('O que liberar'), 'x1')
     await userEvent.click(within(painel).getByRole('button', { name: 'Autorizar' }))
     expect(within(painel).getByLabelText('Instituição')).toHaveAccessibleDescription('Escolha a instituição.')
@@ -441,7 +435,6 @@ describe('FE-05: autorização adicional depende do compartilhamento na rede', (
 })
 
 describe('FE-05: teclado', () => {
-  /** Tab até o elemento que satisfaz a condição, como quem navega só pelo teclado. */
   async function tabAte(condicao: (el: Element | null) => boolean, limite = 60) {
     for (let i = 0; i < limite && !condicao(document.activeElement); i++) await userEvent.tab()
     expect(condicao(document.activeElement)).toBe(true)

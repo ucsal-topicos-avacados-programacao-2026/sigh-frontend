@@ -11,7 +11,6 @@ interface PropriedadesEscolha {
   erro?: string
 }
 
-/** Seleção de leito livre, agrupada por categoria. */
 export function EscolhaDeLeito({ rotulo, livres, valor, aoMudar, erro }: PropriedadesEscolha) {
   return (
     <Selecao rotulo={rotulo} value={valor} onChange={(e) => aoMudar(e.target.value)} erro={erro}>

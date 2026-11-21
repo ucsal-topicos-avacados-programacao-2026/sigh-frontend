@@ -20,12 +20,7 @@ interface Propriedades {
   aoRegistrar: () => void
 }
 
-/**
- * Registro de análise sobre um acesso do log (RF-011). A análise é um registro novo: o acesso analisado não muda
- * (RN-006). Uma emergência sai da fila de pendentes quando recebe uma conclusão diferente de "Pendente" (BE-18).
- */
 export function DialogoDeAnalise({ registro, aoFechar, aoRegistrar }: Propriedades) {
-  // Enquanto envia, Esc e o X não fecham: a análise gravada não pode ser desfeita (RN-006).
   const [enviando, setEnviando] = useState(false)
   return (
     <Dialogo
@@ -58,7 +53,6 @@ function Formulario({ registro, aoCancelar, aoRegistrar, aoMudarEnvio }: Proprie
   useEffect(() => {
     aoMudarEnvio(envio.enviando)
   }, [envio.enviando, aoMudarEnvio])
-  // Ao desmontar (diálogo fechado), destrava.
   useEffect(() => () => aoMudarEnvio(false), [aoMudarEnvio])
 
   async function enviar(evento: FormEvent) {

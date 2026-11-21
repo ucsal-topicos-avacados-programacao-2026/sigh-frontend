@@ -13,12 +13,6 @@ import { TextoDaIA } from '@/componentes/TextoDaIA'
 import { consultaDoResumo } from '@/paginas/medico/consultaDoResumo'
 import { formatarDataHora } from '@/util/datas'
 
-
-/**
- * Resumo do histórico por IA (RF-004): sempre identificado como gerado por IA, com os registros de origem marcados no
- * prontuário. A falha da IA não impede ler o prontuário original, que fica em outro painel (critério do FE-07).
- */
-/** Consultas seguidas que podem falhar antes de a tela desistir de acompanhar o resumo. */
 const MAXIMO_DE_FALHAS = 3
 
 export function ResumoPorIA({ atendimentoId, aoMudarOrigem }: { atendimentoId: string; aoMudarOrigem: (ids: ReadonlySet<string>) => void }) {
@@ -27,9 +21,7 @@ export function ResumoPorIA({ atendimentoId, aoMudarOrigem }: { atendimentoId: s
   const [pedindo, setPedindo] = useState(false)
   const validacao = useEnvio()
   const montado = useRef(true)
-  /** Falhas seguidas ao consultar: depois de algumas, para e mostra o erro, em vez de "gerando" para sempre. */
   const falhasSeguidas = useRef(0)
-  // Liga ao montar e desliga ao desmontar: o StrictMode monta, desmonta e monta de novo.
   useEffect(() => {
     montado.current = true
     return () => {
@@ -37,7 +29,6 @@ export function ResumoPorIA({ atendimentoId, aoMudarOrigem }: { atendimentoId: s
     }
   }, [])
 
-  // Enquanto SOLICITADO, consulta de novo até a IA terminar (GERADO) ou falhar (FALHOU).
   useEffect(() => {
     if (resumo?.status !== 'SOLICITADO') return
     const controle = new AbortController()
@@ -56,7 +47,6 @@ export function ResumoPorIA({ atendimentoId, aoMudarOrigem }: { atendimentoId: s
           setErroDoPedido({ texto: `Não foi possível acompanhar o resumo${detalhe}. O prontuário abaixo continua disponível.`, tom: 'atencao' })
           return
         }
-        // Tenta de novo no próximo intervalo, com uma cópia nova do mesmo estado.
         setResumo((r) => (r ? { ...r } : r))
       }
     }, consultaDoResumo.intervaloMs)
@@ -108,7 +98,6 @@ export function ResumoPorIA({ atendimentoId, aoMudarOrigem }: { atendimentoId: s
 
   return (
     <Painel titulo="Resumo do histórico por IA" subtitulo="Um apoio para a leitura. O prontuário original está logo abaixo, sempre.">
-      {/* Um estado por vez (sem grade com espaço entre filhos): as regiões de aviso vazias não abrem espaço. */}
       <div>
         {!resumo && !erroDoPedido && <div>{botaoPedir('Gerar resumo do histórico')}</div>}
         <RegiaoDeAlerta>

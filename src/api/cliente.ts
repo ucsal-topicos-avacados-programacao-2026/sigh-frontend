@@ -1,12 +1,6 @@
-/**
- * Cliente HTTP da API. O token vai no cabeçalho Authorization (sem cookies), direto para a API por HTTPS, sem
- * intermediário (RNF-004). Erros viram ErroApi, com a mensagem do ProblemDetail do Spring ("detail") e, num 400
- * de validação, os erros por campo ("campos").
- */
 
 const URL_DA_API = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')
 
-/** Mensagens para quando a API responde sem corpo (401 e 403 do filtro de segurança, por exemplo). */
 const MENSAGEM_PADRAO: Record<number, string> = {
   400: 'Os dados enviados são inválidos.',
   401: 'Sua sessão expirou. Entre de novo.',
@@ -29,7 +23,6 @@ export class ErroApi extends Error {
   }
 }
 
-/** Quem chama a API sem conseguir falar com ela (rede, certificado, CORS). */
 export class ErroDeConexao extends Error {
   constructor() {
     super('Não foi possível falar com o servidor. Confira a conexão e tente de novo.')
@@ -42,14 +35,12 @@ type Metodo = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 export interface OpcoesRequisicao {
   corpo?: unknown
   consulta?: Record<string, string | number | boolean | undefined>
-  /** Token a usar nesta requisição (o do segundo fator pendente, por exemplo). Sem ele, vale o da sessão. */
   token?: string
   sinal?: AbortSignal
 }
 
 interface Configuracao {
   tokenAtual: () => string | null
-  /** Chamada quando uma rota autenticada responde 401: a sessão acabou. */
   aoExpirar: () => void
 }
 
@@ -79,7 +70,6 @@ async function lerErro(resposta: Response): Promise<ErroApi> {
       if (problema.campos && typeof problema.campos === 'object') campos = problema.campos as Record<string, string>
     }
   } catch {
-    // Sem corpo JSON: fica a mensagem padrão do status.
   }
   return new ErroApi(resposta.status, detalhe ?? MENSAGEM_PADRAO[resposta.status] ?? 'Erro inesperado.', campos)
 }
@@ -105,7 +95,6 @@ export async function requisicao<T>(metodo: Metodo, caminho: string, opcoes: Opc
 
   if (!resposta.ok) {
     const erro = await lerErro(resposta)
-    // Em /auth, 401 é senha ou código errado (erro do formulário), não fim de sessão.
     if (erro.status === 401 && !caminho.startsWith('/auth/') && opcoes.token === undefined) configuracao.aoExpirar()
     throw erro
   }
