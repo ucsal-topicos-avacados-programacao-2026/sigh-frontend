@@ -49,7 +49,8 @@ export function PaginaDoPaciente({ titulo, subtitulo, children }: PropriedadesPa
           Peça à recepção de uma instituição da rede para ligar o seu acesso ao seu cadastro.
         </Alerta>
       ) : (
-        <div key={ativo.pacienteId} className="grid gap-6">
+        // grid-cols-1 (minmax(0, 1fr)): a coluna fica na largura da tela; sem isso, a tabela de acessos a alarga a 320 px.
+        <div key={ativo.pacienteId} className="grid grid-cols-1 gap-6">
           {children(ativo)}
         </div>
       )}
