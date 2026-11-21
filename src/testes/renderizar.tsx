@@ -8,7 +8,7 @@ import { ProvedorDeToast } from '@/componentes/Toast'
 import { tokenFicticio } from '@/testes/tokens'
 
 type Resposta = { status: number; corpo?: unknown }
-export type Rotas = Record<string, Resposta | ((corpo: unknown) => Resposta)>
+export type Rotas = Record<string, Resposta | ((corpo: unknown, url: string) => Resposta)>
 
 /** fetch simulado: a chave é "MÉTODO /caminho" (sem a URL base nem os parâmetros). */
 export function simularApi(rotas: Rotas) {
@@ -20,7 +20,7 @@ export function simularApi(rotas: Rotas) {
     chamadas.push({ chave, corpo, autorizacao: (init.headers as Record<string, string>)?.Authorization, url })
     const rota = rotas[chave]
     if (!rota) return new Response(JSON.stringify({ detail: `sem rota simulada: ${chave}` }), { status: 404 })
-    const { status, corpo: resposta } = typeof rota === 'function' ? rota(corpo) : rota
+    const { status, corpo: resposta } = typeof rota === 'function' ? rota(corpo, url) : rota
     return new Response(resposta === undefined ? null : JSON.stringify(resposta), {
       status,
       headers: resposta === undefined ? {} : { 'Content-Type': 'application/json' },

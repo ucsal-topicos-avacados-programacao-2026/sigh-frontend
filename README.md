@@ -114,3 +114,15 @@ Duas telas do perfil Paciente, também para o representante legal (RF-002, RF-00
 - **Compartilhamento na rede:** a situação atual e o que ela significa. Autorizar e revogar pedem confirmação, com o efeito escrito. Na revogação: quem já atendeu o paciente continua vendo o histórico, e as outras instituições deixam de ver, a não ser numa emergência (RN-007).
 - **Informações restritas:** restringir uma categoria (com as categorias do histórico como sugestão) e encerrar restrições. Uma informação restrita não aparece para nenhuma instituição, nem a que fez o registro, a não ser com autorização adicional ou numa emergência.
 - **Autorizações adicionais:** liberar algo restrito para uma instituição credenciada (`GET /api/instituicoes`) e revogar. A autorização só faz efeito onde o compartilhamento vale (autorizado; ou, revogado, nas instituições que já tinham atendido) ou na instituição que fez o registro; sem o compartilhamento autorizado, a tela avisa isso.
+
+## Auditor/Gestor de rede (FE-08)
+
+Duas telas do perfil Auditor/Gestor de rede (RF-008, RF-011, RN-003, RN-006). O registro de acessos é imutável: nenhuma tela tem ação de editar ou excluir, e a única ação sobre um acesso é registrar uma análise, que é um registro novo.
+
+**Auditoria:**
+- **Emergências aguardando análise** (`GET /auditoria/emergencias/pendentes`): acessos de emergência com a justificativa, do mais antigo para o mais recente. Cada um sai da fila quando recebe uma análise com conclusão diferente de "Pendente".
+- **Registro de acessos** (`GET /auditoria/registros`): filtros por período (padrão: últimos 30 dias), instituição e "Só emergências", aplicados ao clicar em "Aplicar". O filtro de instituição lista as que tiveram acesso no período, vindas dos indicadores. Paginado de 20 em 20.
+- **Registrar análise** (`POST /auditoria/registros/{id}/analises`): parecer ou alerta de possível acesso indevido, com conclusão (pendente, regular, indevido ou inconclusivo) e descrição.
+- **Análises registradas** (`GET /auditoria/analises`): alertas e pareceres, cada um com o código do acesso analisado (os 8 primeiros caracteres do id, os mesmos mostrados no registro de acessos).
+
+**Relatórios** (`GET /auditoria/indicadores`): acessos e emergências por instituição no período, com os totais e a parte em emergência. O filtro de instituição é aplicado na tela. "Imprimir relatório" imprime só o relatório, sem o menu e o cabeçalho.
