@@ -181,3 +181,12 @@ Primeira tela do Médico, do Enfermeiro, do Administrativo e do Auditor/Gestor (
 - Na troca de hospital, os números do anterior somem até os do novo chegarem.
 - **Início com vários vínculos:** sem instituição escolhida, o Início mostra a mesma pilha, mas com botões: escolher leva ao Painel, então só Enter, Espaço ou clique escolhem, e as setas não tiram a pessoa da página.
 
+
+## Testes de ponta a ponta e de acessibilidade (TST-02, TST-03)
+
+Dois scripts em `e2e/` rodam no sistema de verdade, no Chrome, contra a API no perfil `demonstracao` (recém-iniciada), a IA local e `npm run dev`. A senha dos usuários `*.demo` vem de `SIGH_SENHA_DEMONSTRACAO` ou do arquivo de ambiente local; o segundo fator é cadastrado e validado pelo próprio script.
+
+- `node e2e/funcionais.mjs`: os 14 casos do roteiro da ERS (mesmo CPF em dois hospitais, triagem com e sem histórico, internação, transferência e alta, resumo por IA, emergência, auditoria imutável, perfis e segundo fator). Relatório em `docs/testes/tst-02-funcionais.md`.
+- `node e2e/acessibilidade.mjs`: axe (WCAG 2.0/2.1 A e AA, com contraste), rolagem lateral em 390, 768, 1280 e 320 px e o percurso só com Tab em 20 telas e estados. Relatório em `docs/testes/tst-03-acessibilidade.md`.
+
+As evidências (capturas e `resultado.json`) ficam em `docs/testes/evidencias/`. O Playwright vem do projeto ou do caminho em `PW_LIB`.
