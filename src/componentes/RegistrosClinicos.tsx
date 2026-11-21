@@ -1,10 +1,19 @@
-import { Lock } from 'lucide-react'
+import { Lock, Sparkles } from 'lucide-react'
 import { NOME_DO_TIPO_DE_REGISTRO, type RegistroDoHistorico } from '@/api/tipos'
 import { Etiqueta } from '@/componentes/Etiqueta'
 import { formatarDataHora } from '@/util/datas'
 
 /** Registros do histórico, do mais recente para o mais antigo, com a instituição de origem e se são restritos. */
-export function RegistrosClinicos({ registros, nivelDoTitulo = 3 }: { registros: RegistroDoHistorico[]; nivelDoTitulo?: 3 | 4 }) {
+export function RegistrosClinicos({
+  registros,
+  nivelDoTitulo = 3,
+  destacados,
+}: {
+  registros: RegistroDoHistorico[]
+  nivelDoTitulo?: 3 | 4
+  /** Registros usados por um resumo da IA: ficam marcados, para conferir o original. */
+  destacados?: ReadonlySet<string>
+}) {
   const Titulo = nivelDoTitulo === 3 ? 'h3' : 'h4'
   return (
     <ol className="grid gap-3">
@@ -22,7 +31,10 @@ export function RegistrosClinicos({ registros, nivelDoTitulo = 3 }: { registros:
                   {r.categoriaInformacao && ` · ${r.categoriaInformacao}`}
                 </p>
               </div>
-              {r.restrito && <Etiqueta tom="atencao" icone={Lock} texto="Restrito pelo paciente" />}
+              <div className="flex flex-wrap gap-1">
+                {destacados?.has(r.id) && <Etiqueta tom="info" icone={Sparkles} texto="Usado no resumo" />}
+                {r.restrito && <Etiqueta tom="atencao" icone={Lock} texto="Restrito pelo paciente" />}
+              </div>
             </div>
             <p className="mt-3 text-corpo whitespace-pre-line text-texto">{r.conteudo}</p>
           </article>
