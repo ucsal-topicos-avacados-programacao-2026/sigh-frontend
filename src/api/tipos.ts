@@ -157,3 +157,42 @@ export interface InstituicaoDaRede {
   id: string
   nome: string
 }
+
+/** Linha do log de auditoria (RF-008), imutável (RN-006). */
+export interface RegistroAuditoria {
+  id: string
+  prontuarioId: string | null
+  profissional: string
+  perfil: Perfil
+  instituicao: string | null
+  ocorridoEm: string
+  finalidade: string
+  emergencia: boolean
+  /** Só nos acessos de emergência (RN-003). */
+  justificativa: string | null
+}
+
+export interface IndicadorInstituicao {
+  instituicaoId: string
+  instituicao: string
+  totalAcessos: number
+  acessosEmergencia: number
+}
+
+export type TipoAnalise = 'ALERTA' | 'PARECER'
+export type ConclusaoAnalise = 'PENDENTE' | 'REGULAR' | 'INDEVIDO' | 'INCONCLUSIVO'
+
+export interface AnaliseAuditoria {
+  id: string
+  registroAuditoriaId: string
+  tipo: TipoAnalise
+  conclusao: ConclusaoAnalise
+  descricao: string
+  registradaEm: string
+}
+
+/** Período fechado, em datas (AAAA-MM-DD), como a API recebe. */
+export interface Periodo {
+  inicio: string
+  fim: string
+}

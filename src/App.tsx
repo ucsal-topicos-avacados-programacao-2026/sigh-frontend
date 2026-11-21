@@ -4,6 +4,8 @@ import { useSessao } from '@/auth/SessaoProvider'
 import { AppLayout } from '@/layout/AppLayout'
 import type { ComponentType } from 'react'
 import { EmConstrucao, Inicio, NaoEncontrada } from '@/paginas/comuns/PaginasComuns'
+import { Auditoria } from '@/paginas/auditor/Auditoria'
+import { Relatorios } from '@/paginas/auditor/Relatorios'
 import { Consentimentos } from '@/paginas/paciente/Consentimentos'
 import { MeuProntuario } from '@/paginas/paciente/MeuProntuario'
 import { Pacientes } from '@/paginas/pacientes/Pacientes'
@@ -18,6 +20,8 @@ const PAGINAS: Partial<Record<string, ComponentType>> = {
   '/pacientes': Pacientes,
   '/meu-prontuario': MeuProntuario,
   '/consentimentos': Consentimentos,
+  '/auditoria': Auditoria,
+  '/relatorios': Relatorios,
 }
 
 /** Telas de entrada só sem sessão: quem já entrou vai para o início. */
