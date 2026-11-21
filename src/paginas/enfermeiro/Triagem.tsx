@@ -20,7 +20,6 @@ import { useAtualizacaoPeriodica } from '@/util/useAtualizacaoPeriodica'
 
 const ATUALIZAR_A_CADA_MS = 30_000
 
-/** FE-06: quem aguarda triagem, a triagem com sugestão da IA e a fila por prioridade (RF-003, RN-001, RN-005, RN-009). */
 export function Triagem() {
   const { instituicaoAtiva } = useSessao()
   if (!instituicaoAtiva) return null
@@ -49,14 +48,12 @@ function PainelDaTriagem({ instituicao }: { instituicao: VinculoAtivo }) {
     setConfirmadas((n) => n + 1)
   }
 
-  // Depois de confirmar, o foco vai para o título: a linha de quem foi triado sai da lista na recarga.
   useEffect(() => {
     if (confirmadas > 0) document.querySelector<HTMLElement>('main h1')?.focus()
   }, [confirmadas])
 
   const fechar = () => {
     setATriar(null)
-    // Fechar sem confirmar deixa a triagem pendente: a lista mostra "Continuar triagem".
     aguardando.recarregar()
   }
 
@@ -88,7 +85,6 @@ function PainelDaTriagem({ instituicao }: { instituicao: VinculoAtivo }) {
             <Botao
               icone={ClipboardPlus}
               onClick={() => setATriar({ atendimentoId: a.atendimentoId, paciente: a.paciente, pendente: a.triagemPendente })}
-              // O nome acessível começa pelo texto visível (WCAG 2.5.3): quem fala "Continuar triagem" aciona o botão.
               aria-label={`${a.triagemPendente ? 'Continuar triagem de' : 'Triar'} ${a.paciente}`}
             >
               {a.triagemPendente ? 'Continuar triagem' : 'Triar'}

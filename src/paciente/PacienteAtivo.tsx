@@ -7,7 +7,6 @@ import { useSessao } from '@/auth/SessaoProvider'
 interface PacienteAtivo {
   carregando: boolean
   erro: string | undefined
-  /** O próprio cadastro e os pacientes que o usuário representa legalmente. */
   gerenciados: PacienteGerenciado[]
   ativo: PacienteGerenciado | null
   escolher: (pacienteId: string) => void
@@ -16,10 +15,6 @@ interface PacienteAtivo {
 
 const Contexto = createContext<PacienteAtivo | null>(null)
 
-/**
- * De quem são os dados nas telas do paciente: o titular ou um representado (RF-009, BE-15). A escolha fica só
- * em memória e some ao sair, junto com a sessão. Só busca a lista para quem tem o perfil Paciente.
- */
 export function PacienteAtivoProvider({ children }: { children: ReactNode }) {
   const { usuario } = useSessao()
   const ehPaciente = usuario?.perfis.includes('PACIENTE') ?? false
@@ -43,7 +38,6 @@ export function PacienteAtivoProvider({ children }: { children: ReactNode }) {
   return <Contexto.Provider value={valor}>{children}</Contexto.Provider>
 }
 
-// Contexto e hook juntos, como de costume em React.
 // oxlint-disable-next-line react/only-export-components
 export function usePacienteAtivo() {
   const contexto = useContext(Contexto)

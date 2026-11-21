@@ -28,7 +28,6 @@ interface Propriedades {
   aoConcluir: (mensagem: string) => void
 }
 
-/** Transferência entre instituições (BE-21): o destino aceita escolhendo um leito livre dele, ou recusa com motivo. */
 export function PedidosDeTransferencia({ leitos, recebidas, enviadas, internadas, aoConcluir }: Propriedades) {
   const instituicoes = useConsulta((sinal) => instituicoesDaRede(sinal), [])
   const nomes = useMemo(() => new Map((instituicoes.dados ?? []).map((i) => [i.id, i.nome])), [instituicoes.dados])
@@ -187,7 +186,6 @@ function FormularioDeAceite({ pedido, leitos, aoFechar, aoConcluir, aoMudarEnvio
   const [leitoId, setLeitoId] = useState('')
   const [erro, setErro] = useState<string>()
   const envio = useEnvio()
-  // Só leitos livres da categoria pedida: é o que o aceite exige.
   const livres = leitosLivres(leitos, pedido.categoria)
 
   async function enviar(evento: FormEvent) {

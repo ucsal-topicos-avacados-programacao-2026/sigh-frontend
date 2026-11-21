@@ -5,16 +5,11 @@ interface PropriedadesDialogo {
   aberto: boolean
   titulo: string
   descricao?: ReactNode
-  /** Esc, o X e o fundo fecham, a não ser enquanto algo é enviado. */
   aoFechar: () => void
   bloqueado?: boolean
   children: ReactNode
 }
 
-/**
- * Diálogo com conteúdo livre (um formulário, por exemplo). O &lt;dialog&gt; nativo com showModal deixa o resto da
- * página inerte e prende o foco; o foco começa no primeiro campo e volta ao botão que abriu o diálogo.
- */
 export function Dialogo({ aberto, titulo, descricao, aoFechar, bloqueado = false, children }: PropriedadesDialogo) {
   const dialogo = useRef<HTMLDialogElement>(null)
   const anterior = useRef<Element | null>(null)

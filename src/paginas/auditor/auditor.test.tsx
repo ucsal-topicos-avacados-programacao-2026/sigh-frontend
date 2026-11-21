@@ -67,7 +67,6 @@ const regiao = (nome: string) => screen.findByRole('region', { name: nome })
 const parametros = (url: string) => Object.fromEntries(new URL(url, 'http://localhost').searchParams)
 const ultima = (chamadas: { chave: string; url: string }[], chave: string) => [...chamadas].reverse().find((c) => c.chave === chave)
 
-/** Nenhum controle que altere ou apague o log (RN-006, critério de aceite do FE-08). */
 function semAcaoDeAlterarOuExcluir() {
   const controles = [...screen.queryAllByRole('button'), ...screen.queryAllByRole('link')]
   const proibidos = controles.filter((c) => /editar|excluir|apagar|remover|alterar|deletar/i.test(c.textContent + ' ' + (c.getAttribute('aria-label') ?? '')))
@@ -122,7 +121,6 @@ describe('FE-08: filtros por instituição e período', () => {
     await userEvent.clear(de)
     await userEvent.type(de, '2026-11-01')
     const buscas = chamadas.filter((c) => c.chave === 'GET /auditoria/registros').length
-    // Nada muda até aplicar.
     expect(chamadas.filter((c) => c.chave === 'GET /auditoria/registros').length).toBe(buscas)
 
     await userEvent.click(within(filtros).getByRole('button', { name: 'Aplicar' }))
@@ -136,7 +134,6 @@ describe('FE-08: filtros por instituição e período', () => {
         size: '20',
       }),
     )
-    // As instituições do filtro seguem o período aplicado.
     await waitFor(() => expect(parametros(ultima(chamadas, 'GET /auditoria/indicadores')?.url ?? '')).toEqual({ inicio: '2026-11-01', fim: padrao.fim }))
   })
 
@@ -180,7 +177,6 @@ describe('FE-08: emergências e análise (RN-003, RF-011)', () => {
 
     await userEvent.click(within(dialogo).getByRole('button', { name: 'Registrar análise' }))
     expect(within(dialogo).getByLabelText('Descrição')).toHaveAccessibleDescription('Descreva a análise.')
-    // Só espaços também não vale.
     await userEvent.type(within(dialogo).getByLabelText('Descrição'), '   ')
     await userEvent.click(within(dialogo).getByRole('button', { name: 'Registrar análise' }))
     expect(within(dialogo).getByLabelText('Descrição')).toHaveAccessibleDescription('Descreva a análise.')
@@ -346,7 +342,6 @@ describe('FE-08: fila de emergências depois da análise', () => {
     expect(within(filaDepois).queryByText('Nenhuma emergência aguardando análise.')).not.toBeInTheDocument()
     expect(filaDepois).toHaveTextContent('20 acessos de emergência sem análise conclusiva')
     expect(parametros(ultima(chamadas, 'GET /auditoria/emergencias/pendentes')?.url ?? '').page).toBe('0')
-    // O botão que abriu o diálogo não existe mais: o foco vai para o título, e não se perde no <body>.
     await waitFor(() => expect(screen.getByRole('heading', { level: 1, name: 'Auditoria' })).toHaveFocus())
   })
 })

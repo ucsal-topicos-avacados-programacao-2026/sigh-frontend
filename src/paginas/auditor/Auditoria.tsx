@@ -16,11 +16,9 @@ import { formatarDataHora } from '@/util/datas'
 
 const POR_PAGINA = 20
 
-/** FE-08: o log de acessos (RF-008), a fila de emergências (RN-003, BE-18) e as análises do auditor (RF-011). */
 export function Auditoria() {
   const [filtros, setFiltros] = useState<Filtros>(() => ({ ...periodoPadrao(), instituicaoId: '', soEmergencias: false }))
   const [aAnalisar, setAAnalisar] = useState<RegistroAuditoria | null>(null)
-  // Muda a cada análise registrada: as listas que dependem dela buscam de novo.
   const [versao, setVersao] = useState(0)
   const { avisar } = useToast()
 
@@ -31,7 +29,6 @@ export function Auditoria() {
     setAAnalisar(null)
     avisar('Análise registrada.')
     setVersao((v) => v + 1)
-    // O botão que abriu o diálogo some com a fila recriada: o foco vai para o título, e não se perde no <body>.
     window.setTimeout(() => document.querySelector<HTMLElement>('main h1')?.focus(), 0)
   }
 
@@ -42,7 +39,6 @@ export function Auditoria() {
         trilha="Gestão da rede"
         subtitulo="O registro de acessos é imutável: aqui você consulta e registra análises, sem alterar nem excluir nada."
       />
-      {/* Nova a cada análise: volta à primeira página, que nunca fica vazia enquanto houver pendência. */}
       <EmergenciasPendentes key={versao} aoAnalisar={setAAnalisar} />
       <FiltrosDoPeriodo aplicados={filtros} instituicoes={instituicoes.dados} comEmergencias aoAplicar={setFiltros} />
       <LogDeAcessos key={JSON.stringify(filtros)} filtros={filtros} versao={versao} aoAnalisar={setAAnalisar} />

@@ -93,7 +93,6 @@ export function Entrar() {
           onChange={(evento) => setSenha(evento.target.value)}
           erro={erros.senha}
         />
-        {/* A região existe antes do erro entrar, para o leitor de tela anunciá-lo. */}
         <div role="alert">{erroGeral && <Alerta tom="erro" anunciar={false}>{erroGeral}</Alerta>}</div>
         <Botao ref={botao} type="submit" variante="entrada" larguraTotal iconeFinal={ChevronRight} carregando={enviando} textoCarregando="Entrando…">
           Acessar plataforma

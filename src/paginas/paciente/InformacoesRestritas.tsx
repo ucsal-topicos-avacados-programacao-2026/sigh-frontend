@@ -22,7 +22,6 @@ interface Propriedades {
   aoMudar: () => void
 }
 
-/** Restrições do paciente (RF-009): por categoria aqui; por registro, no Meu prontuário. */
 export function InformacoesRestritas({ paciente, historico, restricoes, aoMudar }: Propriedades) {
   const listaId = useId()
   const [categoria, setCategoria] = useState('')
@@ -32,7 +31,6 @@ export function InformacoesRestritas({ paciente, historico, restricoes, aoMudar 
   const encerramento = useEnvio()
   const { avisar } = useToast()
 
-  // Categorias que já aparecem no histórico, como sugestão; a API aceita outras (texto livre).
   const sugestoes = useMemo(
     () => [...new Set((historico ?? []).map((r) => r.categoriaInformacao).filter((c): c is string => Boolean(c)))].sort((a, b) => a.localeCompare(b, 'pt-BR')),
     [historico],

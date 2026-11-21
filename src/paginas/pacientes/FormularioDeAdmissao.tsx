@@ -14,7 +14,6 @@ const LIMITE_MOTIVO = 2000
 
 type Consentimento = ManifestacaoInicial | 'SEM_MANIFESTACAO'
 
-/** Textos conferidos com ConsentimentoService.podeCompartilharCom (RN-007) e a exceção de emergência (RN-003). */
 const OPCOES_DE_CONSENTIMENTO: readonly OpcaoDoGrupo<Consentimento>[] = [
   {
     valor: 'AUTORIZADO',
@@ -37,12 +36,10 @@ type Campo = 'nome' | 'dataNascimento' | 'motivo'
 type Erros = Partial<Record<Campo, string>>
 
 interface PropriedadesFormulario {
-  /** existente: só o motivo; novo: cadastro completo com o consentimento inicial (RF-002). */
   modo: 'existente' | 'novo'
   cpf: string
   instituicaoId: string
   aoConcluir: (resposta: AdmissaoResposta, nome: string | null) => void
-  /** Avisa a tela enquanto a admissão é enviada, para travar a troca de CPF. */
   aoMudarEnvio?: (enviando: boolean) => void
 }
 
@@ -69,7 +66,6 @@ export function FormularioDeAdmissao({ modo, cpf, instituicaoId, aoConcluir, aoM
   const campoData = useRef<HTMLInputElement>(null)
   const campoMotivo = useRef<HTMLTextAreaElement>(null)
 
-  /** Leva o foco ao primeiro campo com erro, na ordem da tela. */
   function focarPrimeiroErro(novos: Erros) {
     if (novos.nome) campoNome.current?.focus()
     else if (novos.dataNascimento) campoData.current?.focus()

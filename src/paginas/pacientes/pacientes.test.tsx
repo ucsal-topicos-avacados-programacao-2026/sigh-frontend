@@ -61,7 +61,6 @@ describe('FE-03: busca por CPF na rede', () => {
     await abrir({ 'POST /api/pacientes/busca': { status: 403 } })
     await buscar()
     const aviso = await screen.findByText(/não tem vínculo administrativo ativo/)
-    // Anunciado uma vez, pela região viva que já existia (sem role="alert" dentro dela).
     expect(aviso.closest('[aria-live="polite"]')).not.toBeNull()
     expect(aviso.closest('[role="alert"]')).toBeNull()
     expect(screen.queryByRole('heading', { name: 'Cadastrar paciente' })).not.toBeInTheDocument()
@@ -76,7 +75,6 @@ describe('FE-03: CPF já cadastrado em outra instituição reaproveita o prontu�
     expect(within(resultado).getByRole('heading', { name: 'Paciente já cadastrado na rede' })).toHaveFocus()
     expect(within(resultado).getByText('Maria das Dores')).toBeInTheDocument()
     expect(within(resultado).getByText(/12\/03\/1958/)).toBeInTheDocument()
-    // Não há como cadastrar de novo quem já está na rede: sem nome, nascimento nem consentimento.
     expect(within(resultado).queryByLabelText('Nome completo')).not.toBeInTheDocument()
     expect(within(resultado).queryByRole('group', { name: /Consentimento/ })).not.toBeInTheDocument()
     expect(await violacoesDeAcessibilidade(document.body)).toEqual([])
@@ -240,7 +238,6 @@ describe('FE-03: instituição ativa', () => {
   })
 })
 
-/** fetch que segura a resposta de uma rota até o teste soltar, para simular a rede lenta. */
 function segurar(chave: string, resposta: { status: number; corpo?: unknown }) {
   let soltar: () => void = () => {}
   const original = globalThis.fetch
@@ -268,7 +265,6 @@ describe('FE-03: corridas com a rede lenta', () => {
     const campo = screen.getByLabelText('CPF do paciente')
     await userEvent.clear(campo)
     await userEvent.type(campo, '111.444.777-35')
-    // A busca antiga foi cancelada: dá para buscar o CPF corrigido na hora.
     expect(screen.getByRole('button', { name: 'Buscar' })).toBeEnabled()
     soltar()
     await new Promise((r) => setTimeout(r, 20))

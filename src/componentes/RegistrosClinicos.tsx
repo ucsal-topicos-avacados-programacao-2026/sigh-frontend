@@ -3,7 +3,6 @@ import { NOME_DO_TIPO_DE_REGISTRO, type RegistroDoHistorico } from '@/api/tipos'
 import { Etiqueta } from '@/componentes/Etiqueta'
 import { formatarDataHora } from '@/util/datas'
 
-/** Registros do histórico, do mais recente para o mais antigo, com a instituição de origem e se são restritos. */
 export function RegistrosClinicos({
   registros,
   nivelDoTitulo = 3,
@@ -11,7 +10,6 @@ export function RegistrosClinicos({
 }: {
   registros: RegistroDoHistorico[]
   nivelDoTitulo?: 3 | 4
-  /** Registros usados por um resumo da IA: ficam marcados, para conferir o original. */
   destacados?: ReadonlySet<string>
 }) {
   const Titulo = nivelDoTitulo === 3 ? 'h3' : 'h4'
