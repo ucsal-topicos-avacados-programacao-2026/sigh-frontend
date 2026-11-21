@@ -4,7 +4,10 @@ import { useSessao } from '@/auth/SessaoProvider'
 import { AppLayout } from '@/layout/AppLayout'
 import type { ComponentType } from 'react'
 import { EmConstrucao, Inicio, NaoEncontrada } from '@/paginas/comuns/PaginasComuns'
+import { Consentimentos } from '@/paginas/paciente/Consentimentos'
+import { MeuProntuario } from '@/paginas/paciente/MeuProntuario'
 import { Pacientes } from '@/paginas/pacientes/Pacientes'
+import { PacienteAtivoProvider } from '@/paciente/PacienteAtivo'
 import { CadastrarSegundoFator } from '@/paginas/publicas/CadastrarSegundoFator'
 import { Entrar } from '@/paginas/publicas/Entrar'
 import { ValidarSegundoFator } from '@/paginas/publicas/ValidarSegundoFator'
@@ -13,6 +16,8 @@ import { ITENS_DE_MENU } from '@/rotas'
 /** Telas já entregues, por caminho do menu. As outras mostram "Em construção" até o card delas. */
 const PAGINAS: Partial<Record<string, ComponentType>> = {
   '/pacientes': Pacientes,
+  '/meu-prontuario': MeuProntuario,
+  '/consentimentos': Consentimentos,
 }
 
 /** Telas de entrada só sem sessão: quem já entrou vai para o início. */
@@ -28,7 +33,7 @@ export function App() {
       <Route path="/entrar" element={<SoSemSessao><Entrar /></SoSemSessao>} />
       <Route path="/entrar/segundo-fator" element={<SoSemSessao><ValidarSegundoFator /></SoSemSessao>} />
       <Route path="/entrar/segundo-fator/cadastro" element={<SoSemSessao><CadastrarSegundoFator /></SoSemSessao>} />
-      <Route element={<RotaProtegida><AppLayout /></RotaProtegida>}>
+      <Route element={<RotaProtegida><PacienteAtivoProvider><AppLayout /></PacienteAtivoProvider></RotaProtegida>}>
         <Route index element={<Inicio />} />
         {ITENS_DE_MENU.map((item) => (
           <Route key={item.caminho} path={item.caminho} element={<RotaProtegida rota={item}><Pagina item={item} /></RotaProtegida>} />
