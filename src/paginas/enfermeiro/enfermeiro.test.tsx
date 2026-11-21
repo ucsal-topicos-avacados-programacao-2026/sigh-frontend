@@ -2,7 +2,7 @@ import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { AguardandoTriagem, PacienteNaFila, RegistroDoHistorico } from '@/api/tipos'
 import { validarSinais, SINAIS_VAZIOS } from '@/paginas/enfermeiro/sinaisVitais'
-import { violacoesDeAcessibilidade } from '@/testes/acessibilidade'
+import { violacoesDeAcessibilidade, nomesQueNaoComecamPeloTexto } from '@/testes/acessibilidade'
 import { HOSPITAL_A, renderizar, usuario, type Rotas } from '@/testes/renderizar'
 import { formatarEspera } from '@/util/espera'
 
@@ -63,8 +63,10 @@ describe('FE-06: listas da triagem', () => {
     const beto = within(aguardando).getByText('Beto Reis').closest('tr') as HTMLElement
     expect(beto).toHaveTextContent('Falta confirmar')
     expect(beto).toHaveTextContent('Sugestão da IA: Amarelo · Urgente')
-    expect(within(beto).getByRole('button', { name: 'Continuar a triagem de Beto Reis' })).toBeInTheDocument()
+    expect(within(beto).getByRole('button', { name: 'Continuar triagem de Beto Reis' })).toBeInTheDocument()
     expect(within(aguardando).getByText('Ana Lima').closest('tr')).toHaveTextContent('Sem triagem')
+    // O nome acessível dos botões começa pelo texto visível (FE-12, WCAG 2.5.3).
+    expect(nomesQueNaoComecamPeloTexto(aguardando)).toEqual([])
 
     const fila = await regiao('Fila de atendimento')
     const linhas = (await within(fila).findAllByRole('row')).slice(1)
@@ -204,7 +206,7 @@ describe('FE-06: IA indisponível — aviso e triagem manual (RN-008)', () => {
 describe('FE-06: retomar e reclassificar', () => {
   it('a triagem começada volta direto na classificação, com a sugestão já marcada', async () => {
     const { chamadas } = await abrir({ 'POST /triagens/t2/confirmacao': { status: 200, corpo: triagem('t2', { corConfirmada: 'AMARELO' }) } })
-    await userEvent.click(await screen.findByRole('button', { name: 'Continuar a triagem de Beto Reis' }))
+    await userEvent.click(await screen.findByRole('button', { name: 'Continuar triagem de Beto Reis' }))
     const dialogo = screen.getByRole('dialog', { name: 'Triagem de Beto Reis' })
     expect(within(dialogo).queryByLabelText('Sintomas')).not.toBeInTheDocument()
     expect(within(dialogo).getByRole('radio', { name: 'Amarelo · Urgente' })).toBeChecked()
@@ -217,7 +219,7 @@ describe('FE-06: retomar e reclassificar', () => {
     await abrir({
       'GET /triagens/aguardando': { status: 200, corpo: [{ ...AGUARDANDO[1], triagemPendente: { id: 't1', sintomas: 'x', corSugerida: null } }] },
     })
-    await userEvent.click(await screen.findByRole('button', { name: 'Continuar a triagem de Beto Reis' }))
+    await userEvent.click(await screen.findByRole('button', { name: 'Continuar triagem de Beto Reis' }))
     const dialogo = screen.getByRole('dialog')
     await userEvent.click(within(dialogo).getByRole('button', { name: 'Pedir sugestão da IA' }))
     expect(await within(dialogo).findByRole('radio', { name: 'Laranja · Muito urgente' })).toBeChecked()
