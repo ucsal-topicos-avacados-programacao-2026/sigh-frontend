@@ -4,20 +4,14 @@ import { ErroApi } from '@/api/cliente'
 export interface Consulta<T> {
   dados: T | undefined
   carregando: boolean
-  /** Mensagem para a tela; o 401 já encerrou a sessão no cliente e não chega aqui como erro de tela. */
   erro: string | undefined
   recarregar: () => void
 }
 
-/**
- * Carrega um recurso da API ao montar e quando as dependências mudam. Cancela a requisição anterior (troca de
- * paciente no meio do carregamento, por exemplo) e ignora respostas que chegam depois disso.
- */
 export function useConsulta<T>(buscar: ((sinal: AbortSignal) => Promise<T>) | null, dependencias: readonly unknown[]): Consulta<T> {
   const [estado, setEstado] = useState<{ dados?: T; carregando: boolean; erro?: string }>({ carregando: buscar !== null })
   const [versao, setVersao] = useState(0)
   const buscarRef = useRef(buscar)
-  // Antes do efeito da busca: ele sempre usa a função do último render.
   useEffect(() => {
     buscarRef.current = buscar
   })
@@ -27,9 +21,6 @@ export function useConsulta<T>(buscar: ((sinal: AbortSignal) => Promise<T>) | nu
     if (!atual) return
     const controle = new AbortController()
     setEstado((anterior) => ({ dados: anterior.dados, carregando: true }))
-    // Começa no próximo microtask: no StrictMode o React monta, desmonta e monta de novo na mesma passada, e o pedido
-    // da primeira montagem é cancelado antes de sair. Sem isso, ele chegaria à API (e uma consulta ao histórico vira
-    // um acesso na auditoria).
     Promise.resolve()
       .then(() => {
         if (controle.signal.aborted) throw new DOMException('cancelada', 'AbortError')
@@ -46,7 +37,6 @@ export function useConsulta<T>(buscar: ((sinal: AbortSignal) => Promise<T>) | nu
       },
     )
     return () => controle.abort()
-    // As dependências vêm de quem chama: são elas que dizem quando buscar de novo.
     // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [...dependencias, versao])
 

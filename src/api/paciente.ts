@@ -12,7 +12,6 @@ import type {
   Restricao,
 } from '@/api/tipos'
 
-/** Rotas do paciente e do representante legal sobre os dados de um paciente que ele gerencia. */
 const base = (pacienteId: string) => `/api/pacientes/${encodeURIComponent(pacienteId)}`
 
 export const gerenciados = (sinal?: AbortSignal) => requisicao<PacienteGerenciado[]>('GET', '/api/pacientes/gerenciados', { sinal })
@@ -26,7 +25,6 @@ export const acessos = (pacienteId: string, pagina: number, tamanho: number, sin
 export const consentimentos = (pacienteId: string, sinal?: AbortSignal) =>
   requisicao<ConsentimentosDoPaciente>('GET', `${base(pacienteId)}/consentimentos`, { sinal })
 
-/** O paciente só autoriza ou revoga; a recusa (NEGADO) é só no primeiro cadastro. */
 export const decidirConsentimento = (pacienteId: string, decisao: 'AUTORIZADO' | 'REVOGADO') =>
   requisicao<Consentimento>('POST', `${base(pacienteId)}/consentimentos`, { corpo: { decisao } })
 

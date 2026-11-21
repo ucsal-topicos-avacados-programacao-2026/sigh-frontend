@@ -1,9 +1,5 @@
 import { useEffect, useRef } from 'react'
 
-/**
- * Chama a função a cada intervalo, enquanto a aba está visível (estado "em tempo real" sem servidor de eventos).
- * Ao voltar para a aba, atualiza na hora.
- */
 export function useAtualizacaoPeriodica(atualizar: () => void, intervaloMs: number) {
   const atual = useRef(atualizar)
   useEffect(() => {

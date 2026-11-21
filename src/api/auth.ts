@@ -5,7 +5,6 @@ export function entrar(login: string, senha: string) {
   return requisicao<TokenResposta>('POST', '/auth/login', { corpo: { login, senha } })
 }
 
-/** Com o token de segundo fator pendente: gera o segredo e devolve a URI otpauth (com o segredo dentro). */
 export function cadastrarSegundoFator(tokenPendente: string) {
   return requisicao<CadastroSegundoFatorResposta>('POST', '/auth/segundo-fator/cadastro', { token: tokenPendente })
 }

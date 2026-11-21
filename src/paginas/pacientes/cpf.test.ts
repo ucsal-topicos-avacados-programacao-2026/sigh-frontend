@@ -11,7 +11,6 @@ describe('CPF (mesma regra do Cpf.ehValido da API)', () => {
     expect(somenteDigitos('529.982.247-25')).toBe('52998224725')
   })
 
-  // 123.456.789-09: o primeiro dígito vem do caso "resto menor que 2", que vale 0.
   it.each(['529.982.247-25', '52998224725', '111.444.777-35', '123.456.789-09'])('válido: %s', (cpf) => {
     expect(cpfValido(cpf)).toBe(true)
     expect(erroDoCpf(cpf)).toBeUndefined()
@@ -20,7 +19,6 @@ describe('CPF (mesma regra do Cpf.ehValido da API)', () => {
   it.each([
     ['529.982.247-24', 'CPF inválido. Confira os dígitos.'],
     ['529.982.247-35', 'CPF inválido. Confira os dígitos.'],
-    // Só o primeiro dígito errado; o segundo foi calculado sobre ele e bate.
     ['529.982.247-33', 'CPF inválido. Confira os dígitos.'],
     ['111.111.111-11', 'CPF inválido. Confira os dígitos.'],
     ['000.000.000-00', 'CPF inválido. Confira os dígitos.'],

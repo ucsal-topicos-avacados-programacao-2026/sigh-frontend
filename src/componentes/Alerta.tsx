@@ -14,7 +14,6 @@ interface PropriedadesAlerta {
   tom: TomDoAlerta
   titulo?: string
   children?: ReactNode
-  /** Alerta que aparece depois de uma ação é anunciado (alert ou status); o que já vem com a página, não. */
   anunciar?: boolean
   acao?: ReactNode
   aoFechar?: () => void
@@ -44,10 +43,6 @@ export function Alerta({ tom, titulo, children, anunciar = true, acao, aoFechar 
   )
 }
 
-/**
- * Região que já existe no DOM antes da mensagem entrar, para o leitor de tela anunciar a mensagem: um alerta
- * criado já com o texto nem sempre é lido.
- */
 export function RegiaoDeAlerta({ children }: { children?: ReactNode }) {
   return <div aria-live="polite">{children}</div>
 }

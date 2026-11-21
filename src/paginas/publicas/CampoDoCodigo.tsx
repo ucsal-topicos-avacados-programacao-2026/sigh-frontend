@@ -9,7 +9,6 @@ interface PropriedadesCodigo {
   desabilitado?: boolean
 }
 
-/** Um único campo para os 6 dígitos (não seis caixas). Não envia sozinho ao completar (WCAG 3.2.2). */
 export const CampoDoCodigo = forwardRef<HTMLInputElement, PropriedadesCodigo>(function CampoDoCodigo(
   { valor, aoMudar, erro, descritoPor, desabilitado },
   ref,

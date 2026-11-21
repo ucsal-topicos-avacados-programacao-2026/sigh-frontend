@@ -12,7 +12,6 @@ import { ITENS_DE_MENU } from '@/rotas'
 
 type Dados = PainelDaInstituicao | undefined
 
-/** Ocupado primeiro (é o número do bloco); o cinza do bloqueado longe do verde do livre. */
 const ORDEM_DAS_SITUACOES: StatusLeito[] = ['OCUPADO', 'LIVRE', 'EM_HIGIENIZACAO', 'BLOQUEADO']
 const COR_DA_SITUACAO: Record<StatusLeito, string> = {
   OCUPADO: 'bg-info',
@@ -27,12 +26,10 @@ const COR_DO_RISCO: Record<CorRisco, string> = {
   VERDE: 'bg-risco-verde',
   AZUL: 'bg-risco-azul',
 }
-/** Abaixo desta parte do total, o bloco da barra fica estreito demais para o número caber. */
 const PARTE_MINIMA_PARA_ROTULO = 0.12
 
 const SEM_DADO = '—'
 
-/** Link para a tela que trata o número, só se a pessoa pode abrir essa tela. */
 function LinkDaTela({ caminho, texto }: { caminho: string; texto: string }) {
   const { usuario, instituicaoAtiva } = useSessao()
   const item = ITENS_DE_MENU.find((i) => i.caminho === caminho)
@@ -55,7 +52,6 @@ function contarPorSituacao(dados: PainelDaInstituicao) {
   return contagem
 }
 
-/** Taxa de ocupação e a barra segmentada por situação (um todo dividido em partes). */
 export function OcupacaoDeLeitos({ dados, className }: { dados: Dados; className?: string }) {
   const contagem = dados ? contarPorSituacao(dados) : undefined
   const total = contagem ? Object.values(contagem).reduce((soma, n) => soma + n, 0) : 0
@@ -121,7 +117,6 @@ export function AguardandoTriagem({ dados, className }: { dados: Dados; classNam
   )
 }
 
-/** Fila do médico por cor: quantos, a maior espera e quantos passaram do tempo máximo da cor. */
 export function FilaPorRisco({ dados, className }: { dados: Dados; className?: string }) {
   const fila = dados?.fila ?? []
   const total = fila.reduce((soma, linha) => soma + linha.quantidade, 0)

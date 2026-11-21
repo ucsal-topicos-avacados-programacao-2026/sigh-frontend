@@ -10,7 +10,6 @@ const ESTILO: Record<Variante, string> = {
     'rounded-controle border border-borda bg-superficie text-corpo-alerta hover:border-slate-300 hover:bg-superficie-suave active:bg-superficie-desabilitada disabled:text-texto-suave',
   perigo: 'rounded-controle bg-perigo text-white hover:bg-perigo-hover active:bg-perigo-hover disabled:bg-superficie-desabilitada disabled:text-texto-suave',
   texto: 'rounded-controle px-0 text-link hover:text-link-hover hover:underline disabled:text-texto-suave',
-  /** Botão das telas de entrada: azul e arredondado, como na referência visual. */
   entrada:
     'rounded-full bg-entrada text-white shadow-botao hover:bg-entrada-hover disabled:bg-superficie-desabilitada disabled:text-texto-suave disabled:shadow-none',
 }
@@ -18,10 +17,8 @@ const ESTILO: Record<Variante, string> = {
 interface PropriedadesBotao extends ComponentPropsWithRef<'button'> {
   variante?: Variante
   icone?: LucideIcon
-  /** Ícone depois do texto (ex.: seta de "Acessar plataforma"). */
   iconeFinal?: LucideIcon
   carregando?: boolean
-  /** Texto enquanto carrega, no gerúndio ("Entrando…"). */
   textoCarregando?: string
   larguraTotal?: boolean
   children: ReactNode
@@ -61,12 +58,10 @@ export function Botao({
 
 interface PropriedadesBotaoIcone extends ComponentPropsWithRef<'button'> {
   icone: LucideIcon
-  /** Verbo e objeto: "Fechar menu", "Próxima página". */
   rotulo: string
   escuro?: boolean
 }
 
-/** Botão só de ícone: o rótulo vai para o leitor de tela (aria-label). */
 export function BotaoIcone({ icone: Icone, rotulo, escuro = false, type = 'button', className = '', ...resto }: PropriedadesBotaoIcone) {
   return (
     <button

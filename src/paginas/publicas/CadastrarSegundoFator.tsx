@@ -18,7 +18,6 @@ type Situacao =
   | { tipo: 'jaCadastrado'; mensagem: string }
   | { tipo: 'erro'; mensagem: string }
 
-/** O segredo é o parâmetro "secret" da URI otpauth; em grupos de 4 para digitar. */
 function segredoDa(uri: string) {
   const segredo = new URL(uri).searchParams.get('secret') ?? ''
   return segredo.replace(/(.{4})/g, '$1 ').trim()
@@ -32,7 +31,6 @@ export function CadastrarSegundoFator() {
   const [situacao, setSituacao] = useState<Situacao>({ tipo: 'carregando' })
   const [copiaFalhou, setCopiaFalhou] = useState(false)
   const h1 = useRef<HTMLHeadingElement>(null)
-  // Cada chamada gera um segredo novo: uma chamada por token pendente, mesmo com o efeito repetido do StrictMode.
   const pedidoFeito = useRef<string | null>(null)
 
   useEffect(() => {
@@ -47,7 +45,6 @@ export function CadastrarSegundoFator() {
       setSituacao({ tipo: 'pronto', uri: uriAutenticador, segredo: segredoDa(uriAutenticador) })
     } catch (falha) {
       if (falha instanceof ErroApi && falha.status === 401) {
-        // O token pendente (5 minutos) venceu: volta ao login.
         sair(PRAZO_ESGOTADO)
         navegar('/entrar', { replace: true })
       } else if (falha instanceof ErroApi && falha.status === 422) setSituacao({ tipo: 'jaCadastrado', mensagem: falha.message })
@@ -97,7 +94,6 @@ export function CadastrarSegundoFator() {
         {pronto && (
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
             <div role="img" aria-label="QR code para cadastrar o SIGH no aplicativo autenticador" className="w-fit rounded-painel border border-borda bg-white p-4">
-              {/* Gerado no navegador: a URI traz o segredo e nunca vai a um serviço externo. */}
               <QRCodeSVG value={situacao.uri} size={192} aria-hidden="true" />
             </div>
             <div className="flex flex-col gap-2">

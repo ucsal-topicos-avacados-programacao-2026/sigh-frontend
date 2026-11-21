@@ -6,9 +6,6 @@ import type { Coluna } from '@/componentes/Tabela'
 import { codigoDoRegistro } from '@/paginas/auditor/textos'
 import { formatarDataHora } from '@/util/datas'
 
-/**
- * Colunas de um acesso do log. A única ação é registrar análise: o log não tem editar nem excluir (RN-006).
- */
 export function colunasDoLog(aoAnalisar: (registro: RegistroAuditoria) => void): Coluna<RegistroAuditoria>[] {
   return [
     {

@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event'
 import { violacoesDeAcessibilidade } from '@/testes/acessibilidade'
 import { HOSPITAL_A, renderizar, usuario } from '@/testes/renderizar'
 
-/** Simula a largura da tela para os media queries de min-width. */
 function simularLargura(largura: number) {
   window.matchMedia = ((consulta: string) => {
     const minimo = Number(/min-width:\s*(\d+)px/.exec(consulta)?.[1] ?? 0)
@@ -37,7 +36,6 @@ describe('menu em gaveta abaixo de 1024px', () => {
     const dialogo = screen.getByRole('dialog', { name: 'Menu principal' })
     expect(gaveta).not.toHaveAttribute('inert')
     expect(within(dialogo).getByRole('button', { name: 'Fechar menu' })).toHaveFocus()
-    // O cabeçalho, o conteúdo e o link de pular ficam inertes: o Tab só circula dentro da gaveta.
     expect(document.getElementById('conteudo')?.parentElement).toHaveAttribute('inert')
     expect(screen.getByText('Pular para o conteúdo')).toHaveAttribute('inert')
     expect(await violacoesDeAcessibilidade(document.body)).toEqual([])

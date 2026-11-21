@@ -21,7 +21,6 @@ import { useAtualizacaoPeriodica } from '@/util/useAtualizacaoPeriodica'
 const CATEGORIAS = Object.keys(NOME_DA_CATEGORIA) as CategoriaLeito[]
 const ESTADOS = Object.keys(ESTADO_DO_LEITO) as StatusLeito[]
 
-/** Ações de estado que o administrativo faz direto: o ocupado só muda por internação, transferência ou alta. */
 const ACOES: Partial<Record<StatusLeito, { rotulo: string; para: Exclude<StatusLeito, 'OCUPADO'>; aviso: string }[]>> = {
   LIVRE: [{ rotulo: 'Bloquear', para: 'BLOQUEADO', aviso: 'bloqueado' }],
   EM_HIGIENIZACAO: [
@@ -31,7 +30,6 @@ const ACOES: Partial<Record<StatusLeito, { rotulo: string; para: Exclude<StatusL
   BLOQUEADO: [{ rotulo: 'Desbloquear', para: 'LIVRE', aviso: 'liberado' }],
 }
 
-/** FE-04: mapa dos leitos da instituição por categoria e estado, atualizado sozinho (RF-005). */
 export function Leitos() {
   const { instituicaoAtiva } = useSessao()
   if (!instituicaoAtiva) return null
@@ -77,7 +75,6 @@ function MapaDeLeitos({ instituicao }: { instituicao: VinculoAtivo }) {
         subtitulo={`Leitos de ${instituicao.instituicaoNome}. O mapa se atualiza sozinho a cada 30 segundos.`}
         acoes={
           <>
-            {/* Sem "carregando": a atualização automática não desabilita o botão nem tira o foco de quem está nele. */}
             <Botao variante="secundario" icone={RefreshCw} onClick={atualizar}>
               Atualizar
             </Botao>
@@ -91,7 +88,6 @@ function MapaDeLeitos({ instituicao }: { instituicao: VinculoAtivo }) {
         carregando={!todos}
         indicadores={ESTADOS.map((s) => ({ rotulo: pluralDoEstado(s), valor: contagem(s), icone: BedDouble }))}
       />
-      {/* Filtros e o aviso de erro no mesmo quadro: a região de aviso vazia não abre espaço entre os painéis. */}
       <div className="rounded-painel border border-borda bg-superficie p-4 sm:p-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <div className="sm:w-56">

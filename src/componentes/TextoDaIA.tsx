@@ -6,7 +6,6 @@ function Trechos({ trechos }: { trechos: Trecho[] }) {
   )
 }
 
-/** Texto gerado pela IA, com títulos, listas, negrito e itálico do Markdown, e nada de HTML. */
 export function TextoDaIA({ texto }: { texto: string }) {
   return (
     <div className="flex flex-col gap-2">

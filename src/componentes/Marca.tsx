@@ -2,13 +2,10 @@ import logoCoracao from '@/assets/logo-coracao.png'
 import logoSigh from '@/assets/logo-sigh.png'
 
 interface PropriedadesMarca {
-  /** completa: logo inteira (coração e "sigh"), nas telas de entrada; compacta: coração e "SIGH", no menu e na barra. */
   variante?: 'completa' | 'compacta'
-  /** Sobre fundo escuro (menu lateral): texto claro. */
   clara?: boolean
 }
 
-/** Logo do SIGH. A imagem tem o nome no texto alternativo; o subtítulo é texto de verdade. */
 export function Marca({ variante = 'compacta', clara = false }: PropriedadesMarca) {
   if (variante === 'completa') {
     return (

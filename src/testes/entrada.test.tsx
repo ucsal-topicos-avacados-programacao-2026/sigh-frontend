@@ -119,7 +119,6 @@ describe('segundo fator', () => {
       'POST /auth/segundo-fator/cadastro': { status: 401 },
     })
     await entrarCom('medico.teste', 'senha')
-    // O teste começa no login: esperar o título não prova a volta. Espera o aviso, que só aparece depois dela.
     const aviso = await screen.findByText(/tempo para confirmar o segundo fator acabou/)
     expect(aviso.closest('[role="alert"]')).not.toBeNull()
     expect(screen.getByRole('heading', { level: 1, name: 'Entre na sua conta' })).toBeInTheDocument()

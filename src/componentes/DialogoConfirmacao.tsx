@@ -6,7 +6,6 @@ interface PropriedadesDialogo {
   aberto: boolean
   titulo: string
   mensagem: ReactNode
-  /** Verbo da confirmação: "Encerrar atendimento". */
   rotuloConfirmar: string
   perigo?: boolean
   enviando?: boolean
@@ -15,10 +14,6 @@ interface PropriedadesDialogo {
   aoCancelar: () => void
 }
 
-/**
- * Confirmação de ação que não tem volta. O &lt;dialog&gt; nativo com showModal deixa o resto da página inerte,
- * prende o foco e trata o Esc. O foco começa no "Cancelar" e volta ao botão que abriu o diálogo.
- */
 export function DialogoConfirmacao({
   aberto,
   titulo,
@@ -43,7 +38,6 @@ export function DialogoConfirmacao({
     if (!elemento.open) elemento.showModal()
     document.body.style.overflow = 'hidden'
     cancelar.current?.focus()
-    // Fechar ou desmontar (fim da sessão no meio, por exemplo) sempre destrava a rolagem e devolve o foco.
     return () => {
       if (elemento.open) elemento.close()
       document.body.style.overflow = ''
@@ -61,7 +55,6 @@ export function DialogoConfirmacao({
         evento.preventDefault()
         if (!enviando) aoCancelar()
       }}
-      // Se o navegador fechar o diálogo por conta própria (Esc repetido), o estado acompanha.
       onClose={() => {
         if (aberto) aoCancelar()
       }}

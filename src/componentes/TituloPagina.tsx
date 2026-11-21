@@ -3,16 +3,12 @@ import { useEffect, useRef, type ReactNode } from 'react'
 interface PropriedadesTitulo {
   titulo: string
   subtitulo?: string
-  /** Trilha: grupo do menu (texto, sem link). */
   trilha?: string
   acoes?: ReactNode
-  /** Leva o foco para o h1 ao abrir a página (troca de rota). */
   focar?: boolean
-  /** Título da aba, quando não é o próprio h1 ("Sem permissão"). */
   tituloDaAba?: string
 }
 
-/** h1 da página: define o título da aba ("Página · SIGH") e recebe o foco na troca de rota (WCAG 2.4.3). */
 export function TituloPagina({ titulo, subtitulo, trilha, acoes, focar = true, tituloDaAba }: PropriedadesTitulo) {
   const h1 = useRef<HTMLHeadingElement>(null)
   useEffect(() => {

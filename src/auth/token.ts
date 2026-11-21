@@ -1,7 +1,3 @@
-/**
- * Token de acesso no sessionStorage: sobrevive ao recarregar a página e some ao fechar a aba (computador
- * compartilhado de hospital). Nenhum dado clínico vai para o armazenamento do navegador.
- */
 import type { Perfil } from '@/api/tipos'
 
 const CHAVE = 'sigh.token'
@@ -9,7 +5,6 @@ const CHAVE = 'sigh.token'
 export interface DadosDoToken {
   login: string
   perfis: Perfil[]
-  /** Fim da validade, em milissegundos. */
   expiraEm: number
 }
 
@@ -20,7 +15,6 @@ function decodificarBase64Url(trecho: string) {
   return new TextDecoder().decode(bytes)
 }
 
-/** Lê o conteúdo do token sem conferir a assinatura: quem confere é a API. */
 export function lerToken(token: string): DadosDoToken | null {
   const partes = token.split('.')
   if (partes.length !== 3 || !partes[1]) return null

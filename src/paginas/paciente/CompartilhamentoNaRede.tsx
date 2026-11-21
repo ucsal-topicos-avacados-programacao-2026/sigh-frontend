@@ -18,7 +18,6 @@ const SITUACAO: Record<DecisaoConsentimento | 'SEM', { texto: string; tom: TomDa
   SEM: { texto: 'Sem decisão', tom: 'neutro' },
 }
 
-/** O que vale agora, conferido com ConsentimentoService.podeCompartilharCom (RN-007) e a emergência (RN-003). */
 function efeitoAtual(vigente: Consentimento | null) {
   switch (vigente?.decisao) {
     case 'AUTORIZADO':

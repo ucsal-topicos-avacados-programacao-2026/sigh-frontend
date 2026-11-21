@@ -21,7 +21,6 @@ import { Entrar } from '@/paginas/publicas/Entrar'
 import { ValidarSegundoFator } from '@/paginas/publicas/ValidarSegundoFator'
 import { ITENS_DE_MENU } from '@/rotas'
 
-/** Telas já entregues, por caminho do menu. As outras mostram "Em construção" até o card delas. */
 const PAGINAS: Partial<Record<string, ComponentType>> = {
   '/painel': PainelDosHospitais,
   '/pacientes': Pacientes,
@@ -39,7 +38,6 @@ const ITEM_ATENDIMENTOS = ITENS_DE_MENU.find((item) => item.caminho === '/atendi
 if (!ITEM_ATENDIMENTOS) throw new Error('O item /atendimentos precisa existir em rotas.ts')
 const ATENDIMENTO_DO_MEDICO = { ...ITEM_ATENDIMENTOS, perfis: ['MEDICO'] as const }
 
-/** Telas de entrada só sem sessão: quem já entrou vai para o início. */
 function SoSemSessao({ children }: { children: React.ReactNode }) {
   const { estado } = useSessao()
   if (estado === 'autenticado') return <Navigate to="/" replace />
@@ -57,9 +55,7 @@ export function App() {
         {ITENS_DE_MENU.map((item) => (
           <Route key={item.caminho} path={item.caminho} element={<RotaProtegida rota={item}><Pagina item={item} /></RotaProtegida>} />
         ))}
-        {/* O atendimento de um paciente: só o médico registra e pede o resumo (AtendimentoController é de MEDICO). */}
         <Route path="/atendimentos/:atendimentoId" element={<RotaProtegida rota={ATENDIMENTO_DO_MEDICO}><AtendimentoDoPaciente /></RotaProtegida>} />
-        {/* Endereço desconhecido: sem sessão, a guarda leva ao login; com sessão, "não encontrada" no shell. */}
         <Route path="*" element={<NaoEncontrada />} />
       </Route>
     </Routes>
