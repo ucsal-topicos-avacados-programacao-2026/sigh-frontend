@@ -5,22 +5,38 @@ Front-end do SIGH (Sistema Integrado de Gestão Hospitalar): React 19, TypeScrip
 - **Arquitetura:** [`docs/arquitetura.md`](docs/arquitetura.md).
 - **Visual e componentes:** [`docs/design-system.md`](docs/design-system.md). Os tokens e componentes partem do protótipo da equipe, com as correções de contraste e tamanho para o WCAG 2.1 AA (RNF-006). A fonte é a Plus Jakarta Sans, embutida no app, e as telas de entrada usam a foto de `src/assets/entrada.jpg` e a logo da equipe (seção 6 do design system).
 
-## Como rodar
+## Como baixar e rodar
 
-1. **API:** suba o `sigh-backend` com o CORS liberado para a origem do front:
+**Pré-requisitos:** Git e Node.js 20 ou mais novo (com npm). Para ter dados de verdade, a API do `sigh-backend` precisa estar no ar (ela tem um README com o passo a passo, incluindo banco, variáveis e IA).
+
+1. **Baixar e instalar:**
 
    ```bash
-   SIGH_CORS_ORIGENS=https://localhost:5173 ./mvnw spring-boot:run -Dspring-boot.run.profiles=demonstracao
+   git clone https://github.com/ucsal-topicos-avacados-programacao-2026/sigh-frontend.git
+   cd sigh-frontend
+   git checkout develop
+   npm install
    ```
 
-2. **Configuração:** copie `.env.example` para `.env` e confira o `VITE_API_URL`. O perfil padrão da API usa `http://localhost:8080`; o perfil `tls`, `https://localhost:8443`.
-
-3. **Front:**
+2. **Configurar:** copie `.env.example` para `.env` e confira o `VITE_API_URL`. O perfil padrão da API usa `http://localhost:8080`; o perfil `tls`, `https://localhost:8443`.
 
    ```bash
-   npm install
+   cp .env.example .env
+   ```
+
+3. **API:** em outro terminal, suba o `sigh-backend` com o CORS liberado para a origem do front (`http://localhost:5173` quando o front roda sem certificado, `https://localhost:5173` com ele):
+
+   ```bash
+   SIGH_CORS_ORIGENS=http://localhost:5173 ./mvnw spring-boot:run -Dspring-boot.run.profiles=demonstracao
+   ```
+
+4. **Front:**
+
+   ```bash
    npm run dev
    ```
+
+   Abra `http://localhost:5173` e entre com um dos usuários de demonstração (abaixo).
 
 **HTTPS:** rode o front em HTTPS. A API, no perfil `tls`, manda HSTS, que vale para `localhost` em qualquer porta, e depois disso um front em `http://` deixa de funcionar no navegador.
 - Gere um certificado local confiável com o [mkcert](https://github.com/FiloSottile/mkcert): `mkcert -install` e depois `mkcert localhost`.
