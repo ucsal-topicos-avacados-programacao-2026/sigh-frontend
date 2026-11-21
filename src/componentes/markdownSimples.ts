@@ -6,7 +6,7 @@
 export type Bloco =
   | { tipo: 'titulo'; trechos: Trecho[] }
   | { tipo: 'paragrafo'; trechos: Trecho[] }
-  | { tipo: 'lista'; ordenada: boolean; itens: Trecho[][] }
+  | { tipo: 'lista'; ordenada: boolean; inicio?: number; itens: Trecho[][] }
 
 export interface Trecho {
   texto: string
@@ -21,7 +21,8 @@ const ITEM = /^\s*(?:[-*•]|(\d+)[.)])\s+(.+)$/
 /** Negrito (**...** ou __...__) e itálico (*...* ou _..._) dentro de uma linha. */
 export function trechos(linha: string): Trecho[] {
   const partes: Trecho[] = []
-  const marca = /(\*\*|__)(.+?)\1|(?<![\w*])([*_])(?!\s)(.+?)(?<!\s)\3(?![\w*])/g
+  // Itálico só com letra ou número colado às marcas: "2 * 3", "(*)" e "dose_maxima" continuam como estão.
+  const marca = /(\*\*|__)(.+?)\1|(?<![\p{L}\p{N}*_])([*_])(?=[\p{L}\p{N}])(.+?)(?<=[\p{L}\p{N}.!?])\3(?![\p{L}\p{N}*_])/gu
   let fim = 0
   for (const achado of linha.matchAll(marca)) {
     if (achado.index > fim) partes.push({ texto: linha.slice(fim, achado.index) })
@@ -37,7 +38,8 @@ export function blocos(texto: string): Bloco[] {
   const saida: Bloco[] = []
   let paragrafo: string[] = []
   const fecharParagrafo = () => {
-    if (paragrafo.length) saida.push({ tipo: 'paragrafo', trechos: trechos(paragrafo.join(' ')) })
+    // A quebra de linha simples continua quebra: o modelo às vezes separa itens só com ela.
+    if (paragrafo.length) saida.push({ tipo: 'paragrafo', trechos: trechos(paragrafo.join('\n')) })
     paragrafo = []
   }
   for (const bruta of texto.replace(/\r\n?/g, '\n').split('\n')) {
@@ -58,6 +60,7 @@ export function blocos(texto: string): Bloco[] {
       const ordenada = item[1] !== undefined
       const anterior = saida.at(-1)
       if (anterior?.tipo === 'lista' && anterior.ordenada === ordenada) anterior.itens.push(trechos(item[2] ?? ''))
+      else if (ordenada && item[1] !== '1') saida.push({ tipo: 'lista', ordenada, inicio: Number(item[1]), itens: [trechos(item[2] ?? '')] })
       else saida.push({ tipo: 'lista', ordenada, itens: [trechos(item[2] ?? '')] })
       continue
     }
