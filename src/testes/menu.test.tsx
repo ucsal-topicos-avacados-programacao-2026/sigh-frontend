@@ -84,7 +84,9 @@ describe('shell autenticado', () => {
 
   it('só com o teclado: pular para o conteúdo, percorrer o menu e abrir uma tela', async () => {
     renderizar('/', usuario(['ADMINISTRATIVO'], [{ ...HOSPITAL_A, perfis: ['ADMINISTRATIVO'] }]))
-    await screen.findByRole('heading', { level: 1, name: 'Pacientes' })
+    const titulo = await screen.findByRole('heading', { level: 1, name: 'Pacientes' })
+    // A página leva o foco ao título ao abrir; espera isso acontecer para não cair no meio do Tab abaixo.
+    await waitFor(() => expect(titulo).toHaveFocus())
     const teclado = userEvent.setup()
     ;(document.activeElement as HTMLElement | null)?.blur()
     await teclado.tab()

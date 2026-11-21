@@ -141,3 +141,16 @@ Duas telas do Administrativo, sempre na instituição ativa (RF-005, RF-006). As
 - **Internar:** só os leitos livres aparecem para escolher, agrupados por categoria.
 - **Internados** (`GET /internacoes`): transferir para outro leito livre da instituição (direto) ou pedir a transferência para outra instituição da rede, mostrando as vagas livres de lá na categoria; dar alta escolhendo o resumo de alta feito desde a admissão (sem resumo, a tela explica que a alta precisa dele).
 - **Pedidos recebidos:** aceitar escolhendo um leito livre da categoria pedida, ou recusar com motivo. **Pedidos enviados:** situação, motivo da recusa e cancelar o pendente.
+
+## Triagem (FE-06)
+
+Tela do Enfermeiro, na instituição ativa (RF-003, RF-010, RN-001, RN-005, RN-008, RN-009). As listas se atualizam sozinhas a cada 30 segundos.
+
+- **Aguardando triagem** (`GET /triagens/aguardando`): por ordem de chegada. Quem tem triagem registrada e não confirmada aparece com "Falta confirmar" e a sugestão da IA, se houver, e o botão "Continuar triagem".
+- **Triagem:**
+  1. Sintomas e sinais vitais, validados como a API valida (`POST /triagens`).
+  2. A sugestão de cor da IA (`POST /triagens/{id}/sugestao`) aparece identificada como "Sugestão gerada por IA — sujeita à validação profissional" e já marcada. O enfermeiro confirma ou escolhe outra cor; se escolher outra, a tela diz que ele alterou a sugestão.
+  3. A triagem só termina com a confirmação do enfermeiro (`POST /triagens/{id}/confirmacao`). Fechar sem confirmar deixa a triagem pendente, para retomar depois.
+- **IA indisponível** (503 ou falha de rede): a tela avisa e o enfermeiro classifica sozinho, com a opção de pedir a sugestão de novo.
+- **Fila de atendimento** (`GET /triagens/fila`): por prioridade da cor confirmada, com o tempo de espera, a marca "Tempo máximo excedido" e um alerta com quantos passaram do limite. "Reclassificar" registra uma triagem nova para o paciente.
+- **Histórico e acesso de emergência** (`GET /atendimentos/{id}/historico` e `POST .../historico/emergencia`): paciente sem histórico segue o mesmo fluxo, com um aviso. Com informações restritas, o acesso de emergência pede a justificativa (de 20 a 2000 caracteres) e mostra os registros restritos marcados. As recusas da API, como quem confirmou a cor tentando a emergência, aparecem no formulário.

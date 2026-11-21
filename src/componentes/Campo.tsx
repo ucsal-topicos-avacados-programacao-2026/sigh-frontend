@@ -204,7 +204,8 @@ interface PropriedadesGrupoDeOpcoes<T extends string> {
   ajuda?: ReactNode
   nome: string
   opcoes: readonly OpcaoDoGrupo<T>[]
-  valor: T
+  /** Vazio: nenhuma opção marcada ainda. */
+  valor: T | ''
   aoMudar: (valor: T) => void
   erro?: string
 }

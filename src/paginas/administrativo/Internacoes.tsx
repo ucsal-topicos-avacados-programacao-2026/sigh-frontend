@@ -139,7 +139,7 @@ function GestaoDeInternacoes({ instituicao }: { instituicao: VinculoAtivo }) {
         semRespiro
       >
         {semLeitoLivre && (
-          <div className="px-4 pt-4 sm:px-5">
+          <div className="px-4 py-4 sm:px-5">
             <Alerta tom="atencao" anunciar={false} titulo="Nenhum leito livre agora">
               Quem precisar de internação fica nesta fila, na ordem de chegada, até um leito ser liberado.
             </Alerta>
