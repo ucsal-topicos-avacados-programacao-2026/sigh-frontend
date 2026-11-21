@@ -84,7 +84,7 @@ export function PedidosDeTransferencia({ leitos, recebidas, enviadas, internadas
       titulo: 'Ação',
       celula: (s) =>
         s.status === 'PENDENTE' ? (
-          <Botao variante="secundario" onClick={() => setACancelar(s)} aria-label={`Cancelar o pedido de ${s.paciente}`}>
+          <Botao variante="secundario" onClick={() => setACancelar(s)} aria-label={`Cancelar pedido de ${s.paciente}`}>
             Cancelar pedido
           </Botao>
         ) : null,

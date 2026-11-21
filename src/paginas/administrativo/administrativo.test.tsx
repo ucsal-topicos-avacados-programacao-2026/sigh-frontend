@@ -1,7 +1,7 @@
 import { act, renderHook, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { AtendimentoSemLeito, InternacaoAtiva, Leito, SolicitacaoTransferencia } from '@/api/tipos'
-import { violacoesDeAcessibilidade } from '@/testes/acessibilidade'
+import { violacoesDeAcessibilidade, nomesQueNaoComecamPeloTexto } from '@/testes/acessibilidade'
 import { HOSPITAL_A, renderizar, usuario, type Rotas } from '@/testes/renderizar'
 import { useAtualizacaoPeriodica } from '@/util/useAtualizacaoPeriodica'
 
@@ -340,7 +340,9 @@ describe('FE-04: pedidos de transferência entre instituições', () => {
     expect(caio).toHaveTextContent('Recusada')
     expect(caio).toHaveTextContent('Motivo: Sem vaga na UTI')
     expect(within(caio).queryByRole('button')).not.toBeInTheDocument()
-    await userEvent.click(within(maria).getByRole('button', { name: 'Cancelar o pedido de Maria Souza' }))
+    // O nome acessível dos botões começa pelo texto visível (FE-12, WCAG 2.5.3).
+    expect(nomesQueNaoComecamPeloTexto(enviados)).toEqual([])
+    await userEvent.click(within(maria).getByRole('button', { name: 'Cancelar pedido de Maria Souza' }))
     await userEvent.click(within(screen.getByRole('alertdialog')).getByRole('button', { name: 'Cancelar pedido' }))
     await waitFor(() => expect(chamadas.some((c) => c.chave === 'POST /solicitacoes-transferencia/s2/cancelamento')).toBe(true))
     expect(await screen.findByText('Pedido de transferência de Maria Souza cancelado.')).toBeInTheDocument()
