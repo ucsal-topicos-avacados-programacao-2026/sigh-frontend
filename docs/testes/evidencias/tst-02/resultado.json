@@ -1,0 +1,268 @@
+{
+  "quando": "2026-11-21T08:27:35.478Z",
+  "casos": [
+    {
+      "id": "CT-01",
+      "requisito": "RF-001, RN-004",
+      "titulo": "Mesmo CPF em duas instituições usa o mesmo prontuário",
+      "esperado": "No 2º hospital, a busca acha o paciente já cadastrado e o atendimento é aberto no prontuário existente, sem cadastro duplicado.",
+      "resultado": "passou",
+      "observado": [
+        "Há 1 cadastro com o CPF (banco: 1).",
+        "Os 2 atendimentos (Público e Universitário) estão no mesmo prontuário (banco: 1 prontuário, 2 atendimentos).",
+        "No Universitário a tela mostrou \"Paciente já cadastrado na rede\" com nome e nascimento, e pediu só o motivo."
+      ],
+      "evidencias": [
+        "CT-01-1-cadastro-no-publico.jpg",
+        "CT-01-2-atendimento-aberto-no-publico.jpg",
+        "CT-01-3-ja-cadastrado-no-universitario.jpg"
+      ],
+      "segundos": 3
+    },
+    {
+      "id": "CT-02",
+      "requisito": "RF-003, RN-001, RN-008",
+      "titulo": "Triagem sem histórico só vale com a confirmação do enfermeiro",
+      "esperado": "A IA sugere a cor (identificada como sugestão). Fechando sem confirmar, o paciente continua aguardando triagem; só depois da confirmação ele entra na fila.",
+      "resultado": "passou",
+      "observado": [
+        "A IA devolveu a sugestão de cor, identificada como \"Sugestão gerada por IA — sujeita à validação profissional\".",
+        "Sem confirmação, o paciente fica em \"Aguardando triagem\", marcado \"Falta confirmar\", e não entra na fila.",
+        "Depois de confirmar Laranja, o paciente aparece na fila de atendimento."
+      ],
+      "evidencias": [
+        "CT-02-1-sugestao-da-ia.jpg",
+        "CT-02-2-falta-confirmar.jpg",
+        "CT-02-3-na-fila.jpg"
+      ],
+      "segundos": 4
+    },
+    {
+      "id": "CT-03",
+      "requisito": "RF-003, RN-005",
+      "titulo": "Prioridade segue o risco confirmado, sem rebaixar quem não tem histórico",
+      "esperado": "O paciente sem histórico, confirmado como Laranja, fica na fila acima dos Amarelos e Verdes, que chegaram antes dele.",
+      "resultado": "passou",
+      "observado": [
+        "A fila tem pacientes Amarelos e Verdes para comparar.",
+        "Na fila, o paciente sem histórico (Laranja) está na posição 2, acima do 1º Amarelo (3) e do 1º Verde (4)."
+      ],
+      "evidencias": [
+        "CT-03-1-fila-por-prioridade.jpg"
+      ],
+      "segundos": 0
+    },
+    {
+      "id": "CT-04",
+      "requisito": "RF-002, RF-003, RF-009",
+      "titulo": "Triagem com histórico usa só os dados autorizados",
+      "esperado": "O histórico que o enfermeiro vê traz os registros da paciente, avisa que há informação restrita e não mostra o registro restrito.",
+      "resultado": "passou",
+      "observado": [
+        "O histórico mostra a alergia a dipirona registrada antes.",
+        "O histórico avisa que há informações restritas pelo paciente.",
+        "O registro restrito (episódio depressivo) não aparece.",
+        "A sugestão da IA usou 4 registro(s) do histórico (Alergias, Clínica geral, Clínica geral, Medicamentos).",
+        "O registro restrito não está entre as fontes que a IA usou na triagem (banco).",
+        "A triagem da paciente com histórico foi confirmada como Laranja e ela entrou na fila."
+      ],
+      "evidencias": [
+        "CT-04-1-historico-com-restricao.jpg"
+      ],
+      "segundos": 3
+    },
+    {
+      "id": "CT-05",
+      "requisito": "RF-005, RF-006",
+      "titulo": "Internação só oferece leito livre e o leito passa a ocupado",
+      "esperado": "A escolha de leito mostra só os livres; depois de internar, o leito escolhido fica ocupado.",
+      "resultado": "passou",
+      "observado": [
+        "A lista de leitos mostra só os livres do hospital (ENF-101,ENF-103,UTI-102).",
+        "O leito ENF-103 passou de livre para ocupado."
+      ],
+      "evidencias": [
+        "CT-05-1-escolha-de-leito.jpg",
+        "CT-05-2-leito-ocupado.jpg"
+      ],
+      "segundos": 2
+    },
+    {
+      "id": "CT-06",
+      "requisito": "RF-005, RF-006",
+      "titulo": "Transferência para outro leito do mesmo hospital",
+      "esperado": "O paciente vai para o leito escolhido, que fica ocupado; o leito anterior vai para higienização.",
+      "resultado": "passou",
+      "observado": [
+        "O leito de destino UTI-102 ficou ocupado.",
+        "O leito anterior ENF-103 foi para \"Em higienização\"."
+      ],
+      "evidencias": [
+        "CT-06-1-transferencia-interna.jpg",
+        "CT-06-2-leitos-depois.jpg"
+      ],
+      "segundos": 1
+    },
+    {
+      "id": "CT-07",
+      "requisito": "RF-006",
+      "titulo": "Transferência para outro hospital da rede, com aceite do destino",
+      "esperado": "A origem pede e vê as vagas do destino; o destino aceita escolhendo um leito livre; o paciente continua no mesmo prontuário e o leito da origem vai para higienização.",
+      "resultado": "passou",
+      "observado": [
+        "O destino escolhe entre os leitos livres da categoria pedida (ENF-302).",
+        "O paciente continua com um único prontuário depois da transferência.",
+        "O leito da origem (UTI-102) foi para \"Em higienização\"."
+      ],
+      "evidencias": [
+        "CT-07-1-pedido-com-vagas-do-destino.jpg",
+        "CT-07-2-aceite-no-destino.jpg",
+        "CT-07-3-internado-no-destino.jpg"
+      ],
+      "segundos": 3
+    },
+    {
+      "id": "CT-08",
+      "requisito": "RF-006, RF-007",
+      "titulo": "Alta com o resumo de internação anexado",
+      "esperado": "O médico registra o resumo de alta; o administrativo do hospital onde o paciente está dá a alta com esse resumo; o leito vai para higienização e depois volta a livre.",
+      "resultado": "passou",
+      "observado": [
+        "O paciente saiu da lista de internados.",
+        "O leito ENF-302 foi para \"Em higienização\" com a alta.",
+        "Concluída a higienização, o leito ENF-302 voltou a livre.",
+        "A internação ficou com a data de alta e o resumo anexado (banco)."
+      ],
+      "evidencias": [
+        "CT-08-1-resumo-de-alta-registrado.jpg",
+        "CT-08-2-alta-com-resumo.jpg",
+        "CT-08-3-leito-livre-de-novo.jpg"
+      ],
+      "segundos": 4
+    },
+    {
+      "id": "CT-09",
+      "requisito": "RF-004, RN-008, RF-009",
+      "titulo": "Resumo por IA confere com o prontuário e não revela o restrito",
+      "esperado": "O resumo aparece como sugestão da IA, traz a alergia e o medicamento registrados e não menciona o registro restrito.",
+      "resultado": "passou",
+      "observado": [
+        "O resumo traz a alergia a dipirona.",
+        "O resumo traz o medicamento registrado (salbutamol).",
+        "O resumo traz o diagnóstico de asma.",
+        "O resumo não menciona o registro restrito (episódio depressivo).",
+        "O resumo aparece formatado, sem asteriscos de Markdown (FE-10).",
+        "Trecho do resumo: \"Resumo do histórico por IA Um apoio para a leitura. O prontuário original está logo abaixo, sempre. Sugestão gerada por IA — sujeita à validação profissional Resumo gerado por IA, sujeito à validação profissional. Os registros originais continuam disponíveis. Gerado em 21/11/2026 às 05:27 · modelo q…\""
+      ],
+      "evidencias": [
+        "CT-09-1-resumo-por-ia.jpg"
+      ],
+      "segundos": 11
+    },
+    {
+      "id": "CT-10",
+      "requisito": "RF-010, RN-003",
+      "titulo": "Acesso de emergência só com justificativa e fica identificado",
+      "esperado": "Sem justificativa suficiente a emergência é recusada; com justificativa, o registro restrito aparece marcado.",
+      "resultado": "passou",
+      "observado": [
+        "Com justificativa curta, a emergência é recusada e a tela explica o tamanho mínimo.",
+        "Depois da justificativa, o registro restrito aparece, marcado como restrito."
+      ],
+      "evidencias": [
+        "CT-10-1-emergencia-com-restrito-marcado.jpg"
+      ],
+      "segundos": 1
+    },
+    {
+      "id": "CT-11",
+      "requisito": "RF-008, RF-011",
+      "titulo": "Os acessos ficam registrados e disponíveis para o paciente e o auditor",
+      "esperado": "A paciente vê quem consultou o prontuário, com a emergência marcada; o auditor vê os acessos e analisa a emergência, que sai da fila.",
+      "resultado": "passou",
+      "observado": [
+        "A paciente vê o acesso do enfermeiro (consulta ao histórico na triagem).",
+        "A paciente vê os acessos do médico.",
+        "O acesso de emergência aparece marcado para a paciente.",
+        "Com a análise registrada, a emergência saiu da fila do auditor.",
+        "O registro de acessos do auditor lista os acessos feitos no teste."
+      ],
+      "evidencias": [
+        "CT-11-1-quem-acessou.jpg",
+        "CT-11-2-fila-de-emergencias.jpg",
+        "CT-11-3-registro-de-acessos.jpg"
+      ],
+      "segundos": 2
+    },
+    {
+      "id": "CT-12",
+      "requisito": "RF-008, RN-006",
+      "titulo": "Registro de auditoria não pode ser alterado nem excluído",
+      "esperado": "Nenhuma tela oferece editar ou excluir; no banco, UPDATE, DELETE e TRUNCATE na auditoria são recusados.",
+      "resultado": "passou",
+      "observado": [
+        "A tela de auditoria não tem nenhum botão de editar, excluir ou apagar.",
+        "\"UPDATE\" na auditoria foi recusado pelo gatilho de imutabilidade (\"Registros de auditoria não podem ser alterados nem excluídos.\").",
+        "\"DELETE\" na auditoria foi recusado pelo gatilho de imutabilidade (\"Registros de auditoria não podem ser alterados nem excluídos.\").",
+        "\"TRUNCATE\" na auditoria foi recusado pelo gatilho de imutabilidade (\"Registros de auditoria não podem ser alterados nem excluídos.\").",
+        "A auditoria continua com os mesmos 7 registros."
+      ],
+      "evidencias": [],
+      "segundos": 0
+    },
+    {
+      "id": "CT-13",
+      "requisito": "RF-012",
+      "titulo": "Cada perfil vê e faz só o que é dele",
+      "esperado": "O menu de cada um dos cinco perfis mostra só as telas dele; abrir a tela de outro perfil mostra \"sem permissão\", e a API recusa com 403.",
+      "resultado": "passou",
+      "observado": [
+        "Menu do paciente: Meu prontuário, Consentimentos.",
+        "Menu do enfermeiro: Painel, Triagem, Atendimentos.",
+        "Menu do médico: Painel, Atendimentos.",
+        "Menu do administrativo: Painel, Pacientes, Leitos, Internações.",
+        "Menu do auditor: Painel, Auditoria, Relatórios.",
+        "O médico, ao abrir /leitos, vê \"Você não tem permissão para acessar esta página\".",
+        "A API recusa o médico cadastrando leito (HTTP 403).",
+        "A API recusa a paciente lendo o registro de acessos da auditoria (HTTP 403).",
+        "Mesmo sem o período (requisição incompleta), a paciente recebe 403, e não 400 (BE-28; HTTP 403).",
+        "A API recusa o enfermeiro na fila de um hospital onde ele não tem vínculo (HTTP 403)."
+      ],
+      "evidencias": [
+        "CT-13-1-medico-sem-permissao.jpg"
+      ],
+      "segundos": 1
+    },
+    {
+      "id": "CT-14",
+      "requisito": "RNF-005, RF-012",
+      "titulo": "Médico, enfermeiro e auditor só entram depois do segundo fator",
+      "esperado": "Depois da senha, o token pendente não abre nada; código errado é recusado; com o código certo o acesso é liberado. Administrativo e paciente não pedem código.",
+      "resultado": "passou",
+      "observado": [
+        "medico.demo: depois da senha, a API pede o segundo fator.",
+        "medico.demo: com o token pendente, a área protegida é recusada (HTTP 403).",
+        "medico.demo: código errado recusado (HTTP 401).",
+        "medico.demo: com o código certo, o acesso é liberado.",
+        "medico.demo: com o token final, a área protegida responde (HTTP 200).",
+        "enfermeiro.demo: depois da senha, a API pede o segundo fator.",
+        "enfermeiro.demo: com o token pendente, a área protegida é recusada (HTTP 403).",
+        "enfermeiro.demo: código errado recusado (HTTP 401).",
+        "enfermeiro.demo: com o código certo, o acesso é liberado.",
+        "enfermeiro.demo: com o token final, a área protegida responde (HTTP 200).",
+        "auditor.demo: depois da senha, a API pede o segundo fator.",
+        "auditor.demo: com o token pendente, a área protegida é recusada (HTTP 403).",
+        "auditor.demo: código errado recusado (HTTP 401).",
+        "auditor.demo: com o código certo, o acesso é liberado.",
+        "auditor.demo: com o token final, a área protegida responde (HTTP 200).",
+        "administrativo.demo: entra só com a senha, como prevê o RNF-005.",
+        "paciente.demo: entra só com a senha, como prevê o RNF-005.",
+        "Na tela, sem o código, tentar abrir /atendimentos volta para a entrada."
+      ],
+      "evidencias": [
+        "CT-14-1-codigo-pedido.jpg"
+      ],
+      "segundos": 1
+    }
+  ]
+}
