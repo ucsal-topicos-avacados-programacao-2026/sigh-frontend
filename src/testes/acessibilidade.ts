@@ -13,6 +13,7 @@ export async function violacoesDeAcessibilidade(elemento: Element) {
 export function nomesQueNaoComecamPeloTexto(elemento: Element) {
   return [...elemento.querySelectorAll('button[aria-label], a[aria-label]')]
     .map((e) => ({ visivel: (e.textContent ?? '').replace(/\s+/g, ' ').trim(), nome: e.getAttribute('aria-label') ?? '' }))
-    .filter(({ visivel, nome }) => visivel && !nome.toLowerCase().startsWith(visivel.toLowerCase()))
+    // Só texto com letras: um símbolo como "×" não é um rótulo que alguém fale.
+    .filter(({ visivel, nome }) => /\p{L}/u.test(visivel) && !nome.toLowerCase().startsWith(visivel.toLowerCase()))
     .map(({ visivel, nome }) => `${visivel} → ${nome}`)
 }
