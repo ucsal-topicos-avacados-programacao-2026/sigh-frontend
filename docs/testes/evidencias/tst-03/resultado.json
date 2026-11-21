@@ -1,0 +1,2715 @@
+{
+  "quando": "2026-11-21T08:24:51.817Z",
+  "resultados": [
+    {
+      "tela": "Entrada",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "entrada-celular.jpg"
+    },
+    {
+      "tela": "Entrada",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "entrada-tablet.jpg"
+    },
+    {
+      "tela": "Entrada",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "entrada-computador.jpg",
+      "teclado": [
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "Login",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::Login"
+        },
+        {
+          "tag": "input",
+          "tipo": "password",
+          "rotulo": "Senha",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input:password:Senha"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Mostrar senha",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Mostrar senha"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Acessar plataforma",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Acessar plataforma"
+        }
+      ]
+    },
+    {
+      "tela": "Entrada",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Entrada com erro de senha",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "entrada-com-erro-de-senha-celular.jpg"
+    },
+    {
+      "tela": "Entrada com erro de senha",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "entrada-com-erro-de-senha-tablet.jpg"
+    },
+    {
+      "tela": "Entrada com erro de senha",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "entrada-com-erro-de-senha-computador.jpg",
+      "teclado": [
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "Login",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::Login"
+        },
+        {
+          "tag": "input",
+          "tipo": "password",
+          "rotulo": "Senha",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input:password:Senha"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Mostrar senha",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Mostrar senha"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Acessar plataforma",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Acessar plataforma"
+        }
+      ]
+    },
+    {
+      "tela": "Entrada com erro de senha",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Segundo fator: cadastro",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "segundo-fator-cadastro-celular.jpg"
+    },
+    {
+      "tela": "Segundo fator: cadastro",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "segundo-fator-cadastro-tablet.jpg"
+    },
+    {
+      "tela": "Segundo fator: cadastro",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "segundo-fator-cadastro-computador.jpg",
+      "teclado": [
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Copiar segredo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Copiar segredo"
+        },
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "Código de 6 dígitos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::Código de 6 dígitos"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Ativar segundo fator",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Ativar segundo fator"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Voltar ao login",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Voltar ao login"
+        }
+      ]
+    },
+    {
+      "tela": "Segundo fator: cadastro",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Página não encontrada",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "pagina-nao-encontrada-celular.jpg"
+    },
+    {
+      "tela": "Página não encontrada",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "pagina-nao-encontrada-tablet.jpg"
+    },
+    {
+      "tela": "Página não encontrada",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "pagina-nao-encontrada-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Ir para o login",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Ir para o login"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Ir para o login",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Ir para o login"
+        }
+      ]
+    },
+    {
+      "tela": "Página não encontrada",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Início com dois vínculos",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "inicio-com-dois-vinculos-celular.jpg"
+    },
+    {
+      "tela": "Início com dois vínculos",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "inicio-com-dois-vinculos-tablet.jpg"
+    },
+    {
+      "tela": "Início com dois vínculos",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "inicio-com-dois-vinculos-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Instituição ativa",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Instituição ativa"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Hospital Público ExemploVocê aqui: Administrativo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Hospital Público ExemploVocê aqui: Administrativo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Hospital Universitário ExemploVocê aqui: Administr",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Hospital Universitário ExemploVocê aqui: Administr"
+        }
+      ]
+    },
+    {
+      "tela": "Início com dois vínculos",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Painel",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "painel-celular.jpg"
+    },
+    {
+      "tela": "Painel",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "painel-tablet.jpg"
+    },
+    {
+      "tela": "Painel",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "painel-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Painel",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Painel"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pacientes",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pacientes"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Leitos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Leitos"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Internações",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Internações"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Instituição ativa",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Instituição ativa"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Atualizar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Atualizar"
+        },
+        {
+          "tag": "input",
+          "tipo": "radio",
+          "rotulo": "Hospital Público ExemploVocê aqui: Administrativo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input:radio:Hospital Público ExemploVocê aqui: Administrativo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Abrir leitos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Abrir leitos"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Abrir internações",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Abrir internações"
+        }
+      ]
+    },
+    {
+      "tela": "Painel",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Pacientes · paciente encontrado",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "pacientes-paciente-encontrado-celular.jpg"
+    },
+    {
+      "tela": "Pacientes · paciente encontrado",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "pacientes-paciente-encontrado-tablet.jpg"
+    },
+    {
+      "tela": "Pacientes · paciente encontrado",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "pacientes-paciente-encontrado-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Painel",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Painel"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pacientes",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pacientes"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Leitos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Leitos"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Internações",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Internações"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Instituição ativa",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Instituição ativa"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "CPF do paciente",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::CPF do paciente"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Buscar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Buscar"
+        },
+        {
+          "tag": "textarea",
+          "tipo": "",
+          "rotulo": "Motivo do atendimento",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "textarea::Motivo do atendimento"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Abrir atendimento",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Abrir atendimento"
+        }
+      ]
+    },
+    {
+      "tela": "Pacientes · paciente encontrado",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Pacientes · cadastro novo",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "pacientes-cadastro-novo-celular.jpg"
+    },
+    {
+      "tela": "Pacientes · cadastro novo",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "pacientes-cadastro-novo-tablet.jpg"
+    },
+    {
+      "tela": "Pacientes · cadastro novo",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "pacientes-cadastro-novo-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Painel",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Painel"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pacientes",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pacientes"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Leitos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Leitos"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Internações",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Internações"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Instituição ativa",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Instituição ativa"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "CPF do paciente",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::CPF do paciente"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Buscar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Buscar"
+        },
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "Nome completo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::Nome completo"
+        },
+        {
+          "tag": "input",
+          "tipo": "date",
+          "rotulo": "Data de nascimento",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input:date:Data de nascimento"
+        },
+        {
+          "tag": "input",
+          "tipo": "radio",
+          "rotulo": "Não se manifestou agoraVale como não autorizado. O",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input:radio:Não se manifestou agoraVale como não autorizado. O"
+        },
+        {
+          "tag": "textarea",
+          "tipo": "",
+          "rotulo": "Motivo do atendimento",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "textarea::Motivo do atendimento"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Cadastrar e abrir atendimento",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Cadastrar e abrir atendimento"
+        }
+      ]
+    },
+    {
+      "tela": "Pacientes · cadastro novo",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Leitos",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "leitos-celular.jpg"
+    },
+    {
+      "tela": "Leitos",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "leitos-tablet.jpg"
+    },
+    {
+      "tela": "Leitos",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "leitos-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Painel",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Painel"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pacientes",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pacientes"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Leitos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Leitos"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Internações",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Internações"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Instituição ativa",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Instituição ativa"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Atualizar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Atualizar"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Cadastrar leito",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Cadastrar leito"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Categoria",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Categoria"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Estado",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Estado"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Bloquear: leito ENF-101",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Bloquear: leito ENF-101"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Ver internação",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Ver internação"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Bloquear: leito ENF-103",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Bloquear: leito ENF-103"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Ver internação",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Ver internação"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Bloquear: leito UTI-102",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Bloquear: leito UTI-102"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Concluir higienização: leito ISO-101",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Concluir higienização: leito ISO-101"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Bloquear: leito ISO-101",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Bloquear: leito ISO-101"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Desbloquear: leito PED-101",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Desbloquear: leito PED-101"
+        }
+      ]
+    },
+    {
+      "tela": "Leitos",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Internações",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "internacoes-celular.jpg"
+    },
+    {
+      "tela": "Internações",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "internacoes-tablet.jpg"
+    },
+    {
+      "tela": "Internações",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "internacoes-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Painel",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Painel"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pacientes",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pacientes"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Leitos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Leitos"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Internações",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Internações"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Instituição ativa",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Instituição ativa"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Atualizar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Atualizar"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "Atendimentos sem internaçãoChegadaPacienteSituação",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::Atendimentos sem internaçãoChegadaPacienteSituação"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Internar Elisa Moura Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Internar Elisa Moura Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Internar Fábio Nunes Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Internar Fábio Nunes Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Internar Bruno Alves Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Internar Bruno Alves Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Internar Diego Ramos Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Internar Diego Ramos Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Internar Gabriela Teixeira Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Internar Gabriela Teixeira Exemplo"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "InternadosLeitoPacienteInternado desdeSituaçãoAçõe",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::InternadosLeitoPacienteInternado desdeSituaçãoAçõe"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Transferir Heitor Campos Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Transferir Heitor Campos Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Dar alta a Heitor Campos Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Dar alta a Heitor Campos Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Transferir Carlos Mendes Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Transferir Carlos Mendes Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Dar alta a Carlos Mendes Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Dar alta a Carlos Mendes Exemplo"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "Pedidos de transferência recebidosPedido emPacient",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::Pedidos de transferência recebidosPedido emPacient"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "Pedidos de transferência enviadosPedido emPaciente",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::Pedidos de transferência enviadosPedido emPaciente"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Cancelar pedido de Heitor Campos Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Cancelar pedido de Heitor Campos Exemplo"
+        }
+      ]
+    },
+    {
+      "tela": "Internações",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Internações · diálogo de internar",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "internacoes-dialogo-de-internar-celular.jpg"
+    },
+    {
+      "tela": "Internações · diálogo de internar",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "internacoes-dialogo-de-internar-tablet.jpg"
+    },
+    {
+      "tela": "Internações · diálogo de internar",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "internacoes-dialogo-de-internar-computador.jpg",
+      "teclado": [
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Cancelar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Cancelar"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Internar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Internar"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Fechar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Fechar"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Leito",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Leito"
+        }
+      ]
+    },
+    {
+      "tela": "Internações · diálogo de internar",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Triagem",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "triagem-celular.jpg"
+    },
+    {
+      "tela": "Triagem",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "triagem-tablet.jpg"
+    },
+    {
+      "tela": "Triagem",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "triagem-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Painel",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Painel"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Triagem",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Triagem"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Atendimentos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Atendimentos"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Instituição ativa",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Instituição ativa"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Atualizar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Atualizar"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "Aguardando triagemChegadaPacienteMotivoSituaçãoAçõ",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::Aguardando triagemChegadaPacienteMotivoSituaçãoAçõ"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Triar Bruno Alves Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Triar Bruno Alves Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Histórico de Bruno Alves Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Histórico de Bruno Alves Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Triar Gabriela Teixeira Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Triar Gabriela Teixeira Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Histórico de Gabriela Teixeira Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Histórico de Gabriela Teixeira Exemplo"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "Fila de atendimentoPrioridadePacienteChegadaEspera",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::Fila de atendimentoPrioridadePacienteChegadaEspera"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Reclassificar Diego Ramos Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Reclassificar Diego Ramos Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Histórico de Diego Ramos Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Histórico de Diego Ramos Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Reclassificar Elisa Moura Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Reclassificar Elisa Moura Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Histórico de Elisa Moura Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Histórico de Elisa Moura Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Reclassificar Fábio Nunes Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Reclassificar Fábio Nunes Exemplo"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Histórico de Fábio Nunes Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Histórico de Fábio Nunes Exemplo"
+        }
+      ]
+    },
+    {
+      "tela": "Triagem",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Triagem · diálogo de triagem",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "triagem-dialogo-de-triagem-celular.jpg"
+    },
+    {
+      "tela": "Triagem · diálogo de triagem",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "triagem-dialogo-de-triagem-tablet.jpg"
+    },
+    {
+      "tela": "Triagem · diálogo de triagem",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "triagem-dialogo-de-triagem-computador.jpg",
+      "teclado": [
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "Pressão arterial (mmHg) (opcional)",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::Pressão arterial (mmHg) (opcional)"
+        },
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "Frequência cardíaca (bpm) (opcional)",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::Frequência cardíaca (bpm) (opcional)"
+        },
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "Frequência respiratória (irpm) (opcional)",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::Frequência respiratória (irpm) (opcional)"
+        },
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "Temperatura (°C) (opcional)",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::Temperatura (°C) (opcional)"
+        },
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "Saturação de oxigênio (%) (opcional)",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::Saturação de oxigênio (%) (opcional)"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Cancelar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Cancelar"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Registrar e pedir sugestão",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Registrar e pedir sugestão"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Fechar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Fechar"
+        },
+        {
+          "tag": "textarea",
+          "tipo": "",
+          "rotulo": "Sintomas",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "textarea::Sintomas"
+        }
+      ]
+    },
+    {
+      "tela": "Triagem · diálogo de triagem",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Atendimentos",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "atendimentos-celular.jpg"
+    },
+    {
+      "tela": "Atendimentos",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "atendimentos-tablet.jpg"
+    },
+    {
+      "tela": "Atendimentos",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "atendimentos-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Painel",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Painel"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Atendimentos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Atendimentos"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Instituição ativa",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Instituição ativa"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Atualizar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Atualizar"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "Em atendimentoPrioridadePacienteMotivoEm atendimen",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::Em atendimentoPrioridadePacienteMotivoEm atendimen"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Abrir Marina Costa Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Abrir Marina Costa Exemplo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Abrir Lucas Freitas Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Abrir Lucas Freitas Exemplo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Abrir Karen Lopes Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Abrir Karen Lopes Exemplo"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "Fila de atendimentoPrioridadePacienteEsperaAçãoVer",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::Fila de atendimentoPrioridadePacienteEsperaAçãoVer"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Atender Nelson Barros Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Atender Nelson Barros Exemplo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Atender Olívia Duarte Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Atender Olívia Duarte Exemplo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Atender Pedro Viana Exemplo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Atender Pedro Viana Exemplo"
+        }
+      ]
+    },
+    {
+      "tela": "Atendimentos",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Atendimento do paciente",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "atendimento-do-paciente-celular.jpg"
+    },
+    {
+      "tela": "Atendimento do paciente",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "atendimento-do-paciente-tablet.jpg"
+    },
+    {
+      "tela": "Atendimento do paciente",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "atendimento-do-paciente-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Painel",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Painel"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Atendimentos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Atendimentos"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Instituição ativa",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Instituição ativa"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Voltar para os atendimentos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Voltar para os atendimentos"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Encerrar atendimento",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Encerrar atendimento"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Gerar resumo do histórico",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Gerar resumo do histórico"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Tipo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Tipo"
+        },
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "Categoria da informação",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::Categoria da informação"
+        },
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "CID-10 (opcional)",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::CID-10 (opcional)"
+        },
+        {
+          "tag": "textarea",
+          "tipo": "",
+          "rotulo": "Registro",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "textarea::Registro"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Salvar registro",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Salvar registro"
+        }
+      ]
+    },
+    {
+      "tela": "Atendimento do paciente",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Painel do gestor",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "painel-do-gestor-celular.jpg"
+    },
+    {
+      "tela": "Painel do gestor",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "painel-do-gestor-tablet.jpg"
+    },
+    {
+      "tela": "Painel do gestor",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "painel-do-gestor-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Painel",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Painel"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Auditoria",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Auditoria"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Relatórios",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Relatórios"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Atualizar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Atualizar"
+        },
+        {
+          "tag": "input",
+          "tipo": "radio",
+          "rotulo": "Hospital Privado ExemploGestão da rede",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input:radio:Hospital Privado ExemploGestão da rede"
+        }
+      ]
+    },
+    {
+      "tela": "Painel do gestor",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Auditoria",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "auditoria-celular.jpg"
+    },
+    {
+      "tela": "Auditoria",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "auditoria-tablet.jpg"
+    },
+    {
+      "tela": "Auditoria",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "auditoria-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Painel",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Painel"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Auditoria",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Auditoria"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Relatórios",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Relatórios"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "Emergências aguardando análiseData e horaProfissio",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::Emergências aguardando análiseData e horaProfissio"
+        },
+        {
+          "tag": "input",
+          "tipo": "date",
+          "rotulo": "De",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input:date:De"
+        },
+        {
+          "tag": "input",
+          "tipo": "date",
+          "rotulo": "Até",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input:date:Até"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Instituição",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Instituição"
+        },
+        {
+          "tag": "input",
+          "tipo": "checkbox",
+          "rotulo": "Só emergências",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input:checkbox:Só emergências"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Aplicar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Aplicar"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "Registro de acessosData e horaProfissionalInstitui",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::Registro de acessosData e horaProfissionalInstitui"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Alertas",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Alertas"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Pareceres",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Pareceres"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "AlertasRegistrada emAcessoConclusãoDescriçãoNenhum",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::AlertasRegistrada emAcessoConclusãoDescriçãoNenhum"
+        }
+      ]
+    },
+    {
+      "tela": "Auditoria",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Relatórios",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "relatorios-celular.jpg"
+    },
+    {
+      "tela": "Relatórios",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "relatorios-tablet.jpg"
+    },
+    {
+      "tela": "Relatórios",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "relatorios-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Painel",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Painel"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Auditoria",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Auditoria"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Relatórios",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Relatórios"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Imprimir relatório",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Imprimir relatório"
+        },
+        {
+          "tag": "input",
+          "tipo": "date",
+          "rotulo": "De",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input:date:De"
+        },
+        {
+          "tag": "input",
+          "tipo": "date",
+          "rotulo": "Até",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input:date:Até"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Instituição",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Instituição"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Aplicar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Aplicar"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "Acessos por instituição, 23/10/2026 a 21/11/2026 ·",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::Acessos por instituição, 23/10/2026 a 21/11/2026 ·"
+        }
+      ]
+    },
+    {
+      "tela": "Relatórios",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Meu prontuário",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "meu-prontuario-celular.jpg"
+    },
+    {
+      "tela": "Meu prontuário",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "meu-prontuario-tablet.jpg"
+    },
+    {
+      "tela": "Meu prontuário",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "meu-prontuario-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Meu prontuário",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Meu prontuário"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Consentimentos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Consentimentos"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Restringir este registro",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Restringir este registro"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Restringir este registro",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Restringir este registro"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Restringir este registro",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Restringir este registro"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Restringir este registro",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Restringir este registro"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Gerenciar restrições",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Gerenciar restrições"
+        },
+        {
+          "tag": "div",
+          "tipo": "",
+          "rotulo": "Acessos ao seu prontuárioData e horaProfissionalIn",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "div::Acessos ao seu prontuárioData e horaProfissionalIn"
+        }
+      ]
+    },
+    {
+      "tela": "Meu prontuário",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    },
+    {
+      "tela": "Consentimentos",
+      "tamanho": "celular",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "consentimentos-celular.jpg"
+    },
+    {
+      "tela": "Consentimentos",
+      "tamanho": "tablet",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "consentimentos-tablet.jpg"
+    },
+    {
+      "tela": "Consentimentos",
+      "tamanho": "computador",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      },
+      "evidencia": "consentimentos-computador.jpg",
+      "teclado": [
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Pular para o conteúdo",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Pular para o conteúdo"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Meu prontuário",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Meu prontuário"
+        },
+        {
+          "tag": "a",
+          "tipo": "",
+          "rotulo": "Consentimentos",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "a::Consentimentos"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Sair",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Sair"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Revogar o compartilhamento",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Revogar o compartilhamento"
+        },
+        {
+          "tag": "summary",
+          "tipo": "",
+          "rotulo": "Histórico das suas decisões (1)",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "summary::Histórico das suas decisões (1)"
+        },
+        {
+          "tag": "input",
+          "tipo": "",
+          "rotulo": "Restringir uma categoria",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "input::Restringir uma categoria"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Restringir",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Restringir"
+        },
+        {
+          "tag": "button",
+          "tipo": "button",
+          "rotulo": "Encerrar restrição: Registro: Diagnóstico de 22/09",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:button:Encerrar restrição: Registro: Diagnóstico de 22/09"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "Instituição",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::Instituição"
+        },
+        {
+          "tag": "select",
+          "tipo": "",
+          "rotulo": "O que liberar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "select::O que liberar"
+        },
+        {
+          "tag": "button",
+          "tipo": "submit",
+          "rotulo": "Autorizar",
+          "focoVisivel": true,
+          "ocupaEspaco": true,
+          "inerte": false,
+          "chave": "button:submit:Autorizar"
+        }
+      ]
+    },
+    {
+      "tela": "Consentimentos",
+      "tamanho": "320px",
+      "violacoes": [],
+      "rolagemLateral": {
+        "pagina": false,
+        "largos": []
+      }
+    }
+  ]
+}
