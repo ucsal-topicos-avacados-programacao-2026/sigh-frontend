@@ -4,6 +4,8 @@ import { useSessao } from '@/auth/SessaoProvider'
 import { AppLayout } from '@/layout/AppLayout'
 import type { ComponentType } from 'react'
 import { EmConstrucao, Inicio, NaoEncontrada } from '@/paginas/comuns/PaginasComuns'
+import { Internacoes } from '@/paginas/administrativo/Internacoes'
+import { Leitos } from '@/paginas/administrativo/Leitos'
 import { Auditoria } from '@/paginas/auditor/Auditoria'
 import { Relatorios } from '@/paginas/auditor/Relatorios'
 import { Consentimentos } from '@/paginas/paciente/Consentimentos'
@@ -18,6 +20,8 @@ import { ITENS_DE_MENU } from '@/rotas'
 /** Telas já entregues, por caminho do menu. As outras mostram "Em construção" até o card delas. */
 const PAGINAS: Partial<Record<string, ComponentType>> = {
   '/pacientes': Pacientes,
+  '/leitos': Leitos,
+  '/internacoes': Internacoes,
   '/meu-prontuario': MeuProntuario,
   '/consentimentos': Consentimentos,
   '/auditoria': Auditoria,

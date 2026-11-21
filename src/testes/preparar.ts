@@ -1,6 +1,9 @@
 import '@testing-library/jest-dom/vitest'
-import { cleanup } from '@testing-library/react'
+import { cleanup, configure } from '@testing-library/react'
 import { afterEach } from 'vitest'
+
+// Com a suíte inteira rodando, a máquina fica carregada: 1 s (o padrão) de espera já falhou uma vez em 13 rodadas.
+configure({ asyncUtilTimeout: 3000 })
 
 afterEach(() => {
   cleanup()

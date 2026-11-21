@@ -126,3 +126,18 @@ Duas telas do perfil Auditor/Gestor de rede (RF-008, RF-011, RN-003, RN-006). O 
 - **Análises registradas** (`GET /auditoria/analises`): alertas e pareceres, cada um com o código do acesso analisado (os 8 primeiros caracteres do id, os mesmos mostrados no registro de acessos).
 
 **Relatórios** (`GET /auditoria/indicadores`): acessos e emergências por instituição no período, com os totais e a parte em emergência. O filtro de instituição é aplicado na tela. "Imprimir relatório" imprime só o relatório, sem o menu e o cabeçalho.
+
+## Leitos e internações (FE-04)
+
+Duas telas do Administrativo, sempre na instituição ativa (RF-005, RF-006). As duas se atualizam sozinhas a cada 30 segundos com a aba visível, e de novo depois de cada operação.
+
+**Leitos** (`GET /leitos`):
+- Mapa por categoria, com a contagem por estado (livre, ocupado, em higienização, bloqueado) e filtros de categoria e estado. O leito ocupado mostra o paciente.
+- Ações de estado que a API aceita: bloquear o livre, concluir a higienização, desbloquear. O ocupado só muda por internação, transferência ou alta.
+- Cadastrar leito (código, setor, categoria).
+
+**Internações:**
+- **Atendimentos sem internação** (`GET /internacoes/atendimentos-sem-leito`): atendimentos em aberto cujo paciente não está internado, na ordem de chegada. Sem leito livre na instituição, a lista vira "Fila de espera por leito".
+- **Internar:** só os leitos livres aparecem para escolher, agrupados por categoria.
+- **Internados** (`GET /internacoes`): transferir para outro leito livre da instituição (direto) ou pedir a transferência para outra instituição da rede, mostrando as vagas livres de lá na categoria; dar alta escolhendo o resumo de alta feito desde a admissão (sem resumo, a tela explica que a alta precisa dele).
+- **Pedidos recebidos:** aceitar escolhendo um leito livre da categoria pedida, ou recusar com motivo. **Pedidos enviados:** situação, motivo da recusa e cancelar o pendente.
