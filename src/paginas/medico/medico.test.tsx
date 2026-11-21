@@ -160,6 +160,21 @@ describe('FE-07: resumo por IA (RF-004)', () => {
     expect(chamadas.some((c) => c.chave === 'POST /resumos/s1/validacao')).toBe(true)
   })
 
+  it('o resumo em Markdown aparece formatado, sem os asteriscos (FE-10)', async () => {
+    const emMarkdown = { ...GERADO, texto: '**Alergias**\n- Alergia a **dipirona**, com urticária.\n- Sem outras.\n\n**Medicamentos em uso**\n- Salbutamol 100 mcg.' }
+    await abrirAtendimento('a1', {
+      'POST /atendimentos/a1/resumos': { status: 202, corpo: emMarkdown },
+      'GET /resumos/s1': { status: 200, corpo: emMarkdown },
+    })
+    const painel = await regiao('Resumo do histórico por IA')
+    await userEvent.click(within(painel).getByRole('button', { name: 'Gerar resumo do histórico' }))
+    expect(await within(painel).findByText('Alergias')).toBeInTheDocument()
+    expect(painel.textContent).not.toContain('**')
+    const listas = within(painel).getAllByRole('list')
+    expect(within(listas[0]!).getAllByRole('listitem').map((li) => li.textContent)).toEqual(['Alergia a dipirona, com urticária.', 'Sem outras.'])
+    expect(within(painel).getByText('dipirona').tagName).toBe('STRONG')
+  })
+
   it('a falha da IA não impede ler o prontuário original (critério de aceite)', async () => {
     await abrirAtendimento('a1', {
       'POST /atendimentos/a1/resumos': { status: 202, corpo: resumo({}) },
