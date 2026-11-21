@@ -21,7 +21,7 @@ export function TextoDaIA({ texto }: { texto: string }) {
         if (bloco.tipo === 'lista') {
           const Lista = bloco.ordenada ? 'ol' : 'ul'
           return (
-            <Lista key={i} className={`${bloco.ordenada ? 'list-decimal' : 'list-disc'} flex flex-col gap-1 pl-5`}>
+            <Lista key={i} start={bloco.inicio} className={`${bloco.ordenada ? 'list-decimal' : 'list-disc'} flex flex-col gap-1 pl-5`}>
               {bloco.itens.map((item, j) => (
                 <li key={j}>
                   <Trechos trechos={item} />
@@ -31,7 +31,7 @@ export function TextoDaIA({ texto }: { texto: string }) {
           )
         }
         return (
-          <p key={i}>
+          <p key={i} className="whitespace-pre-line">
             <Trechos trechos={bloco.trechos} />
           </p>
         )
