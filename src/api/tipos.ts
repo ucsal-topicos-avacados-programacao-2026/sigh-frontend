@@ -1,14 +1,15 @@
 /** Tipos que espelham os records da API (sigh-backend). Escritos à mão: a API não publica OpenAPI. */
 
-export type Perfil = 'PACIENTE' | 'ENFERMEIRO' | 'MEDICO' | 'ADMINISTRATIVO' | 'AUDITOR_GESTOR'
+export type Perfil = 'PACIENTE' | 'ENFERMEIRO' | 'MEDICO' | 'ADMINISTRATIVO' | 'RECEPCAO' | 'AUDITOR_GESTOR'
 
-export const PERFIS_DE_INSTITUICAO: readonly Perfil[] = ['ENFERMEIRO', 'MEDICO', 'ADMINISTRATIVO']
+export const PERFIS_DE_INSTITUICAO: readonly Perfil[] = ['ENFERMEIRO', 'MEDICO', 'ADMINISTRATIVO', 'RECEPCAO']
 
 export const NOME_DO_PERFIL: Record<Perfil, string> = {
   PACIENTE: 'Paciente',
   ENFERMEIRO: 'Enfermeiro',
   MEDICO: 'Médico',
   ADMINISTRATIVO: 'Administrativo',
+  RECEPCAO: 'Recepção',
   AUDITOR_GESTOR: 'Auditor/Gestor de rede',
 }
 
@@ -282,6 +283,23 @@ export interface Triagem {
   corSugerida: CorRisco | null
   corConfirmada: CorRisco | null
   confirmadaEm: string | null
+  sugestaoPreliminar: boolean
+  situacaoSugestao: SituacaoSugestao | null
+}
+
+export type SituacaoSugestao = 'EM_ANDAMENTO' | 'PRONTA' | 'INDISPONIVEL'
+
+export interface TriagemPendente {
+  id: string
+  sintomas: string
+  sinaisVitais: SinaisVitais | null
+  corSugerida: CorRisco | null
+  sugestaoPreliminar: boolean
+  situacaoSugestao: SituacaoSugestao | null
+}
+
+export interface PreClassificacao {
+  situacao: SituacaoSugestao | null
 }
 
 /** Paciente com classificação confirmada, na fila por prioridade (GET /triagens/fila). */
@@ -301,7 +319,7 @@ export interface AguardandoTriagem {
   paciente: string
   chegadaEm: string
   motivo: string
-  triagemPendente: { id: string; sintomas: string; corSugerida: CorRisco | null } | null
+  triagemPendente: TriagemPendente | null
 }
 
 /** Histórico visto pelo profissional no atendimento (GET /atendimentos/{id}/historico). */

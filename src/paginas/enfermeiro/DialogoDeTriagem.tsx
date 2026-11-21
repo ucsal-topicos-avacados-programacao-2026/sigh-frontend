@@ -1,9 +1,10 @@
 import { Sparkles } from 'lucide-react'
-import { useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { ErroApi, ErroDeConexao } from '@/api/cliente'
-import { confirmarRisco, registrarTriagem, sugerirRisco } from '@/api/triagem'
-import type { CorRisco } from '@/api/tipos'
+import { aguardandoTriagem, confirmarRisco, registrarSinaisVitais, registrarTriagem, sugerirRisco } from '@/api/triagem'
+import type { CorRisco, SituacaoSugestao, TriagemPendente } from '@/api/tipos'
 import { useEnvio } from '@/api/useEnvio'
+import { useSessao } from '@/auth/SessaoProvider'
 import { Alerta, RegiaoDeAlerta } from '@/componentes/Alerta'
 import { AvisoIA } from '@/componentes/AvisoIA'
 import { Botao } from '@/componentes/Botao'
@@ -16,13 +17,10 @@ import { SINAIS_VAZIOS, validarSinais, type CamposDosSinais, type ErrosDosSinais
 export interface PacienteATriar {
   atendimentoId: string
   paciente: string
-  /** Triagem registrada e não confirmada: retoma direto na classificação. */
-  pendente?: { id: string; corSugerida: CorRisco | null } | null
-  /** Paciente já na fila: uma nova classificação (o paciente piorou ou melhorou). */
+  pendente?: TriagemPendente | null
   reclassificacao?: boolean
 }
 
-/** Triagem com sugestão de IA e confirmação do enfermeiro (RF-003, RN-005, RN-008). */
 export function DialogoDeTriagem({ alvo, aoFechar, aoConfirmar }: {
   alvo: PacienteATriar | null
   aoFechar: () => void
@@ -38,6 +36,22 @@ export function DialogoDeTriagem({ alvo, aoFechar, aoConfirmar }: {
 }
 
 const MENSAGEM_IA_INDISPONIVEL = 'A sugestão por IA não está disponível agora. Classifique pelo protocolo e confirme: a triagem segue normalmente.'
+const INTERVALO_DA_SUGESTAO_MS = 3000
+const TENTATIVAS_DA_SUGESTAO = 40
+
+interface Sugestao {
+  id: string
+  corSugerida: CorRisco | null
+  preliminar: boolean
+  situacao: SituacaoSugestao | null
+}
+
+const deUmaPendente = (pendente: TriagemPendente): Sugestao => ({
+  id: pendente.id,
+  corSugerida: pendente.corSugerida,
+  preliminar: pendente.sugestaoPreliminar,
+  situacao: pendente.situacaoSugestao,
+})
 
 function Triagem({ alvo, aoConfirmar, aoFechar, aoMudarOcupado }: {
   alvo: PacienteATriar
@@ -45,10 +59,57 @@ function Triagem({ alvo, aoConfirmar, aoFechar, aoMudarOcupado }: {
   aoFechar: () => void
   aoMudarOcupado: (ocupado: boolean) => void
 }) {
-  const [triagem, setTriagem] = useState<{ id: string; corSugerida: CorRisco | null } | null>(alvo.pendente ?? null)
+  const { instituicaoAtiva } = useSessao()
+  const [triagem, setTriagem] = useState<Sugestao | null>(alvo.pendente ? deUmaPendente(alvo.pendente) : null)
   const [cor, setCor] = useState<CorRisco | ''>(alvo.pendente?.corSugerida ?? '')
-  const [iaFalhou, setIaFalhou] = useState<string>()
+  const [escolhaFeita, setEscolhaFeita] = useState(false)
+  const [iaFalhou, setIaFalhou] = useState<string | undefined>(alvo.pendente?.situacaoSugestao === 'INDISPONIVEL' ? MENSAGEM_IA_INDISPONIVEL : undefined)
   const [sugerindo, setSugerindo] = useState(false)
+  const [semSinais, setSemSinais] = useState(alvo.pendente ? alvo.pendente.sinaisVitais === null : false)
+  const ativo = useRef(true)
+
+  useEffect(() => {
+    ativo.current = true
+    return () => {
+      ativo.current = false
+    }
+  }, [])
+
+  function receber(sugestao: Sugestao) {
+    setTriagem(sugestao)
+    if (sugestao.situacao === 'INDISPONIVEL') setIaFalhou(MENSAGEM_IA_INDISPONIVEL)
+    else setIaFalhou(undefined)
+    const sugerida = sugestao.corSugerida
+    if (sugerida && !escolhaFeita) setCor(sugerida)
+  }
+
+  async function aguardarSugestao(atendimentoId: string) {
+    if (!instituicaoAtiva) return
+    setSugerindo(true)
+    try {
+      for (let tentativa = 0; tentativa < TENTATIVAS_DA_SUGESTAO && ativo.current; tentativa++) {
+        const lista = await aguardandoTriagem(instituicaoAtiva.instituicaoId)
+        const pendente = lista.find((a) => a.atendimentoId === atendimentoId)?.triagemPendente
+        if (!ativo.current) return
+        if (pendente && pendente.situacaoSugestao !== 'EM_ANDAMENTO') {
+          receber(deUmaPendente(pendente))
+          return
+        }
+        await new Promise((resolver) => window.setTimeout(resolver, INTERVALO_DA_SUGESTAO_MS))
+      }
+      if (ativo.current) setIaFalhou(MENSAGEM_IA_INDISPONIVEL)
+    } catch (falha) {
+      if (ativo.current && !(falha instanceof ErroApi && falha.status === 401)) setIaFalhou(MENSAGEM_IA_INDISPONIVEL)
+    } finally {
+      if (ativo.current) setSugerindo(false)
+    }
+  }
+
+  useEffect(() => {
+    if (alvo.pendente?.situacaoSugestao === 'EM_ANDAMENTO') void aguardarSugestao(alvo.atendimentoId)
+    // Só ao abrir: a espera por uma sugestão que a recepção já pediu.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function pedirSugestao(id: string) {
     setSugerindo(true)
@@ -56,12 +117,8 @@ function Triagem({ alvo, aoConfirmar, aoFechar, aoMudarOcupado }: {
     aoMudarOcupado(true)
     try {
       const resposta = await sugerirRisco(id)
-      setTriagem({ id, corSugerida: resposta.corSugerida })
-      // A sugestão só vem marcada se a enfermeira ainda não escolheu: a decisão é dela, e a IA nunca a troca.
-      const sugerida = resposta.corSugerida
-      if (sugerida) setCor((escolhida) => escolhida || sugerida)
+      receber({ id, corSugerida: resposta.corSugerida, preliminar: resposta.sugestaoPreliminar, situacao: resposta.situacaoSugestao })
     } catch (falha) {
-      // 503 (IA fora) ou rede: o enfermeiro classifica sozinho (RN-008). Outro erro: a mensagem da API.
       if (falha instanceof ErroDeConexao || (falha instanceof ErroApi && falha.status === 503)) setIaFalhou(MENSAGEM_IA_INDISPONIVEL)
       else if (falha instanceof ErroApi && falha.status !== 401) setIaFalhou(`${falha.message} Classifique pelo protocolo e confirme.`)
     } finally {
@@ -77,8 +134,24 @@ function Triagem({ alvo, aoConfirmar, aoFechar, aoMudarOcupado }: {
         aoCancelar={aoFechar}
         aoMudarOcupado={aoMudarOcupado}
         aoRegistrar={(id) => {
-          setTriagem({ id, corSugerida: null })
+          setTriagem({ id, corSugerida: null, preliminar: false, situacao: null })
           void pedirSugestao(id)
+        }}
+      />
+    )
+  }
+  if (semSinais && alvo.pendente) {
+    return (
+      <SinaisDaRecepcao
+        pendente={alvo.pendente}
+        aoCancelar={aoFechar}
+        aoPular={() => setSemSinais(false)}
+        aoMudarOcupado={aoMudarOcupado}
+        aoRegistrar={() => {
+          setSemSinais(false)
+          setIaFalhou(undefined)
+          setTriagem((atual) => (atual ? { ...atual, situacao: 'EM_ANDAMENTO' } : atual))
+          void aguardarSugestao(alvo.atendimentoId)
         }}
       />
     )
@@ -88,8 +161,12 @@ function Triagem({ alvo, aoConfirmar, aoFechar, aoMudarOcupado }: {
       alvo={alvo}
       triagemId={triagem.id}
       corSugerida={triagem.corSugerida}
+      preliminar={triagem.preliminar}
       cor={cor}
-      aoMudarCor={setCor}
+      aoMudarCor={(nova) => {
+        setCor(nova)
+        setEscolhaFeita(true)
+      }}
       sugerindo={sugerindo}
       iaFalhou={iaFalhou}
       aoPedirSugestao={() => void pedirSugestao(triagem.id)}
@@ -106,6 +183,91 @@ const ROTULOS: Record<keyof CamposDosSinais, { rotulo: string; ajuda?: string; m
   frequenciaRespiratoria: { rotulo: 'Frequência respiratória (irpm)', modo: 'numeric' },
   temperatura: { rotulo: 'Temperatura (°C)', modo: 'decimal' },
   saturacaoOxigenio: { rotulo: 'Saturação de oxigênio (%)', modo: 'decimal' },
+}
+
+function CamposDosSinaisVitais({ campos, erros, aoMudar }: {
+  campos: CamposDosSinais
+  erros: ErrosDosSinais
+  aoMudar: (campo: keyof CamposDosSinais, valor: string) => void
+}) {
+  return (
+    <fieldset className="grid gap-4 sm:grid-cols-2">
+      <legend className="mb-1 text-corpo font-medium text-corpo-alerta">Sinais vitais (o que foi medido)</legend>
+      {(Object.keys(ROTULOS) as (keyof CamposDosSinais)[]).map((campo) => (
+        <CampoTexto
+          key={campo}
+          rotulo={ROTULOS[campo].rotulo}
+          ajuda={ROTULOS[campo].ajuda}
+          inputMode={ROTULOS[campo].modo}
+          autoComplete="off"
+          value={campos[campo]}
+          onChange={(e) => aoMudar(campo, e.target.value)}
+          erro={erros[campo]}
+          opcional
+        />
+      ))}
+    </fieldset>
+  )
+}
+
+function SinaisDaRecepcao({ pendente, aoCancelar, aoPular, aoRegistrar, aoMudarOcupado }: {
+  pendente: TriagemPendente
+  aoCancelar: () => void
+  aoPular: () => void
+  aoRegistrar: () => void
+  aoMudarOcupado: (ocupado: boolean) => void
+}) {
+  const [campos, setCampos] = useState<CamposDosSinais>(SINAIS_VAZIOS)
+  const [erros, setErros] = useState<ErrosDosSinais>({})
+  const envio = useEnvio()
+
+  async function enviar(evento: FormEvent) {
+    evento.preventDefault()
+    const { erros: daValidacao, sinais } = validarSinais(campos)
+    setErros(daValidacao)
+    if (Object.values(daValidacao).some(Boolean)) return
+    aoMudarOcupado(true)
+    const ok = await envio.enviar(async () => {
+      await registrarSinaisVitais(pendente.id, sinais)
+    })
+    aoMudarOcupado(false)
+    if (ok) aoRegistrar()
+  }
+
+  return (
+    <form onSubmit={enviar} noValidate className="grid gap-5">
+      <div>
+        <p className="text-rotulo font-semibold text-texto-suave uppercase">Relato na recepção</p>
+        <p className="mt-1 text-corpo text-texto">{pendente.sintomas}</p>
+      </div>
+      <CamposDosSinaisVitais
+        campos={campos}
+        erros={erros}
+        aoMudar={(campo, valor) => {
+          setCampos((atuais) => ({ ...atuais, [campo]: valor }))
+          setErros((atuais) => ({ ...atuais, [campo]: undefined }))
+        }}
+      />
+      <RegiaoDeAlerta>
+        {envio.erro && (
+          <Alerta tom="erro" anunciar={false} titulo="Os sinais vitais não foram registrados">
+            {envio.erro}
+          </Alerta>
+        )}
+      </RegiaoDeAlerta>
+      <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+        <Botao variante="secundario" onClick={aoCancelar} disabled={envio.enviando}>
+          Cancelar
+        </Botao>
+        <Botao variante="secundario" onClick={aoPular} disabled={envio.enviando}>
+          Classificar sem registrar agora
+        </Botao>
+        <Botao type="submit" icone={Sparkles} carregando={envio.enviando} textoCarregando="Registrando…">
+          Registrar e atualizar a sugestão
+        </Botao>
+      </div>
+    </form>
+  )
 }
 
 function DadosDaTriagem({ alvo, aoCancelar, aoRegistrar, aoMudarOcupado }: {
@@ -147,25 +309,14 @@ function DadosDaTriagem({ alvo, aoCancelar, aoRegistrar, aoMudarOcupado }: {
         rows={3}
         erro={erros.sintomas}
       />
-      <fieldset className="grid gap-4 sm:grid-cols-2">
-        <legend className="mb-1 text-corpo font-medium text-corpo-alerta">Sinais vitais (o que foi medido)</legend>
-        {(Object.keys(ROTULOS) as (keyof CamposDosSinais)[]).map((campo) => (
-          <CampoTexto
-            key={campo}
-            rotulo={ROTULOS[campo].rotulo}
-            ajuda={ROTULOS[campo].ajuda}
-            inputMode={ROTULOS[campo].modo}
-            autoComplete="off"
-            value={campos[campo]}
-            onChange={(e) => {
-              setCampos((atuais) => ({ ...atuais, [campo]: e.target.value }))
-              setErros((atuais) => ({ ...atuais, [campo]: undefined }))
-            }}
-            erro={erros[campo]}
-            opcional
-          />
-        ))}
-      </fieldset>
+      <CamposDosSinaisVitais
+        campos={campos}
+        erros={erros}
+        aoMudar={(campo, valor) => {
+          setCampos((atuais) => ({ ...atuais, [campo]: valor }))
+          setErros((atuais) => ({ ...atuais, [campo]: undefined }))
+        }}
+      />
       <RegiaoDeAlerta>
         {envio.erro && (
           <Alerta tom="erro" anunciar={false} titulo="A triagem não foi registrada">
@@ -185,10 +336,11 @@ function DadosDaTriagem({ alvo, aoCancelar, aoRegistrar, aoMudarOcupado }: {
   )
 }
 
-function Classificacao({ alvo, triagemId, corSugerida, cor, aoMudarCor, sugerindo, iaFalhou, aoPedirSugestao, aoFechar, aoConfirmar, aoMudarOcupado }: {
+function Classificacao({ alvo, triagemId, corSugerida, preliminar, cor, aoMudarCor, sugerindo, iaFalhou, aoPedirSugestao, aoFechar, aoConfirmar, aoMudarOcupado }: {
   alvo: PacienteATriar
   triagemId: string
   corSugerida: CorRisco | null
+  preliminar: boolean
   cor: CorRisco | ''
   aoMudarCor: (cor: CorRisco) => void
   sugerindo: boolean
@@ -217,25 +369,33 @@ function Classificacao({ alvo, triagemId, corSugerida, cor, aoMudarCor, sugerind
     <form onSubmit={confirmar} noValidate className="grid gap-5">
       {sugerindo ? (
         <p role="status" className="text-corpo text-texto-suave">
-          Pedindo a sugestão à IA. Pode levar alguns segundos…
+          A IA está preparando a sugestão. Pode levar alguns segundos…
         </p>
       ) : corSugerida ? (
-        <AvisoIA aviso="Confira com os sinais e sintomas. A classificação só vale depois da sua confirmação.">
+        <AvisoIA aviso="Confira com os sinais e sintomas. A classificação só vale depois da sua confirmação, com um clique em Confirmar.">
           <p className="flex flex-wrap items-center gap-2">
-            Sugestão: <SeloRisco cor={corSugerida} />
+            {preliminar ? 'Sugestão preliminar (sem sinais vitais):' : 'Sugestão:'} <SeloRisco cor={corSugerida} />
           </p>
         </AvisoIA>
-      ) : iaFalhou ? (
+      ) : null}
+      {!sugerindo && iaFalhou && (
         <Alerta tom="atencao" titulo="Triagem sem sugestão da IA" acao={<Botao variante="secundario" onClick={aoPedirSugestao}>Tentar a sugestão de novo</Botao>}>
           {iaFalhou}
         </Alerta>
-      ) : (
+      )}
+      {!sugerindo && !iaFalhou && !corSugerida && (
         <div>
           <Botao variante="secundario" icone={Sparkles} onClick={aoPedirSugestao}>
             Pedir sugestão da IA
           </Botao>
         </div>
       )}
+      <div
+        role="presentation"
+        onKeyDown={(evento) => {
+          if (evento.key === 'Enter') evento.preventDefault()
+        }}
+      >
       <GrupoDeOpcoes
         legenda="Classificação de risco"
         nome="classificacao-de-risco"
@@ -247,6 +407,7 @@ function Classificacao({ alvo, triagemId, corSugerida, cor, aoMudarCor, sugerind
         opcoes={CORES_DE_RISCO.map((c) => ({ valor: c, rotulo: `${RISCO[c].cor} · ${RISCO[c].significado}`, descricao: c === corSugerida ? 'Sugestão da IA' : undefined }))}
         erro={erro}
       />
+      </div>
       {corSugerida && cor && cor !== corSugerida && (
         <p className="text-corpo text-texto">
           Você alterou a sugestão da IA: de {nomeDoRisco(corSugerida)} para {nomeDoRisco(cor)}.

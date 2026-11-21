@@ -14,7 +14,8 @@ describe('menu por perfil (FE-02: o perfil vê somente o menu permitido)', () =>
     ['paciente', ['PACIENTE'], ['Meu prontuário', 'Consentimentos']],
     ['enfermeiro', ['ENFERMEIRO'], ['Painel', 'Triagem', 'Atendimentos']],
     ['médico', ['MEDICO'], ['Painel', 'Atendimentos']],
-    ['administrativo', ['ADMINISTRATIVO'], ['Painel', 'Pacientes', 'Leitos', 'Internações']],
+    ['administrativo', ['ADMINISTRATIVO'], ['Painel', 'Leitos', 'Internações']],
+    ['recepção', ['RECEPCAO'], ['Pacientes']],
     ['auditor', ['AUDITOR_GESTOR'], ['Painel', 'Auditoria', 'Relatórios']],
   ]
 
@@ -113,7 +114,7 @@ describe('shell autenticado', () => {
   })
 
   it('só com o teclado: pular para o conteúdo, percorrer o menu e abrir uma tela', async () => {
-    renderizar('/pacientes', usuario(['ADMINISTRATIVO'], [{ ...HOSPITAL_A, perfis: ['ADMINISTRATIVO'] }]))
+    renderizar('/pacientes', usuario(['RECEPCAO', 'ADMINISTRATIVO'], [{ ...HOSPITAL_A, perfis: ['RECEPCAO', 'ADMINISTRATIVO'] }]))
     const titulo = await screen.findByRole('heading', { level: 1, name: 'Pacientes' })
     // A página leva o foco ao título ao abrir; espera isso acontecer para não cair no meio do Tab abaixo.
     await waitFor(() => expect(titulo).toHaveFocus())
@@ -137,7 +138,7 @@ describe('shell autenticado', () => {
   })
 
   it('sem violações de acessibilidade', async () => {
-    const { container } = renderizar('/pacientes', usuario(['ADMINISTRATIVO'], [{ ...HOSPITAL_A, perfis: ['ADMINISTRATIVO'] }]))
+    const { container } = renderizar('/pacientes', usuario(['RECEPCAO'], [{ ...HOSPITAL_A, perfis: ['RECEPCAO'] }]))
     await screen.findByRole('heading', { level: 1, name: 'Pacientes' })
     expect(await violacoesDeAcessibilidade(container)).toEqual([])
   })
