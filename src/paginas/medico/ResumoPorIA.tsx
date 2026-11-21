@@ -9,6 +9,7 @@ import { AvisoIA } from '@/componentes/AvisoIA'
 import { Botao } from '@/componentes/Botao'
 import { Etiqueta } from '@/componentes/Etiqueta'
 import { Painel } from '@/componentes/Painel'
+import { TextoDaIA } from '@/componentes/TextoDaIA'
 import { consultaDoResumo } from '@/paginas/medico/consultaDoResumo'
 import { formatarDataHora } from '@/util/datas'
 
@@ -137,7 +138,7 @@ export function ResumoPorIA({ atendimentoId, aoMudarOrigem }: { atendimentoId: s
             aviso={resumo.aviso}
             metadado={[resumo.geradoEm && `Gerado em ${formatarDataHora(resumo.geradoEm)}`, resumo.modeloVersao && `modelo ${resumo.modeloVersao}`].filter(Boolean).join(' · ')}
           >
-            <p className="whitespace-pre-line">{resumo.texto}</p>
+            <TextoDaIA texto={resumo.texto} />
             <p className="mt-3 text-texto-suave">
               {resumo.registrosDeOrigem.length === 1
                 ? 'Usou 1 registro do prontuário, marcado abaixo como "Usado no resumo".'
