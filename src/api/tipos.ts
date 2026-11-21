@@ -311,3 +311,40 @@ export interface HistoricoDoAtendimento {
   possuiInformacoesRestritas: boolean
   acessoDeEmergencia: boolean
 }
+
+/** Atendimento em andamento com o médico (GET /atendimentos/em-andamento). */
+export interface AtendimentoEmAndamento {
+  atendimentoId: string
+  paciente: string
+  motivo: string
+  chegadaEm: string
+  inicioClinicoEm: string
+  corConfirmada: CorRisco | null
+  medicoResponsavel: string | null
+  /** O médico responsável é quem está logado. */
+  doUsuarioLogado: boolean
+}
+
+export interface RegistroClinicoRequisicao {
+  tipo: TipoRegistro
+  conteudo: string
+  categoriaInformacao: string
+  codigoCID10?: string
+}
+
+export type StatusResumo = 'SOLICITADO' | 'GERADO' | 'VALIDADO' | 'FALHOU'
+
+/** Resumo do histórico gerado por IA (RF-004). */
+export interface ResumoIA {
+  id: string
+  atendimentoId: string
+  status: StatusResumo
+  /** null enquanto gera, se falhou, ou se ficou oculto por restrição posterior. */
+  texto: string | null
+  geradoEm: string | null
+  modeloVersao: string | null
+  /** Registros do prontuário que a IA usou: os originais para conferir. */
+  registrosDeOrigem: string[]
+  /** Texto da API sobre o estado do resumo, sempre exibido. */
+  aviso: string
+}

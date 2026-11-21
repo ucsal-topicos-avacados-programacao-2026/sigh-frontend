@@ -27,7 +27,15 @@ export function useConsulta<T>(buscar: ((sinal: AbortSignal) => Promise<T>) | nu
     if (!atual) return
     const controle = new AbortController()
     setEstado((anterior) => ({ dados: anterior.dados, carregando: true }))
-    atual(controle.signal).then(
+    // Começa no próximo microtask: no StrictMode o React monta, desmonta e monta de novo na mesma passada, e o pedido
+    // da primeira montagem é cancelado antes de sair. Sem isso, ele chegaria à API (e uma consulta ao histórico vira
+    // um acesso na auditoria).
+    Promise.resolve()
+      .then(() => {
+        if (controle.signal.aborted) throw new DOMException('cancelada', 'AbortError')
+        return atual(controle.signal)
+      })
+      .then(
       (dados) => {
         if (!controle.signal.aborted) setEstado({ dados, carregando: false })
       },
