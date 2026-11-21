@@ -348,3 +348,29 @@ export interface ResumoIA {
   /** Texto da API sobre o estado do resumo, sempre exibido. */
   aviso: string
 }
+
+export type TipoInstituicao = 'PUBLICA' | 'PRIVADA'
+
+/** Números da instituição agora (GET /painel). Só contagens e tempos: nenhum dado de paciente. */
+export interface PainelDaInstituicao {
+  instituicaoId: string
+  instituicaoNome: string
+  tipo: TipoInstituicao
+  /** Hora da rede em que os números foram contados. */
+  geradoEm: string
+  /** Só as combinações de categoria e situação que existem. */
+  leitos: { categoria: CategoriaLeito; status: StatusLeito; quantidade: number }[]
+  aguardandoTriagem: { quantidade: number; maiorEsperaMinutos: number | null }
+  /** As cinco cores, da mais grave para a menos grave. */
+  fila: {
+    cor: CorRisco
+    quantidade: number
+    maiorEsperaMinutos: number | null
+    tempoMaximoMinutos: number
+    acimaDoTempoMaximo: number
+  }[]
+  emAtendimento: number
+  internados: number
+  chegadasHoje: number
+  transferencias: { recebidas: number; enviadas: number }
+}

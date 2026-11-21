@@ -14,6 +14,7 @@ import { Relatorios } from '@/paginas/auditor/Relatorios'
 import { Consentimentos } from '@/paginas/paciente/Consentimentos'
 import { MeuProntuario } from '@/paginas/paciente/MeuProntuario'
 import { Pacientes } from '@/paginas/pacientes/Pacientes'
+import { PainelDosHospitais } from '@/paginas/painel/PainelDosHospitais'
 import { PacienteAtivoProvider } from '@/paciente/PacienteAtivo'
 import { CadastrarSegundoFator } from '@/paginas/publicas/CadastrarSegundoFator'
 import { Entrar } from '@/paginas/publicas/Entrar'
@@ -22,6 +23,7 @@ import { ITENS_DE_MENU } from '@/rotas'
 
 /** Telas já entregues, por caminho do menu. As outras mostram "Em construção" até o card delas. */
 const PAGINAS: Partial<Record<string, ComponentType>> = {
+  '/painel': PainelDosHospitais,
   '/pacientes': Pacientes,
   '/leitos': Leitos,
   '/internacoes': Internacoes,
