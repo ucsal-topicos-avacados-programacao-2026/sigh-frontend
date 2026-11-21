@@ -180,7 +180,7 @@ export function AppLayout() {
         role={!desktop && menuAberto ? 'dialog' : 'region'}
         aria-modal={!desktop && menuAberto ? true : undefined}
         aria-label={!desktop && menuAberto ? 'Menu principal' : 'Menu lateral'}
-        className={`superficie-escura fixed inset-y-0 left-0 z-30 flex w-lateral flex-col bg-lateral transition-transform duration-200 ${
+        className={`superficie-escura fixed inset-y-0 left-0 z-30 flex w-lateral flex-col bg-lateral transition-transform duration-200 print:hidden ${
           lateralVisivel ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -237,8 +237,8 @@ export function AppLayout() {
       </div>
 
       {/* Com a gaveta aberta, o resto da página fica inerte: o foco não escapa dela (WCAG 2.4.3). */}
-      <div inert={menuAberto} className="min-h-screen lg:ml-lateral">
-        <header className="sticky top-0 z-20 flex h-topbar-movel items-center justify-between gap-3 border-b border-[#e9edf2] bg-superficie px-3 sm:h-topbar sm:px-6 lg:px-8">
+      <div inert={menuAberto} className="min-h-screen lg:ml-lateral print:ml-0">
+        <header className="sticky top-0 z-20 flex print:hidden h-topbar-movel items-center justify-between gap-3 border-b border-[#e9edf2] bg-superficie px-3 sm:h-topbar sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-2 sm:gap-4">
             {!desktop && (
               <BotaoIcone

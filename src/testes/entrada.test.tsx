@@ -119,8 +119,10 @@ describe('segundo fator', () => {
       'POST /auth/segundo-fator/cadastro': { status: 401 },
     })
     await entrarCom('medico.teste', 'senha')
-    expect(await screen.findByRole('heading', { level: 1, name: 'Entre na sua conta' })).toBeInTheDocument()
-    expect(screen.getByText(/tempo para confirmar o segundo fator acabou/).closest('[role="alert"]')).not.toBeNull()
+    // O teste começa no login: esperar o título não prova a volta. Espera o aviso, que só aparece depois dela.
+    const aviso = await screen.findByText(/tempo para confirmar o segundo fator acabou/)
+    expect(aviso.closest('[role="alert"]')).not.toBeNull()
+    expect(screen.getByRole('heading', { level: 1, name: 'Entre na sua conta' })).toBeInTheDocument()
   })
 
   it('falha de rede ao confirmar o código: alerta acima do botão, e o campo fica sem erro', async () => {
