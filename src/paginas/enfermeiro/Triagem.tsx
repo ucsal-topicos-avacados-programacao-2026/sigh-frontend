@@ -88,7 +88,8 @@ function PainelDaTriagem({ instituicao }: { instituicao: VinculoAtivo }) {
             <Botao
               icone={ClipboardPlus}
               onClick={() => setATriar({ atendimentoId: a.atendimentoId, paciente: a.paciente, pendente: a.triagemPendente })}
-              aria-label={`${a.triagemPendente ? 'Continuar a triagem de' : 'Triar'} ${a.paciente}`}
+              // O nome acessível começa pelo texto visível (WCAG 2.5.3): quem fala "Continuar triagem" aciona o botão.
+              aria-label={`${a.triagemPendente ? 'Continuar triagem de' : 'Triar'} ${a.paciente}`}
             >
               {a.triagemPendente ? 'Continuar triagem' : 'Triar'}
             </Botao>
