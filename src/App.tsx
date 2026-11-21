@@ -7,6 +7,7 @@ import { EmConstrucao, Inicio, NaoEncontrada } from '@/paginas/comuns/PaginasCom
 import { Internacoes } from '@/paginas/administrativo/Internacoes'
 import { Leitos } from '@/paginas/administrativo/Leitos'
 import { Auditoria } from '@/paginas/auditor/Auditoria'
+import { Triagem } from '@/paginas/enfermeiro/Triagem'
 import { Relatorios } from '@/paginas/auditor/Relatorios'
 import { Consentimentos } from '@/paginas/paciente/Consentimentos'
 import { MeuProntuario } from '@/paginas/paciente/MeuProntuario'
@@ -22,6 +23,7 @@ const PAGINAS: Partial<Record<string, ComponentType>> = {
   '/pacientes': Pacientes,
   '/leitos': Leitos,
   '/internacoes': Internacoes,
+  '/triagem': Triagem,
   '/meu-prontuario': MeuProntuario,
   '/consentimentos': Consentimentos,
   '/auditoria': Auditoria,
