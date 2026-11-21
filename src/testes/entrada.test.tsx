@@ -22,7 +22,7 @@ describe('login', () => {
       'GET /usuarios/eu': { status: 200, corpo: usuario(['ADMINISTRATIVO'], [{ ...HOSPITAL_A, perfis: ['ADMINISTRATIVO'] }]) },
     })
     await entrarCom('adm', 'senha-ficticia')
-    expect(await screen.findByRole('heading', { level: 1, name: 'Pacientes' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { level: 1, name: 'Painel' })).toBeInTheDocument()
     expect(chamadas[0]).toMatchObject({ chave: 'POST /auth/login', corpo: { login: 'adm', senha: 'senha-ficticia' } })
     expect(window.sessionStorage.getItem('sigh.token')).not.toBeNull()
   })
@@ -85,7 +85,7 @@ describe('segundo fator', () => {
 
     await userEvent.type(codigo, '123456')
     await userEvent.click(screen.getByRole('button', { name: 'Confirmar código' }))
-    expect(await screen.findByRole('heading', { level: 1, name: 'Atendimentos' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { level: 1, name: 'Painel' })).toBeInTheDocument()
     expect(chamadas.find((c) => c.chave === 'POST /auth/segundo-fator/validacao')?.autorizacao).toBe(`Bearer ${PENDENTE}`)
     expect(window.sessionStorage.getItem('sigh.token')).toBe(ACESSO)
   })
@@ -159,7 +159,7 @@ describe('segundo fator', () => {
 
     await userEvent.type(screen.getByLabelText('Código de 6 dígitos'), '123456')
     await userEvent.click(screen.getByRole('button', { name: 'Ativar segundo fator' }))
-    expect(await screen.findByRole('heading', { level: 1, name: 'Atendimentos' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { level: 1, name: 'Painel' })).toBeInTheDocument()
   })
 
   it('cadastro já feito: oferece ir para a confirmação do código', async () => {

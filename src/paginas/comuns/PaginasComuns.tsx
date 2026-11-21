@@ -4,6 +4,7 @@ import { useSessao } from '@/auth/SessaoProvider'
 import { Alerta } from '@/componentes/Alerta'
 import { TituloPagina } from '@/componentes/TituloPagina'
 import { useInicio } from '@/paginas/comuns/useInicio'
+import { PilhaDeHospitais } from '@/paginas/painel/PilhaDeHospitais'
 import type { ItemDeMenu } from '@/rotas'
 
 const LINK_PRIMARIO =
@@ -12,16 +13,26 @@ const LINK_PRIMARIO =
 /** "/": vai para a primeira tela do menu; sem nenhuma, explica por quê. */
 export function Inicio() {
   const inicio = useInicio()
-  const { vinculos, instituicaoAtiva, usuario } = useSessao()
+  const { vinculos, instituicaoAtiva, usuario, escolherInstituicao } = useSessao()
   if (inicio) return <Navigate to={inicio} replace />
   const profissional = usuario?.perfis.some((perfil) => perfil !== 'PACIENTE' && perfil !== 'AUDITOR_GESTOR')
   return (
     <>
       <TituloPagina titulo="Início" />
       {profissional && vinculos.length > 1 && !instituicaoAtiva ? (
-        <Alerta tom="info" anunciar={false} titulo="Escolha a instituição">
-          Você tem vínculo com mais de uma instituição. Escolha no topo da página em qual vai trabalhar agora.
-        </Alerta>
+        <div className="mt-6 grid max-w-3xl gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] sm:items-start">
+          <Alerta tom="info" anunciar={false} titulo="Escolha a instituição">
+            Você tem vínculo com mais de uma instituição. Escolha um cartão, ou use o topo da página, para dizer em qual vai
+            trabalhar agora.
+          </Alerta>
+          <PilhaDeHospitais
+            hospitais={vinculos.map((v) => ({ id: v.instituicaoId, nome: v.instituicaoNome, perfis: v.perfis }))}
+            selecionado={null}
+            aoEscolher={escolherInstituicao}
+            gestor={false}
+            modo="botoes"
+          />
+        </div>
       ) : (
         <Alerta tom="atencao" anunciar={false} titulo="Nenhuma área disponível">
           Você não tem vínculo ativo com nenhuma instituição. Fale com a administração da sua instituição.

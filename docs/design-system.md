@@ -174,6 +174,7 @@ Fonte: **Plus Jakarta Sans** (Google Fonts), embutida no app pelo pacote `@fonts
 | `text-titulo-secao` | 20 | 1.25 | 28px | 600 | Título de diálogo, campo do código de 6 dígitos |
 | `text-titulo-pagina` | 24 | 1.5 | 32px | 600 | h1 da página e do cartão de login (era 25–27px) |
 | `text-indicador` | 28 | 1.75 | 36px | 600 | Valor do cartão de indicador (era 26px) |
+| `text-numero-principal` | 48 | 3 | 48px | 600 | Número principal de um bloco do painel (FE-09), como a taxa de ocupação |
 
 Campos de texto ficam com **16px abaixo de 640px**: o Safari do iOS aplica zoom ao focar campo com menos de 16px.
 
@@ -636,6 +637,16 @@ Grupo sem nenhum item visível não aparece. As telas de cada item são de outro
 
 ---
 
+### 2.14 Painel por hospital (FE-09)
+
+Grade de blocos (`sm`: 2 colunas, `lg`: 4), cada um com o contêiner do painel (borda `--color-borda`, raio 6px, fundo branco, `padding` 16/20px) e o título em 14px peso 600 `--color-texto-medio`. Só número real da API.
+
+- **Pilha de hospitais:** cartões de 128px de altura, raio 8px, texto branco. O fundo é uma foto genérica de hospital (`src/assets/hospitais/`, decorativa, `aria-hidden`) com um véu sólido por cima, sem gradiente: `--color-primaria`, `--color-primaria-hover`, `--color-veu-verde` (`#115e59`) ou `--color-lateral`, a 80%. Com o véu a 80%, o branco tem pelo menos 4,67:1 mesmo sobre o pixel mais claro da foto (o pior caso é o verde-azulado); sem a foto, fica a cor sólida. Foto e cor vêm da posição do hospital na lista (`aparenciaDoCartao`), para não mudarem com a escolha: a foto troca a cada cartão e a cor anda um passo a mais a cada volta das 4 fotos, então os 16 primeiros hospitais têm combinações diferentes. Quando a instituição tiver foto própria na API, ela deve substituir a genérica.
+- **Fotos (Licença Unsplash, uso livre sem atribuição obrigatória; o crédito fica aqui):** `hospital-1.jpg` e `hospital-2.jpg`, de LEDC ([aYvI1HC7wM0](https://unsplash.com/photos/aYvI1HC7wM0) e [RYGYueour3Q](https://unsplash.com/photos/RYGYueour3Q)), recortadas por cima para tirar a placa com o nome do hospital; `hospital-3.jpg`, de LEDC ([JtHwupBN3to](https://unsplash.com/photos/JtHwupBN3to)); `hospital-4.jpg`, de Tasha Kostyuk ([Pk-KuizxQv8](https://unsplash.com/photos/Pk-KuizxQv8)). Nenhuma mostra pessoa nem nome de hospital legível. Os de trás aparecem 44px acima do da frente (o alvo de toque) e ficam 4% menores por nível, até 92%, para o nome não passar de 12px para menos. O texto do cartão é branco puro (com transparência, o de 12px cai abaixo de 4,5:1 no `--color-acento-texto`). No Painel, cada cartão é um `<label>` com um rádio escondido (`sr-only`) num `<fieldset>` com a legenda "Hospital do painel", e as setas trocam de hospital; o foco aparece no cartão (contorno de 2px `--color-foco`). No Início, sem instituição escolhida, os cartões são botões: escolher leva ao Painel, então a seta não pode escolher (WCAG 3.2.2). A troca anima `top` e `transform` em 500ms, e some com `prefers-reduced-motion`.
+- **Barra de ocupação:** barra segmentada de 28px, partes separadas por 2px, cantos de 4px, na ordem Ocupado (`--color-info`), Livre (`--color-sucesso`), Em higienização (`--color-atencao`) e Bloqueado (`--color-neutro`), com o cinza longe do verde. A parte com 12% ou mais mostra a porcentagem em branco. A barra tem nome acessível com cada situação, a quantidade e a parte; a legenda repete os nomes e as quantidades. O cinza do bloqueado está abaixo do piso de croma de propósito (leito fora de uso) e nunca aparece sem o texto.
+- **Fila por cor:** uma linha por cor com o selo de risco, a barra de 8px na cor do risco sobre o trilho `--color-superficie-desabilitada`, a quantidade e, abaixo, a maior espera, o tempo máximo e a etiqueta de erro "N acima do máximo".
+- **Números:** `<dl>` com o rótulo à esquerda e o valor em 20px peso 600 à direita.
+
 ## 3. Layouts das telas do FE-02
 
 ### 3.1 Fluxo de entrada (o que o back-end devolve)
@@ -805,7 +816,7 @@ Dentro do shell (o usuário está autenticado; o menu continua disponível).
 
 | Item do protótipo | Onde está | Motivo | No lugar |
 |---|---|---|---|
-| Item de menu "Dashboard" e as cinco variações de painel inicial por perfil | `navigation`, `Dashboard`, `*Overview` | Todos os números e listas são fixos no código | Rota inicial = primeiro item do menu do perfil |
+| Item de menu "Dashboard" e as cinco variações de painel inicial por perfil | `navigation`, `Dashboard`, `*Overview` | Todos os números e listas são fixos no código | Rota inicial = primeiro item do menu do perfil. Desde o FE-09, o primeiro item do médico, do enfermeiro, do administrativo e do gestor é o Painel, com números reais de `GET /painel` (seção 2.14) |
 | Cartões de indicador com valores (24.892 pacientes, 148 atendimentos, 98,6% de conformidade, "18 min" de espera etc.) e a tendência "vs. mês anterior" | `Dashboard` (`metrics`), `Leitos`, `Auditoria` | Valores inventados; não existe comparação mensal no back-end | Só o componente (2.6). O único indicador real é `GET /auditoria/indicadores` (total de acessos e acessos emergenciais por instituição), para o card do Auditor |
 | Gráficos "Ocupação de leitos", "Leitos por categoria" (428 leitos totais), "Acessos por período" e a dependência `recharts` | `occupancy`, `riskDistribution`, `AuditOverview` | Séries fixas no código | Nada no FE-02 |
 | Feed "Atividades recentes" e o botão "Mais atividades" | `ActivityList` | Eventos fixos; não há endpoint de feed | Nada |

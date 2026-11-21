@@ -14,6 +14,7 @@
   --text-titulo-secao: 1.25rem;    --text-titulo-secao--line-height: 1.75rem;
   --text-titulo-pagina: 1.5rem;    --text-titulo-pagina--line-height: 2rem;
   --text-indicador: 1.75rem;       --text-indicador--line-height: 2.25rem;
+  --text-numero-principal: 3rem;   --text-numero-principal--line-height: 3rem;
 
   --color-fundo: #f4f6f8;
   --color-superficie: #ffffff;
@@ -47,6 +48,8 @@
   --color-lateral-texto: #c2cedb;
   --color-lateral-texto-suave: #9fb0c3;
   --color-lateral-icone-ativo: #55d6c3;
+  /* Véu verde-azulado dos cartões de hospital (FE-09): a 80% sobre a foto, branco com 4,67:1 no pior pixel. */
+  --color-veu-verde: #115e59;
 
   --color-info: #1d4ed8;     --color-info-fundo: #eff6ff;     --color-info-borda: #bfdbfe;
   --color-sucesso: #047857;  --color-sucesso-fundo: #ecfdf5;  --color-sucesso-borda: #a7f3d0;
