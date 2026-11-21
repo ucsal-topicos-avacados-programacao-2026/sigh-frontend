@@ -262,3 +262,52 @@ export interface SolicitacaoTransferencia {
   leitoDestinoId: string | null
   motivoRecusa: string | null
 }
+
+export type CorRisco = 'VERMELHO' | 'LARANJA' | 'AMARELO' | 'VERDE' | 'AZUL'
+
+/** Todos opcionais na API; a pressão vai como "120/80". */
+export interface SinaisVitais {
+  pressaoArterial?: string
+  frequenciaCardiaca?: number
+  frequenciaRespiratoria?: number
+  temperatura?: number
+  saturacaoOxigenio?: number
+}
+
+export interface Triagem {
+  id: string
+  atendimentoId: string
+  sintomas: string
+  sinaisVitais: SinaisVitais | null
+  corSugerida: CorRisco | null
+  corConfirmada: CorRisco | null
+  confirmadaEm: string | null
+}
+
+/** Paciente com classificação confirmada, na fila por prioridade (GET /triagens/fila). */
+export interface PacienteNaFila {
+  triagemId: string
+  atendimentoId: string
+  pacienteNome: string
+  corConfirmada: CorRisco
+  chegadaEm: string
+  minutosDeEspera: number
+  tempoMaximoExcedido: boolean
+}
+
+/** Atendimento sem classificação confirmada (GET /triagens/aguardando). */
+export interface AguardandoTriagem {
+  atendimentoId: string
+  paciente: string
+  chegadaEm: string
+  motivo: string
+  triagemPendente: { id: string; sintomas: string; corSugerida: CorRisco | null } | null
+}
+
+/** Histórico visto pelo profissional no atendimento (GET /atendimentos/{id}/historico). */
+export interface HistoricoDoAtendimento {
+  registros: RegistroDoHistorico[]
+  /** Há registros escondidos pela restrição do paciente, que só o acesso de emergência mostra. */
+  possuiInformacoesRestritas: boolean
+  acessoDeEmergencia: boolean
+}
