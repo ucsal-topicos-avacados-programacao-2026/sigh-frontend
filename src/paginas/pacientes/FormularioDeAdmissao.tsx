@@ -6,7 +6,7 @@ import type { AdmissaoResposta, ManifestacaoInicial } from '@/api/tipos'
 import { Alerta, RegiaoDeAlerta } from '@/componentes/Alerta'
 import { Botao } from '@/componentes/Botao'
 import { AreaDeTexto, CampoTexto, GrupoDeOpcoes, type OpcaoDoGrupo } from '@/componentes/Campo'
-import { hojeIso } from '@/paginas/pacientes/datas'
+import { hojeIso } from '@/util/datas'
 import { mensagemDoErro } from '@/paginas/pacientes/mensagens'
 
 const LIMITE_NOME = 150

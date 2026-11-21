@@ -12,12 +12,12 @@ export type Rotas = Record<string, Resposta | ((corpo: unknown) => Resposta)>
 
 /** fetch simulado: a chave é "MÉTODO /caminho" (sem a URL base nem os parâmetros). */
 export function simularApi(rotas: Rotas) {
-  const chamadas: { chave: string; corpo: unknown; autorizacao?: string }[] = []
+  const chamadas: { chave: string; corpo: unknown; autorizacao?: string; url: string }[] = []
   const simulado = vi.fn(async (url: string, init: RequestInit = {}) => {
     const caminho = new URL(url, 'http://localhost').pathname
     const chave = `${init.method ?? 'GET'} ${caminho}`
     const corpo = init.body ? JSON.parse(String(init.body)) : undefined
-    chamadas.push({ chave, corpo, autorizacao: (init.headers as Record<string, string>)?.Authorization })
+    chamadas.push({ chave, corpo, autorizacao: (init.headers as Record<string, string>)?.Authorization, url })
     const rota = rotas[chave]
     if (!rota) return new Response(JSON.stringify({ detail: `sem rota simulada: ${chave}` }), { status: 404 })
     const { status, corpo: resposta } = typeof rota === 'function' ? rota(corpo) : rota

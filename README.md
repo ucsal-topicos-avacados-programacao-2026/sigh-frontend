@@ -99,3 +99,18 @@ Tela do Administrativo para receber o paciente na instituição ativa (RF-001, R
 4. **CPF cadastrado por outra recepção ao mesmo tempo:** a API abre o atendimento no prontuário existente, e a tela avisa que os dados digitados não foram usados.
 
 Trocar a instituição ativa recomeça a tela. Erros de campo da API aparecem no próprio campo; 403, 409 e falhas de rede aparecem num alerta.
+
+## Paciente (FE-05)
+
+Duas telas do perfil Paciente, também para o representante legal (RF-002, RF-008, RF-009, RN-007).
+
+**De quem são os dados:** `GET /api/pacientes/gerenciados` traz o próprio cadastro e os representados. Com mais de um, a página mostra o seletor "Dados de"; a escolha fica só em memória. Se o acesso não está ligado a um cadastro de paciente, a tela diz isso.
+
+**Meu prontuário:**
+- **Histórico na rede:** cada registro com tipo, data, instituição, categoria, CID e se está restrito. "Restringir este registro" explica o efeito antes de confirmar.
+- **Quem acessou:** profissional, perfil, instituição, data e finalidade, com os acessos de emergência marcados, de 10 em 10.
+
+**Consentimentos:**
+- **Compartilhamento na rede:** a situação atual e o que ela significa. Autorizar e revogar pedem confirmação, com o efeito escrito. Na revogação: quem já atendeu o paciente continua vendo o histórico, e as outras instituições deixam de ver, a não ser numa emergência (RN-007).
+- **Informações restritas:** restringir uma categoria (com as categorias do histórico como sugestão) e encerrar restrições. Uma informação restrita não aparece para nenhuma instituição, nem a que fez o registro, a não ser com autorização adicional ou numa emergência.
+- **Autorizações adicionais:** liberar algo restrito para uma instituição credenciada (`GET /api/instituicoes`) e revogar. A autorização só faz efeito onde o compartilhamento vale (autorizado; ou, revogado, nas instituições que já tinham atendido) ou na instituição que fez o registro; sem o compartilhamento autorizado, a tela avisa isso.

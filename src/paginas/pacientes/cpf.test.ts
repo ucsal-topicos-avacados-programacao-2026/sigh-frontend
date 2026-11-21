@@ -1,5 +1,5 @@
 import { cpfValido, erroDoCpf, mascararCpf, somenteDigitos } from '@/paginas/pacientes/cpf'
-import { formatarData, hojeIso, idade } from '@/paginas/pacientes/datas'
+import { formatarData, hojeIso, idade } from '@/util/datas'
 
 describe('CPF (mesma regra do Cpf.ehValido da API)', () => {
   it('máscara progressiva e no máximo 11 dígitos', () => {

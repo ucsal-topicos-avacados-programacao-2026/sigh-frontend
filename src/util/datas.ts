@@ -23,3 +23,12 @@ export function hojeIso(hoje = new Date()) {
   const dia = String(hoje.getDate()).padStart(2, '0')
   return `${hoje.getFullYear()}-${mes}-${dia}`
 }
+
+/**
+ * Data e hora vindas da API (LocalDateTime, sem fuso: já é a hora da rede). Mostra como veio, sem converter:
+ * "12/03/2026 às 14:05".
+ */
+export function formatarDataHora(iso: string) {
+  const [data = '', hora = ''] = iso.split('T')
+  return `${formatarData(data)} às ${hora.slice(0, 5)}`
+}
