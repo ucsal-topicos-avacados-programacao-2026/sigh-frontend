@@ -154,3 +154,16 @@ Tela do Enfermeiro, na instituição ativa (RF-003, RF-010, RN-001, RN-005, RN-0
 - **IA indisponível** (503 ou falha de rede): a tela avisa e o enfermeiro classifica sozinho, com a opção de pedir a sugestão de novo.
 - **Fila de atendimento** (`GET /triagens/fila`): por prioridade da cor confirmada, com o tempo de espera, a marca "Tempo máximo excedido" e um alerta com quantos passaram do limite. "Reclassificar" registra uma triagem nova para o paciente.
 - **Histórico e acesso de emergência** (`GET /atendimentos/{id}/historico` e `POST .../historico/emergencia`): paciente sem histórico segue o mesmo fluxo, com um aviso. Com informações restritas, o acesso de emergência pede a justificativa (de 20 a 2000 caracteres) e mostra os registros restritos marcados. As recusas da API, como quem confirmou a cor tentando a emergência, aparecem no formulário.
+
+## Atendimento do médico (FE-07)
+
+Telas do Médico na instituição ativa (RF-004, RF-006, RF-007, RF-010, RN-003, RN-008).
+
+**Atendimentos** (`/atendimentos`, também para o enfermeiro): os atendimentos em andamento (`GET /atendimentos/em-andamento`), com os do médico logado marcados como "Você", e a fila de triagem por prioridade. O médico abre ou começa o atendimento; o enfermeiro consulta o histórico.
+
+**Atendimento do paciente** (`/atendimentos/:id`, só para o médico):
+- **Cabeçalho:** classificação de risco, chegada, início e motivo.
+- **Resumo do histórico por IA** (`POST /atendimentos/{id}/resumos`, 202): gerado em segundo plano e consultado a cada 3 segundos (`GET /resumos/{id}`) até ficar pronto. Aparece sempre com o aviso "Sugestão gerada por IA — sujeita à validação profissional" e o aviso da API. Os registros usados ficam marcados "Usado no resumo" no prontuário, para conferir o original. O médico valida o resumo (`POST /resumos/{id}/validacao`). Falha da IA (resumo FALHOU, 503 ou rede) mostra um aviso, sem impedir a leitura do prontuário, que fica num painel à parte.
+- **Prontuário** (`GET /atendimentos/{id}/historico`): o que a instituição pode ver, inclusive de outras instituições, com o acesso de emergência com justificativa quando há informações restritas (o mesmo componente da triagem).
+- **Novo registro** (`POST /atendimentos/{id}/registros`): evolução e conduta, diagnóstico com CID-10 (validado no formato da API), prescrição, exame, alergia e resumo de internação ou alta, que o administrativo anexa à alta.
+- **Encerrar atendimento**, com confirmação.

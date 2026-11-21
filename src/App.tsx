@@ -8,6 +8,8 @@ import { Internacoes } from '@/paginas/administrativo/Internacoes'
 import { Leitos } from '@/paginas/administrativo/Leitos'
 import { Auditoria } from '@/paginas/auditor/Auditoria'
 import { Triagem } from '@/paginas/enfermeiro/Triagem'
+import { AtendimentoDoPaciente } from '@/paginas/medico/AtendimentoDoPaciente'
+import { Atendimentos } from '@/paginas/medico/Atendimentos'
 import { Relatorios } from '@/paginas/auditor/Relatorios'
 import { Consentimentos } from '@/paginas/paciente/Consentimentos'
 import { MeuProntuario } from '@/paginas/paciente/MeuProntuario'
@@ -24,11 +26,16 @@ const PAGINAS: Partial<Record<string, ComponentType>> = {
   '/leitos': Leitos,
   '/internacoes': Internacoes,
   '/triagem': Triagem,
+  '/atendimentos': Atendimentos,
   '/meu-prontuario': MeuProntuario,
   '/consentimentos': Consentimentos,
   '/auditoria': Auditoria,
   '/relatorios': Relatorios,
 }
+
+const ITEM_ATENDIMENTOS = ITENS_DE_MENU.find((item) => item.caminho === '/atendimentos')
+if (!ITEM_ATENDIMENTOS) throw new Error('O item /atendimentos precisa existir em rotas.ts')
+const ATENDIMENTO_DO_MEDICO = { ...ITEM_ATENDIMENTOS, perfis: ['MEDICO'] as const }
 
 /** Telas de entrada só sem sessão: quem já entrou vai para o início. */
 function SoSemSessao({ children }: { children: React.ReactNode }) {
@@ -48,6 +55,8 @@ export function App() {
         {ITENS_DE_MENU.map((item) => (
           <Route key={item.caminho} path={item.caminho} element={<RotaProtegida rota={item}><Pagina item={item} /></RotaProtegida>} />
         ))}
+        {/* O atendimento de um paciente: só o médico registra e pede o resumo (AtendimentoController é de MEDICO). */}
+        <Route path="/atendimentos/:atendimentoId" element={<RotaProtegida rota={ATENDIMENTO_DO_MEDICO}><AtendimentoDoPaciente /></RotaProtegida>} />
         {/* Endereço desconhecido: sem sessão, a guarda leva ao login; com sessão, "não encontrada" no shell. */}
         <Route path="*" element={<NaoEncontrada />} />
       </Route>
