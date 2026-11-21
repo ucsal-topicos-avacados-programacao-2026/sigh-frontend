@@ -45,7 +45,7 @@ Front-end do SIGH (Sistema Integrado de Gestão Hospitalar): React 19, TypeScrip
 
 Na apresentação, use `npm run build` e `npm run preview` (porta 4173), com `https://localhost:4173` incluída em `SIGH_CORS_ORIGENS`.
 
-**Usuários de demonstração:** os do perfil `demonstracao` da API (`paciente.demo`, `enfermeiro.demo`, `medico.demo`, `administrativo.demo` e `auditor.demo`), com a senha de `SIGH_SENHA_DEMONSTRACAO`. Médico, enfermeiro e auditor cadastram o segundo fator no primeiro acesso, com um aplicativo autenticador.
+**Usuários de demonstração:** os do perfil `demonstracao` da API (`paciente.demo`, `enfermeiro.demo`, `medico.demo`, `administrativo.demo`, `recepcao.demo` e `auditor.demo`), com a senha de `SIGH_SENHA_DEMONSTRACAO`. A tela Pacientes é da recepção (`recepcao.demo`); leitos e internações são do administrativo. Médico, enfermeiro, recepção e auditor cadastram o segundo fator no primeiro acesso, com um aplicativo autenticador.
 
 ## Scripts
 
@@ -107,10 +107,10 @@ As telas de cada item são entregues nos cards FE-03 a FE-08. Até lá, a rota e
 
 ## Pacientes (FE-03)
 
-Tela do Administrativo para receber o paciente na instituição ativa (RF-001, RF-002, RN-004).
+Tela da Recepção para receber o paciente na instituição ativa (RF-001, RF-002, RN-004).
 
 1. **Busca pelo CPF na rede** (`POST /api/pacientes/busca`). O CPF é conferido no navegador com a mesma regra da API (dígitos verificadores, sem todos os dígitos iguais) e vai no corpo da requisição, nunca na URL. Ele não é guardado no navegador.
-2. **Paciente já na rede:** a tela mostra nome e nascimento e pede só o motivo. O atendimento é aberto no prontuário que ele já tem; cadastro e consentimento não mudam aqui.
+2. **Paciente já na rede:** a tela mostra nome e nascimento e pergunta só o que o paciente está sentindo (sem sinais vitais). O atendimento é aberto no prontuário que ele já tem; cadastro e consentimento não mudam aqui.
 3. **CPF fora da rede:** cadastro com nome, data de nascimento, consentimento inicial e motivo (`POST /api/pacientes/admissoes`). O consentimento tem três opções: autoriza o compartilhamento na rede, não autoriza, ou não se manifestou agora (o campo não vai, e vale como não autorizado até o paciente decidir).
 4. **CPF cadastrado por outra recepção ao mesmo tempo:** a API abre o atendimento no prontuário existente, e a tela avisa que os dados digitados não foram usados.
 
@@ -163,11 +163,13 @@ Duas telas do Administrativo, sempre na instituição ativa (RF-005, RF-006). As
 Tela do Enfermeiro, na instituição ativa (RF-003, RF-010, RN-001, RN-005, RN-008, RN-009). As listas se atualizam sozinhas a cada 30 segundos.
 
 - **Aguardando triagem** (`GET /triagens/aguardando`): por ordem de chegada. Quem tem triagem registrada e não confirmada aparece com "Falta confirmar" e a sugestão da IA, se houver, e o botão "Continuar triagem".
-- **Triagem:**
+- **Triagem aberta na recepção:** o paciente chega com o relato da recepção e a cor sugerida pela IA já marcada, como "Sugestão preliminar (sem sinais vitais)". O enfermeiro registra os sinais vitais (`PATCH /triagens/{id}/sinais-vitais`), a IA refaz a sugestão sozinha (a tela espera, sem botão de pedir) e ele confirma ou altera a cor. Também pode classificar sem registrar os sinais agora. A confirmação exige o clique em "Confirmar classificação": o Enter não confirma.
+- **Triagem sem recepção** (reclassificar, ou paciente sem triagem aberta):
   1. Sintomas e sinais vitais, validados como a API valida (`POST /triagens`).
   2. A sugestão de cor da IA (`POST /triagens/{id}/sugestao`) aparece identificada como "Sugestão gerada por IA — sujeita à validação profissional" e já marcada. O enfermeiro confirma ou escolhe outra cor; se escolher outra, a tela diz que ele alterou a sugestão.
   3. A triagem só termina com a confirmação do enfermeiro (`POST /triagens/{id}/confirmacao`). Fechar sem confirmar deixa a triagem pendente, para retomar depois.
-- **IA indisponível** (503 ou falha de rede): a tela avisa e o enfermeiro classifica sozinho, com a opção de pedir a sugestão de novo.
+- **IA indisponível** (situação `INDISPONIVEL`, 503 ou falha de rede): a tela avisa e o enfermeiro classifica sozinho, com a opção de pedir a sugestão de novo.
+- **Na recepção**, depois de abrir o atendimento, a tela mostra só o andamento da pré-classificação (`GET /triagens/pre-classificacao`): em andamento, pronta ou indisponível. A cor não aparece para a recepção.
 - **Fila de atendimento** (`GET /triagens/fila`): por prioridade da cor confirmada, com o tempo de espera, a marca "Tempo máximo excedido" e um alerta com quantos passaram do limite. "Reclassificar" registra uma triagem nova para o paciente.
 - **Histórico e acesso de emergência** (`GET /atendimentos/{id}/historico` e `POST .../historico/emergencia`): paciente sem histórico segue o mesmo fluxo, com um aviso. Com informações restritas, o acesso de emergência pede a justificativa (de 20 a 2000 caracteres) e mostra os registros restritos marcados. As recusas da API, como quem confirmou a cor tentando a emergência, aparecem no formulário.
 

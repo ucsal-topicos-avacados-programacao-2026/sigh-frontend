@@ -4,7 +4,7 @@ import { violacoesDeAcessibilidade } from '@/testes/acessibilidade'
 import { HOSPITAL_A, HOSPITAL_B, renderizar, usuario, type Rotas } from '@/testes/renderizar'
 
 const CPF = '529.982.247-25'
-const ADMINISTRATIVO = usuario(['ADMINISTRATIVO'], [{ ...HOSPITAL_A, perfis: ['ADMINISTRATIVO'] }])
+const RECEPCIONISTA = usuario(['RECEPCAO'], [{ ...HOSPITAL_A, perfis: ['RECEPCAO'] }])
 const ENCONTRADO: Rotas = {
   'POST /api/pacientes/busca': { status: 200, corpo: { id: 'p1', nome: 'Maria das Dores', dataNascimento: '1958-03-12' } },
 }
@@ -15,7 +15,7 @@ const ADMISSAO = (novoCadastro: boolean): Rotas => ({
   'POST /api/pacientes/admissoes': { status: 201, corpo: { pacienteId: 'p1', prontuarioId: 'pr1', atendimentoId: 'a1', novoCadastro } },
 })
 
-async function abrir(rotas: Rotas = {}, logado = ADMINISTRATIVO) {
+async function abrir(rotas: Rotas = {}, logado = RECEPCIONISTA) {
   const resultado = renderizar('/pacientes', logado, rotas)
   await screen.findByRole('heading', { level: 1, name: 'Pacientes' })
   return resultado
@@ -81,7 +81,7 @@ describe('FE-03: CPF já cadastrado em outra instituição reaproveita o prontu�
     expect(within(resultado).queryByRole('group', { name: /Consentimento/ })).not.toBeInTheDocument()
     expect(await violacoesDeAcessibilidade(document.body)).toEqual([])
 
-    await userEvent.type(screen.getByLabelText('Motivo do atendimento'), '  Dor no peito há duas horas  ')
+    await userEvent.type(screen.getByLabelText('O que o paciente está sentindo'), '  Dor no peito há duas horas  ')
     await userEvent.click(screen.getByRole('button', { name: 'Abrir atendimento' }))
 
     expect(await screen.findByRole('heading', { name: 'Atendimento aberto' })).toHaveFocus()
@@ -95,8 +95,8 @@ describe('FE-03: CPF já cadastrado em outra instituição reaproveita o prontu�
     await buscar()
     await screen.findByRole('heading', { name: 'Paciente já cadastrado na rede' })
     await userEvent.click(screen.getByRole('button', { name: 'Abrir atendimento' }))
-    expect(screen.getByLabelText('Motivo do atendimento')).toHaveFocus()
-    expect(screen.getByText('Informe o motivo do atendimento.')).toBeInTheDocument()
+    expect(screen.getByLabelText('O que o paciente está sentindo')).toHaveFocus()
+    expect(screen.getByText('Informe o que o paciente está sentindo.')).toBeInTheDocument()
     expect(chamadas.some((c) => c.chave === 'POST /api/pacientes/admissoes')).toBe(false)
   })
 
@@ -111,7 +111,7 @@ describe('FE-03: CPF já cadastrado em outra instituição reaproveita o prontu�
   it('"Atender outro paciente" limpa a tela e volta o foco ao CPF', async () => {
     await abrir({ ...ENCONTRADO, ...ADMISSAO(false) })
     await buscar()
-    await userEvent.type(await screen.findByLabelText('Motivo do atendimento'), 'Febre')
+    await userEvent.type(await screen.findByLabelText('O que o paciente está sentindo'), 'Febre')
     await userEvent.click(screen.getByRole('button', { name: 'Abrir atendimento' }))
     await userEvent.click(await screen.findByRole('button', { name: 'Atender outro paciente' }))
     const campo = screen.getByLabelText('CPF do paciente')
@@ -132,7 +132,7 @@ describe('FE-03: cadastro de quem não está na rede, com consentimento inicial 
   async function preencher({ nome = 'João Nascimento', data = '1990-05-20', motivo = 'Corte na mão' } = {}) {
     if (nome) await userEvent.type(screen.getByLabelText('Nome completo'), nome)
     if (data) await userEvent.type(screen.getByLabelText('Data de nascimento'), data)
-    if (motivo) await userEvent.type(screen.getByLabelText('Motivo do atendimento'), motivo)
+    if (motivo) await userEvent.type(screen.getByLabelText('O que o paciente está sentindo'), motivo)
   }
 
   it('cadastra com a autorização e abre o atendimento', async () => {
@@ -180,7 +180,7 @@ describe('FE-03: cadastro de quem não está na rede, com consentimento inicial 
     expect(screen.getByLabelText('Nome completo')).toHaveFocus()
     expect(screen.getByText('Informe o nome completo.')).toBeInTheDocument()
     expect(screen.getByText('Informe a data de nascimento.')).toBeInTheDocument()
-    expect(screen.getByText('Informe o motivo do atendimento.')).toBeInTheDocument()
+    expect(screen.getByText('Informe o que o paciente está sentindo.')).toBeInTheDocument()
 
     await preencher({ data: '2999-01-01', motivo: 'Tontura' })
     await userEvent.click(screen.getByRole('button', { name: 'Cadastrar e abrir atendimento' }))
@@ -219,9 +219,9 @@ describe('FE-03: cadastro de quem não está na rede, com consentimento inicial 
 
 describe('FE-03: instituição ativa', () => {
   it('trocar a instituição recomeça a tela e busca na nova', async () => {
-    const logado = usuario(['ADMINISTRATIVO'], [
-      { ...HOSPITAL_A, perfis: ['ADMINISTRATIVO'] },
-      { ...HOSPITAL_B, perfis: ['ADMINISTRATIVO'] },
+    const logado = usuario(['RECEPCAO'], [
+      { ...HOSPITAL_A, perfis: ['RECEPCAO'] },
+      { ...HOSPITAL_B, perfis: ['RECEPCAO'] },
     ])
     const { chamadas } = renderizar('/', logado, ENCONTRADO)
     await userEvent.selectOptions(await screen.findByLabelText('Instituição ativa'), 'hospital-a')
@@ -286,7 +286,7 @@ describe('FE-03: corridas com a rede lenta', () => {
   it('enquanto a admissão é enviada, o CPF e a busca ficam travados', async () => {
     await abrir(ENCONTRADO)
     await buscar()
-    await userEvent.type(await screen.findByLabelText('Motivo do atendimento'), 'Febre')
+    await userEvent.type(await screen.findByLabelText('O que o paciente está sentindo'), 'Febre')
     const soltar = segurar('POST /api/pacientes/admissoes', { status: 201, corpo: { pacienteId: 'p1', prontuarioId: 'pr1', atendimentoId: 'a1', novoCadastro: false } })
     await userEvent.click(screen.getByRole('button', { name: 'Abrir atendimento' }))
     expect(screen.getByLabelText('CPF do paciente')).toBeDisabled()
@@ -299,7 +299,7 @@ describe('FE-03: corridas com a rede lenta', () => {
   it('se a admissão falha, o CPF volta a ficar editável', async () => {
     await abrir({ ...ENCONTRADO, 'POST /api/pacientes/admissoes': { status: 409, corpo: { detail: 'conflito' } } })
     await buscar()
-    await userEvent.type(await screen.findByLabelText('Motivo do atendimento'), 'Febre')
+    await userEvent.type(await screen.findByLabelText('O que o paciente está sentindo'), 'Febre')
     await userEvent.click(screen.getByRole('button', { name: 'Abrir atendimento' }))
     await screen.findByText(/Busque o CPF de novo/)
     expect(screen.getByLabelText('CPF do paciente')).toBeEnabled()
