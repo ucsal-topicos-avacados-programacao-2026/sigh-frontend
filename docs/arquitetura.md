@@ -92,6 +92,7 @@ src/
 - Cada card só acrescenta `paginas/<perfil>/*`, as funções em `api/<dominio>.ts` e trocam a página do item em `rotas.ts`/`App.tsx`. Ele não toca `auth/`, `layout/` nem `cliente.ts`.
 - O FE-02 já entrega todas as rotas do mapa abaixo com uma página provisória ("Em construção"). Assim, o critério "perfil vê somente o menu permitido" fica testável desde agora.
 - A instituição ativa vem sempre de `useSessao().instituicaoAtiva`. Nenhuma página lê o armazenamento direto.
+- O paciente ativo (o titular ou um representado, `GET /api/pacientes/gerenciados`) vem de `usePacienteAtivo()` (`src/paciente/PacienteAtivo.tsx`), só em memória. As telas do paciente usam a moldura `PaginaDoPaciente`, que mostra o seletor "Dados de" quando há mais de um.
 
 ## 4. Mapa de rotas por perfil e guarda
 
@@ -145,7 +146,7 @@ A tabela única é `src/rotas.ts`. Os nomes e grupos seguem o protótipo, e os p
 - axios: `fetch` basta.
 - shadcn/base-ui: o protótipo usa só `button.tsx`. Elementos nativos com Tailwind cobrem o caso, e `<dialog>` já dá foco e Esc.
 - react-hook-form/zod: a validação é a do servidor (`campos`) mais os atributos HTML.
-- TanStack Query e gerenciador de estado: um Context basta no FE-02; as telas podem criar um hook de carregamento comum quando precisarem. Como `api/*.ts` devolve *promises* tipadas, dá para adotar um deles depois sem reescrever a camada.
+- TanStack Query e gerenciador de estado: um Context basta. Desde o FE-05, as telas carregam dados com `useConsulta` (`src/api/useConsulta.ts`: carrega ao montar e quando as dependências mudam, cancela a requisição anterior e ignora a resposta que chega depois) e gravam com `useEnvio` (`src/api/useEnvio.ts`: enviando, erro e o disparo). Como `api/*.ts` devolve *promises* tipadas, dá para adotar uma biblioteca depois sem reescrever a camada.
 - recharts: entra só se o FE-08 precisar de gráfico.
 
 **Desenvolvimento:**
