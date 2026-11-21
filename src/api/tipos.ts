@@ -196,3 +196,69 @@ export interface Periodo {
   inicio: string
   fim: string
 }
+
+export type CategoriaLeito = 'ENFERMARIA' | 'UTI' | 'ISOLAMENTO' | 'PEDIATRICO'
+export type StatusLeito = 'LIVRE' | 'OCUPADO' | 'EM_HIGIENIZACAO' | 'BLOQUEADO'
+export type StatusAtendimento = 'ABERTO' | 'EM_TRIAGEM' | 'EM_ATENDIMENTO' | 'ENCERRADO'
+export type StatusSolicitacaoTransferencia = 'PENDENTE' | 'ACEITA' | 'RECUSADA' | 'CANCELADA'
+
+export const NOME_DA_CATEGORIA: Record<CategoriaLeito, string> = {
+  ENFERMARIA: 'Enfermaria',
+  UTI: 'UTI',
+  ISOLAMENTO: 'Isolamento',
+  PEDIATRICO: 'Pediátrico',
+}
+
+export interface Leito {
+  id: string
+  instituicaoId: string
+  codigo: string
+  setor: string
+  categoria: CategoriaLeito
+  status: StatusLeito
+}
+
+export interface ResumoDeAlta {
+  id: string
+  criadoEm: string
+  autor: string
+}
+
+/** Internação em andamento num leito da instituição (GET /internacoes). */
+export interface InternacaoAtiva {
+  id: string
+  atendimentoId: string
+  paciente: string
+  leitoId: string
+  leitoCodigo: string
+  setor: string
+  categoria: CategoriaLeito
+  admitidaEm: string
+  /** Resumos de alta feitos desde a admissão, sem o texto clínico. */
+  resumosDeAlta: ResumoDeAlta[]
+  solicitacaoPendenteId: string | null
+}
+
+/** Atendimento em aberto sem internação: candidato a internar, ou na fila de espera sem leito livre. */
+export interface AtendimentoSemLeito {
+  atendimentoId: string
+  paciente: string
+  chegadaEm: string
+  status: StatusAtendimento
+  motivo: string
+}
+
+export interface SolicitacaoTransferencia {
+  id: string
+  internacaoId: string
+  paciente: string
+  instituicaoOrigemId: string
+  instituicaoOrigem: string
+  instituicaoDestinoId: string
+  categoria: CategoriaLeito
+  status: StatusSolicitacaoTransferencia
+  solicitadaEm: string
+  decididaEm: string | null
+  leitoDestinoId: string | null
+  motivoRecusa: string | null
+}
