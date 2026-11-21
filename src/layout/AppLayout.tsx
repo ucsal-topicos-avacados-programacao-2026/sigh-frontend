@@ -8,7 +8,6 @@ import { Botao, BotaoIcone } from '@/componentes/Botao'
 import { Marca } from '@/componentes/Marca'
 import { GRUPOS_DO_MENU, ITENS_DE_MENU } from '@/rotas'
 
-/** Se a tela tem pelo menos a largura; aoMudar roda na própria mudança (não num efeito). */
 function useLarguraMinima(largura: number, aoMudar?: (corresponde: boolean) => void) {
   const consulta = `(min-width: ${largura}px)`
   const [corresponde, setCorresponde] = useState(() => window.matchMedia?.(consulta).matches ?? true)
@@ -34,7 +33,6 @@ function iniciais(nome: string) {
   return ((partes[0]?.[0] ?? '') + (partes.length > 1 ? (partes.at(-1)?.[0] ?? '') : '')).toUpperCase()
 }
 
-/** Seletor da instituição ativa: com um vínculo, texto fixo; sem vínculo (paciente, auditor), nada. */
 function SeletorDeInstituicao({ escuro = false }: { escuro?: boolean }) {
   const { vinculos, instituicaoAtiva, escolherInstituicao } = useSessao()
   const id = useId()
@@ -97,12 +95,10 @@ export function AppLayout() {
   const sessao = useSessao()
   const { usuario, instituicaoAtiva, sair } = sessao
   const [menuPedido, setMenuAberto] = useState(false)
-  // Ao passar para o desktop, a gaveta fecha: voltando para tela pequena, ela não reabre sozinha.
   const desktop = useLarguraMinima(1024, (corresponde) => {
     if (corresponde) setMenuAberto(false)
   })
   const largo = useLarguraMinima(640)
-  // A partir de 1024px a sidebar é fixa: o menu "aberto" só existe abaixo disso.
   const menuAberto = menuPedido && !desktop
   const abrirMenu = useRef<HTMLButtonElement>(null)
   const fecharMenu = useRef<HTMLButtonElement>(null)
@@ -116,7 +112,6 @@ export function AppLayout() {
     [usuario, instituicaoAtiva],
   )
 
-  // Sidebar como diálogo abaixo de 1024px: foco no "Fechar menu", Esc fecha, rolagem da página travada.
   useEffect(() => {
     if (!menuAberto) return
     const botaoDeAbrir = abrirMenu.current
@@ -129,13 +124,11 @@ export function AppLayout() {
     return () => {
       document.body.style.overflow = ''
       document.removeEventListener('keydown', aoTeclar)
-      // Ao fechar sem escolher item, o foco volta ao botão que abriu; escolhendo, vai para o h1 da página nova.
       if (!escolheuItem.current) botaoDeAbrir?.focus()
       escolheuItem.current = false
     }
   }, [menuAberto])
 
-  // Trocar de instituição não navega sozinho; se a página atual não existe na nova, vai para o início.
   const instituicaoAnterior = useRef(instituicaoAtiva?.instituicaoId)
   useEffect(() => {
     const atual = instituicaoAtiva?.instituicaoId
@@ -172,8 +165,6 @@ export function AppLayout() {
         <div aria-hidden="true" className="fixed inset-0 z-[25] bg-slate-900/40" onClick={() => setMenuAberto(false)} />
       )}
 
-      {/* div, e não aside: abaixo de 1024px ela vira diálogo, papel que o aside não aceita. Fora disso, é uma região
-          nomeada, para a marca e o usuário não ficarem fora de um marco. */}
       <div
         id="menu-lateral"
         inert={!lateralVisivel}
@@ -236,7 +227,6 @@ export function AppLayout() {
         </nav>
       </div>
 
-      {/* Com a gaveta aberta, o resto da página fica inerte: o foco não escapa dela (WCAG 2.4.3). */}
       <div inert={menuAberto} className="min-h-screen lg:ml-lateral print:ml-0">
         <header className="sticky top-0 z-20 flex print:hidden h-topbar-movel items-center justify-between gap-3 border-b border-[#e9edf2] bg-superficie px-3 sm:h-topbar sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-2 sm:gap-4">

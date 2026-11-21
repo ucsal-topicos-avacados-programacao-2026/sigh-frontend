@@ -30,10 +30,6 @@ interface Cabecalho {
   inicioClinicoEm?: string
 }
 
-/**
- * FE-07: o atendimento do médico (RF-004, RF-006, RF-007, RF-010): o prontuário autorizado, o resumo por IA, os
- * registros e o encerramento. Os dados do cabeçalho vêm das listas da instituição (em andamento ou fila).
- */
 export function AtendimentoDoPaciente() {
   const { instituicaoAtiva } = useSessao()
   const { atendimentoId = '' } = useParams()
@@ -46,7 +42,6 @@ function Atendimento({ instituicao, atendimentoId }: { instituicao: VinculoAtivo
   const emAndamento = useConsulta((sinal) => atendimentosEmAndamento(id, sinal), [id])
   const fila = useConsulta((sinal) => filaDeAtendimento(id, sinal), [id])
   const [versao, setVersao] = useState(0)
-  // As categorias vêm do prontuário já carregado: uma segunda consulta ao histórico seria outro acesso na auditoria.
   const [categoriasDoProntuario, setCategoriasDoProntuario] = useState<string[]>([])
   const aoCarregarProntuario = useCallback(
     (registros: RegistroDoHistorico[]) => setCategoriasDoProntuario(registros.map((r) => r.categoriaInformacao).filter((c): c is string => Boolean(c))),

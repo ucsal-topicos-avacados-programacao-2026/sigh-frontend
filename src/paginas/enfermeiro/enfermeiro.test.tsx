@@ -50,7 +50,6 @@ const regiao = (nome: string) => screen.findByRole('region', { name: nome })
 const quantas = (chamadas: { chave: string }[], chave: string) => chamadas.filter((c) => c.chave === chave).length
 
 async function preencherDados(dialogo: HTMLElement, sinais: Record<string, string> = { 'Pressão arterial (mmHg)': '120/80', 'Frequência cardíaca (bpm)': '90', 'Temperatura (°C)': '38,5', 'Saturação de oxigênio (%)': '96' }) {
-  // Com espaços nas pontas: a API recebe o texto sem eles.
   await userEvent.type(within(dialogo).getByLabelText('Sintomas'), '  Febre e calafrios há dois dias  ')
   for (const [rotulo, valor] of Object.entries(sinais)) await userEvent.type(within(dialogo).getByLabelText(new RegExp(`^${rotulo.replace(/[()%]/g, '\\$&')}`)), valor)
 }
@@ -65,7 +64,6 @@ describe('FE-06: listas da triagem', () => {
     expect(beto).toHaveTextContent('Sugestão da IA: Amarelo · Urgente')
     expect(within(beto).getByRole('button', { name: 'Continuar triagem de Beto Reis' })).toBeInTheDocument()
     expect(within(aguardando).getByText('Ana Lima').closest('tr')).toHaveTextContent('Sem triagem')
-    // O nome acessível dos botões começa pelo texto visível (FE-12, WCAG 2.5.3).
     expect(nomesQueNaoComecamPeloTexto(aguardando)).toEqual([])
 
     const fila = await regiao('Fila de atendimento')
@@ -130,7 +128,6 @@ describe('FE-06: triagem com sugestão da IA (RF-003, RN-005)', () => {
     await userEvent.click(within(dialogo).getByRole('button', { name: 'Fechar sem confirmar' }))
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
     expect(chamadas.some((c) => c.chave.endsWith('/confirmacao'))).toBe(false)
-    // A lista é buscada de novo, e a API devolve o paciente com "Continuar triagem".
     await waitFor(() => expect(quantas(chamadas, 'GET /triagens/aguardando')).toBeGreaterThan(antes))
   })
 
@@ -232,7 +229,6 @@ describe('FE-06: retomar e reclassificar', () => {
     await preencherDados(dialogo, {})
     await userEvent.click(within(dialogo).getByRole('button', { name: 'Registrar e pedir sugestão' }))
     await waitFor(() => expect(chamadas.find((c) => c.chave === 'POST /triagens')?.corpo).toMatchObject({ atendimentoId: 'a9' }))
-    // Na reclassificação não há retomada: fechar descarta, e vale a cor anterior.
     expect(await within(dialogo).findByText(/Se fechar agora, ela é descartada, e continua valendo a cor anterior./)).toBeInTheDocument()
     expect(dialogo).not.toHaveTextContent('dá para retomar')
   })

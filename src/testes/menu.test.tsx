@@ -35,7 +35,6 @@ describe('menu por perfil (FE-02: o perfil vê somente o menu permitido)', () =>
     renderizar('/', logado)
     expect(await screen.findByText('Escolha a instituição', { selector: 'p' })).toBeInTheDocument()
     expect(await itensDoMenu()).toEqual([])
-    // A pilha de cartões do início também escolhe: e o início vai para o painel da instituição escolhida.
     await userEvent.click(screen.getByRole('button', { name: /Hospital B/ }))
     expect(await screen.findByRole('heading', { level: 1, name: 'Painel' })).toBeInTheDocument()
     expect(screen.getByLabelText('Instituição ativa')).toHaveValue('hospital-b')
@@ -116,7 +115,6 @@ describe('shell autenticado', () => {
   it('só com o teclado: pular para o conteúdo, percorrer o menu e abrir uma tela', async () => {
     renderizar('/pacientes', usuario(['RECEPCAO', 'ADMINISTRATIVO'], [{ ...HOSPITAL_A, perfis: ['RECEPCAO', 'ADMINISTRATIVO'] }]))
     const titulo = await screen.findByRole('heading', { level: 1, name: 'Pacientes' })
-    // A página leva o foco ao título ao abrir; espera isso acontecer para não cair no meio do Tab abaixo.
     await waitFor(() => expect(titulo).toHaveFocus())
     const teclado = userEvent.setup()
     ;(document.activeElement as HTMLElement | null)?.blur()
@@ -126,10 +124,10 @@ describe('shell autenticado', () => {
     expect(document.getElementById('conteudo')).toHaveFocus()
 
     ;(document.activeElement as HTMLElement | null)?.blur()
-    await teclado.tab() // pular para o conteúdo
-    await teclado.tab() // Painel
-    await teclado.tab() // Pacientes
-    await teclado.tab() // Leitos
+    await teclado.tab()
+    await teclado.tab()
+    await teclado.tab()
+    await teclado.tab()
     expect(screen.getByRole('link', { name: 'Leitos' })).toHaveFocus()
     await teclado.keyboard('{Enter}')
     expect(await screen.findByRole('heading', { level: 1, name: 'Leitos' })).toHaveFocus()

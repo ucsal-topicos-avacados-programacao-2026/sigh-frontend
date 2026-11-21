@@ -6,17 +6,11 @@ export interface ItemDeMenu {
   rotulo: string
   grupo: 'VISÃO GERAL' | 'ATENDIMENTO' | 'GESTÃO DA REDE'
   icone: LucideIcon
-  /** Perfis que veem o item: os mesmos que o back-end aceita nas rotas da tela (@PreAuthorize). */
   perfis: readonly Perfil[]
   descricao: string
-  /** Card que entrega a tela. */
   card: string
 }
 
-/**
- * Tabela única das telas autenticadas. O menu e a guarda de rota usam a mesma regra (podeAcessar). A página de
- * cada item entregue fica em PAGINAS (App.tsx); as outras mostram "Em construção" até o card delas.
- */
 export const ITENS_DE_MENU: readonly ItemDeMenu[] = [
   {
     caminho: '/painel',

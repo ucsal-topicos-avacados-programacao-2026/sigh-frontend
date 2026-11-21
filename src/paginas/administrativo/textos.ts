@@ -22,5 +22,4 @@ export const SITUACAO_DO_PEDIDO: Record<StatusSolicitacaoTransferencia, { texto:
   CANCELADA: { texto: 'Cancelada', tom: 'neutro' },
 }
 
-/** Intervalo da atualização automática do mapa de leitos. */
 export const ATUALIZAR_A_CADA_MS = 30_000

@@ -5,12 +5,10 @@ import { Botao } from '@/componentes/Botao'
 export interface Coluna<T> {
   titulo: string
   celula: (linha: T) => ReactNode
-  /** Números alinhados à direita. */
   numerica?: boolean
 }
 
 interface PropriedadesTabela<T> {
-  /** Título da tabela (caption), lido pelo leitor de tela. */
   legenda: string
   colunas: Coluna<T>[]
   linhas: T[] | undefined
@@ -19,14 +17,9 @@ interface PropriedadesTabela<T> {
   erro?: string
   aoTentarDeNovo?: () => void
   textoVazio?: string
-  /** O título já está visível num h2 do painel: a legenda fica só para o leitor de tela. */
   legendaOculta?: boolean
 }
 
-/**
- * Tabela com legenda, cabeçalhos de coluna e os estados de carregando, vazio e erro. Em telas pequenas, só a
- * tabela rola na horizontal, numa região que o teclado também rola (WCAG 1.4.10).
- */
 export function Tabela<T>({
   legenda,
   colunas,
@@ -53,8 +46,6 @@ export function Tabela<T>({
     )
   }
   return (
-    // Rola na horizontal em tela pequena: com tabIndex, o teclado também rola (WCAG 2.1.1). É um grupo, e não um
-    // marco (region), para não repetir o marco do painel que já tem o mesmo nome.
     // oxlint-disable-next-line jsx-a11y/no-noninteractive-tabindex
     <div role="group" aria-labelledby={legendaId} tabIndex={0} className="overflow-x-auto">
       <table aria-busy={carregando || undefined} className="w-full border-collapse text-left text-corpo text-texto">

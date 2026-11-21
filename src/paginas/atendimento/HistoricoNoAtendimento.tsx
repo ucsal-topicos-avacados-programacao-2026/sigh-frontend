@@ -9,39 +9,28 @@ import { Botao } from '@/componentes/Botao'
 import { AreaDeTexto } from '@/componentes/Campo'
 import { RegistrosClinicos } from '@/componentes/RegistrosClinicos'
 
-/** Limites da justificativa na API (AcessoEmergenciaRequestDTO). */
 const JUSTIFICATIVA_MINIMA = 20
 const JUSTIFICATIVA_MAXIMA = 2000
 
 interface Propriedades {
   atendimentoId: string
-  /** Texto para quem não tem histórico: o fluxo segue igual (triagem ou atendimento). */
   semHistorico: string
-  /** Muda quando há registro novo: busca o histórico de novo. */
   versao?: number
   destacados?: ReadonlySet<string>
   aoMudarEnvio?: (enviando: boolean) => void
-  /** Os registros carregados, para quem precisa deles sem consultar de novo (cada consulta vira um acesso auditado). */
   aoCarregar?: (registros: RegistroDoHistorico[]) => void
 }
 
-/** Junta os registros da emergência com os de uma recarga posterior (o registro novo), sem repetir, do mais recente. */
 function juntar(daEmergencia: RegistroDoHistorico[], novos: RegistroDoHistorico[] | undefined) {
   const porId = new Map(daEmergencia.map((r) => [r.id, r]))
   for (const r of novos ?? []) if (!porId.has(r.id)) porId.set(r.id, r)
   return [...porId.values()].sort((a, b) => (a.criadoEm < b.criadoEm ? 1 : a.criadoEm > b.criadoEm ? -1 : 0))
 }
 
-/**
- * Histórico do paciente no atendimento (RF-009), com o acesso de emergência com justificativa antes de mostrar o que o
- * paciente restringiu (RF-010, RN-003). Médico e enfermeiro usam o mesmo.
- */
 export function HistoricoNoAtendimento({ atendimentoId, semHistorico, versao = 0, destacados, aoMudarEnvio = () => {}, aoCarregar }: Propriedades) {
   const consulta = useConsulta((sinal) => historicoDoAtendimento(atendimentoId, sinal), [atendimentoId, versao])
   const [emergencia, setEmergencia] = useState<HistoricoDoAtendimento | null>(null)
   const [pedindo, setPedindo] = useState(false)
-  // Depois da emergência, uma recarga (registro novo) soma os registros dela aos que a emergência mostrou.
-  // Memorizado: uma lista nova a cada render avisaria quem usa aoCarregar a cada render, sem fim.
   const historico = useMemo(
     () => (emergencia ? { ...emergencia, registros: juntar(emergencia.registros, consulta.dados?.registros) } : consulta.dados),
     [emergencia, consulta.dados],

@@ -7,15 +7,12 @@ import { validarCodigo } from '@/paginas/publicas/validarCodigo'
 
 export const PRAZO_ESGOTADO = { texto: 'O tempo para confirmar o segundo fator acabou. Entre de novo.', tom: 'atencao' } as const
 
-/** Hook comum das duas telas de segundo fator: envia o código e trata os erros. */
 export function useConfirmacaoDoCodigo() {
   const { entradaPendente, concluirEntrada, sair } = useSessao()
   const navegar = useNavigate()
   const destino = (useLocation().state as { de?: string } | null)?.de ?? '/'
   const [codigo, setCodigo] = useState('')
-  /** Erro do campo (código errado ou mal digitado). */
   const [erro, setErro] = useState<string | undefined>()
-  /** Erro geral (rede, servidor, regra): vai num alerta acima do botão. */
   const [erroGeral, setErroGeral] = useState<string | null>(null)
   const [enviando, setEnviando] = useState(false)
   const campo = useRef<HTMLInputElement>(null)
@@ -38,7 +35,6 @@ export function useConfirmacaoDoCodigo() {
         setCodigo('')
         campo.current?.focus()
       } else if (falha instanceof ErroApi && falha.status === 401) {
-        // O token pendente (5 minutos) venceu.
         sair(PRAZO_ESGOTADO)
         navegar('/entrar', { replace: true })
       } else {

@@ -10,7 +10,6 @@ import { tokenFicticio } from '@/testes/tokens'
 type Resposta = { status: number; corpo?: unknown }
 export type Rotas = Record<string, Resposta | ((corpo: unknown, url: string) => Resposta)>
 
-/** fetch simulado: a chave é "MÉTODO /caminho" (sem a URL base nem os parâmetros). */
 export function simularApi(rotas: Rotas) {
   const chamadas: { chave: string; corpo: unknown; autorizacao?: string; url: string }[] = []
   const simulado = vi.fn(async (url: string, init: RequestInit = {}) => {
@@ -37,7 +36,6 @@ export function usuario(perfis: Perfil[], vinculos: UsuarioLogado['vinculos'] = 
 export const HOSPITAL_A = { instituicaoId: 'hospital-a', instituicaoNome: 'Hospital A' }
 export const HOSPITAL_B = { instituicaoId: 'hospital-b', instituicaoNome: 'Hospital B' }
 
-/** Renderiza o app inteiro, com sessão já aberta se vier o usuário logado. */
 export function renderizar(rota: string, logado?: UsuarioLogado, rotas: Rotas = {}) {
   if (logado) {
     window.sessionStorage.setItem('sigh.token', tokenFicticio(logado.login, logado.perfis))

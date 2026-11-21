@@ -9,11 +9,9 @@ import { usePacienteAtivo } from '@/paciente/PacienteAtivo'
 interface PropriedadesPagina {
   titulo: string
   subtitulo: string
-  /** O conteúdo recebe o paciente escolhido; trocar de paciente monta o conteúdo de novo. */
   children: (paciente: PacienteGerenciado) => ReactNode
 }
 
-/** Moldura das telas do paciente: título, seletor de quem são os dados e os estados de carregando e erro. */
 export function PaginaDoPaciente({ titulo, subtitulo, children }: PropriedadesPagina) {
   const { carregando, erro, gerenciados, ativo, escolher, recarregar } = usePacienteAtivo()
   const varios = gerenciados.length > 1
@@ -49,7 +47,6 @@ export function PaginaDoPaciente({ titulo, subtitulo, children }: PropriedadesPa
           Peça à recepção de uma instituição da rede para ligar o seu acesso ao seu cadastro.
         </Alerta>
       ) : (
-        // grid-cols-1 (minmax(0, 1fr)): a coluna fica na largura da tela; sem isso, a tabela de acessos a alarga a 320 px.
         <div key={ativo.pacienteId} className="grid grid-cols-1 gap-6">
           {children(ativo)}
         </div>

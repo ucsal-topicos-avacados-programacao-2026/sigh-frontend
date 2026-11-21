@@ -14,7 +14,6 @@ import { formatarDataHora } from '@/util/datas'
 
 const CATEGORIAS = Object.keys(NOME_DA_CATEGORIA) as CategoriaLeito[]
 
-/** Rodapé comum: erro da API, Cancelar e a ação. */
 function Rodape({ erro, tituloDoErro, enviando, rotulo, textoCarregando, aoCancelar, semAcao = false }: {
   erro?: string
   tituloDoErro: string
@@ -60,7 +59,6 @@ function Resumo({ itens }: { itens: [string, ReactNode][] }) {
   )
 }
 
-/** Internar: escolhe um leito livre da instituição (só os livres aparecem). */
 export function DialogoDeInternacao({ atendimento, leitos, aoFechar, aoConcluir }: {
   atendimento: AtendimentoSemLeito | null
   leitos: Leito[] | undefined
@@ -116,7 +114,6 @@ function FormularioDeInternacao({ atendimento, leitos, aoFechar, aoConcluir, aoM
   )
 }
 
-/** Transferir: para outro leito livre desta instituição (direto) ou para outra da rede (pedido que o destino aceita). */
 export function DialogoDeTransferencia({ internacao, leitos, instituicaoId, aoFechar, aoConcluir }: {
   internacao: InternacaoAtiva | null
   leitos: Leito[] | undefined
@@ -247,7 +244,6 @@ function FormularioDeTransferencia({ internacao, leitos, instituicaoId, aoFechar
   )
 }
 
-/** Alta com o resumo de internação anexado (RF-006): sem resumo, não há alta. */
 export function DialogoDeAlta({ internacao, aoFechar, aoConcluir }: {
   internacao: InternacaoAtiva | null
   aoFechar: () => void

@@ -1,11 +1,8 @@
 import { requisicao } from '@/api/cliente'
 import type { AnaliseAuditoria, ConclusaoAnalise, IndicadorInstituicao, Pagina, Periodo, RegistroAuditoria, TipoAnalise } from '@/api/tipos'
 
-/** Rotas do Auditor/Gestor de rede. Só leitura do log, mais o registro de análise: nada altera nem apaga o log (RN-006). */
-
 export interface FiltroDoLog extends Periodo {
   instituicaoId?: string
-  /** true: só emergências; ausente: todos. */
   emergencia?: boolean
 }
 

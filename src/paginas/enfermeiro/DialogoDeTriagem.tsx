@@ -107,7 +107,6 @@ function Triagem({ alvo, aoConfirmar, aoFechar, aoMudarOcupado }: {
 
   useEffect(() => {
     if (alvo.pendente?.situacaoSugestao === 'EM_ANDAMENTO') void aguardarSugestao(alvo.atendimentoId)
-    // Só ao abrir: a espera por uma sugestão que a recepção já pediu.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

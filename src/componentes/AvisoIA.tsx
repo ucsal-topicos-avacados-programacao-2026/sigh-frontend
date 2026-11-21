@@ -4,15 +4,11 @@ import { useId, type ReactNode } from 'react'
 export const TITULO_DO_AVISO_DE_IA = 'Sugestão gerada por IA — sujeita à validação profissional'
 
 interface PropriedadesAvisoIA {
-  /** Texto de aviso devolvido pela API, quando houver. */
   aviso?: string
-  /** "Gerado em … · modelo …". */
   metadado?: string
-  /** O conteúdo gerado pela IA, que o leitor de tela lê junto com a ressalva. */
   children?: ReactNode
 }
 
-/** Aviso fixo junto de todo conteúdo gerado por IA (RF-003, RF-004). Não fecha nem some. */
 export function AvisoIA({ aviso, metadado, children }: PropriedadesAvisoIA) {
   const tituloId = useId()
   const corpoId = useId()

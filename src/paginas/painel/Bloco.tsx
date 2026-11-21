@@ -1,6 +1,5 @@
 import { useId, type ReactNode } from 'react'
 
-/** Bloco do painel: título pequeno (h2) e o conteúdo. A posição na grade vem de quem usa. */
 export function Bloco({ titulo, acao, className = '', children }: { titulo: string; acao?: ReactNode; className?: string; children: ReactNode }) {
   const id = useId()
   return (

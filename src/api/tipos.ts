@@ -1,4 +1,3 @@
-/** Tipos que espelham os records da API (sigh-backend). Escritos à mão: a API não publica OpenAPI. */
 
 export type Perfil = 'PACIENTE' | 'ENFERMEIRO' | 'MEDICO' | 'ADMINISTRATIVO' | 'RECEPCAO' | 'AUDITOR_GESTOR'
 
@@ -37,28 +36,23 @@ export interface UsuarioLogado {
   vinculos: VinculoAtivo[]
 }
 
-/** PagedModel do Spring. */
 export interface Pagina<T> {
   content: T[]
   page: { size: number; number: number; totalElements: number; totalPages: number }
 }
 
-/** Paciente já cadastrado na rede (POST /api/pacientes/busca). */
 export interface PacienteResumo {
   id: string
   nome: string
-  /** ISO, AAAA-MM-DD. */
   dataNascimento: string
 }
 
-/** Manifestação do paciente sobre o compartilhamento amplo no primeiro cadastro (RF-002). Ausente: não se manifestou. */
 export type ManifestacaoInicial = 'AUTORIZADO' | 'NEGADO'
 
 export interface AdmissaoRequisicao {
   cpf: string
   instituicaoId: string
   motivo: string
-  /** Só no primeiro cadastro; com o CPF já na rede, a API ignora os três. */
   nome?: string
   dataNascimento?: string
   consentimentoInicial?: ManifestacaoInicial
@@ -68,11 +62,9 @@ export interface AdmissaoResposta {
   pacienteId: string
   prontuarioId: string
   atendimentoId: string
-  /** false: o CPF já estava na rede e o atendimento foi vinculado ao prontuário existente (RN-004). */
   novoCadastro: boolean
 }
 
-/** Paciente cujos dados o usuário gerencia: o próprio cadastro ou um representado (BE-15). */
 export interface PacienteGerenciado {
   pacienteId: string
   nome: string
@@ -99,7 +91,6 @@ export interface RegistroDoHistorico {
   codigoCID10: string | null
   instituicaoOrigemId: string
   instituicaoOrigem: string
-  /** Coberto por uma restrição vigente do paciente (RF-009). */
   restrito: boolean
 }
 
@@ -123,9 +114,7 @@ export interface Consentimento {
 }
 
 export interface ConsentimentosDoPaciente {
-  /** null: o paciente nunca se manifestou. */
   vigente: Consentimento | null
-  /** Da versão mais antiga para a mais recente. */
   historico: Consentimento[]
 }
 
@@ -151,7 +140,6 @@ export interface AutorizacaoAdicional {
   vigenteDesde: string
 }
 
-/** O que restringir ou liberar: uma categoria de informação ou um registro (nunca os dois). */
 export type AlvoDeRestricao = { categoria: string; registroId?: undefined } | { registroId: string; categoria?: undefined }
 
 export interface InstituicaoDaRede {
@@ -159,7 +147,6 @@ export interface InstituicaoDaRede {
   nome: string
 }
 
-/** Linha do log de auditoria (RF-008), imutável (RN-006). */
 export interface RegistroAuditoria {
   id: string
   prontuarioId: string | null
@@ -169,7 +156,6 @@ export interface RegistroAuditoria {
   ocorridoEm: string
   finalidade: string
   emergencia: boolean
-  /** Só nos acessos de emergência (RN-003). */
   justificativa: string | null
 }
 
@@ -192,7 +178,6 @@ export interface AnaliseAuditoria {
   registradaEm: string
 }
 
-/** Período fechado, em datas (AAAA-MM-DD), como a API recebe. */
 export interface Periodo {
   inicio: string
   fim: string
@@ -225,7 +210,6 @@ export interface ResumoDeAlta {
   autor: string
 }
 
-/** Internação em andamento num leito da instituição (GET /internacoes). */
 export interface InternacaoAtiva {
   id: string
   atendimentoId: string
@@ -235,12 +219,10 @@ export interface InternacaoAtiva {
   setor: string
   categoria: CategoriaLeito
   admitidaEm: string
-  /** Resumos de alta feitos desde a admissão, sem o texto clínico. */
   resumosDeAlta: ResumoDeAlta[]
   solicitacaoPendenteId: string | null
 }
 
-/** Atendimento em aberto sem internação: candidato a internar, ou na fila de espera sem leito livre. */
 export interface AtendimentoSemLeito {
   atendimentoId: string
   paciente: string
@@ -266,7 +248,6 @@ export interface SolicitacaoTransferencia {
 
 export type CorRisco = 'VERMELHO' | 'LARANJA' | 'AMARELO' | 'VERDE' | 'AZUL'
 
-/** Todos opcionais na API; a pressão vai como "120/80". */
 export interface SinaisVitais {
   pressaoArterial?: string
   frequenciaCardiaca?: number
@@ -302,7 +283,6 @@ export interface PreClassificacao {
   situacao: SituacaoSugestao | null
 }
 
-/** Paciente com classificação confirmada, na fila por prioridade (GET /triagens/fila). */
 export interface PacienteNaFila {
   triagemId: string
   atendimentoId: string
@@ -313,7 +293,6 @@ export interface PacienteNaFila {
   tempoMaximoExcedido: boolean
 }
 
-/** Atendimento sem classificação confirmada (GET /triagens/aguardando). */
 export interface AguardandoTriagem {
   atendimentoId: string
   paciente: string
@@ -322,15 +301,12 @@ export interface AguardandoTriagem {
   triagemPendente: TriagemPendente | null
 }
 
-/** Histórico visto pelo profissional no atendimento (GET /atendimentos/{id}/historico). */
 export interface HistoricoDoAtendimento {
   registros: RegistroDoHistorico[]
-  /** Há registros escondidos pela restrição do paciente, que só o acesso de emergência mostra. */
   possuiInformacoesRestritas: boolean
   acessoDeEmergencia: boolean
 }
 
-/** Atendimento em andamento com o médico (GET /atendimentos/em-andamento). */
 export interface AtendimentoEmAndamento {
   atendimentoId: string
   paciente: string
@@ -339,7 +315,6 @@ export interface AtendimentoEmAndamento {
   inicioClinicoEm: string
   corConfirmada: CorRisco | null
   medicoResponsavel: string | null
-  /** O médico responsável é quem está logado. */
   doUsuarioLogado: boolean
 }
 
@@ -352,34 +327,26 @@ export interface RegistroClinicoRequisicao {
 
 export type StatusResumo = 'SOLICITADO' | 'GERADO' | 'VALIDADO' | 'FALHOU'
 
-/** Resumo do histórico gerado por IA (RF-004). */
 export interface ResumoIA {
   id: string
   atendimentoId: string
   status: StatusResumo
-  /** null enquanto gera, se falhou, ou se ficou oculto por restrição posterior. */
   texto: string | null
   geradoEm: string | null
   modeloVersao: string | null
-  /** Registros do prontuário que a IA usou: os originais para conferir. */
   registrosDeOrigem: string[]
-  /** Texto da API sobre o estado do resumo, sempre exibido. */
   aviso: string
 }
 
 export type TipoInstituicao = 'PUBLICA' | 'PRIVADA'
 
-/** Números da instituição agora (GET /painel). Só contagens e tempos: nenhum dado de paciente. */
 export interface PainelDaInstituicao {
   instituicaoId: string
   instituicaoNome: string
   tipo: TipoInstituicao
-  /** Hora da rede em que os números foram contados. */
   geradoEm: string
-  /** Só as combinações de categoria e situação que existem. */
   leitos: { categoria: CategoriaLeito; status: StatusLeito; quantidade: number }[]
   aguardandoTriagem: { quantidade: number; maiorEsperaMinutos: number | null }
-  /** As cinco cores, da mais grave para a menos grave. */
   fila: {
     cor: CorRisco
     quantidade: number

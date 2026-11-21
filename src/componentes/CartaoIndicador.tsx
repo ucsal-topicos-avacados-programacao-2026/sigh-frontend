@@ -7,7 +7,6 @@ interface Indicador {
   icone?: LucideIcon
 }
 
-/** Grade de indicadores como lista de definição: rótulo (dt) e valor (dd). Só com dado real da API. */
 export function GradeDeIndicadores({ indicadores, carregando = false }: { indicadores: Indicador[]; carregando?: boolean }) {
   return (
     <dl aria-busy={carregando || undefined} className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">

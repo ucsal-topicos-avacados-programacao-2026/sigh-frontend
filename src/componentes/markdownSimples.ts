@@ -1,8 +1,3 @@
-/**
- * Leitura do pequeno pedaço de Markdown que o modelo de IA usa nos resumos: títulos ("# ..." ou uma linha inteira
- * em negrito), listas ("- ", "* ", "• " ou "1. ") e, dentro do texto, negrito e itálico. Todo o resto é texto puro:
- * nada vira HTML, então o que vem da IA nunca é interpretado como marcação da página.
- */
 export type Bloco =
   | { tipo: 'titulo'; trechos: Trecho[] }
   | { tipo: 'paragrafo'; trechos: Trecho[] }
@@ -18,10 +13,8 @@ const TITULO = /^#{1,6}\s+(.+?)\s*#*\s*$/
 const LINHA_EM_NEGRITO = /^\*\*(.+?)\*\*:?\s*$/
 const ITEM = /^\s*(?:[-*•]|(\d+)[.)])\s+(.+)$/
 
-/** Negrito (**...** ou __...__) e itálico (*...* ou _..._) dentro de uma linha. */
 export function trechos(linha: string): Trecho[] {
   const partes: Trecho[] = []
-  // Itálico só com letra ou número colado às marcas: "2 * 3", "(*)" e "dose_maxima" continuam como estão.
   const marca = /(\*\*|__)(.+?)\1|(?<![\p{L}\p{N}*_])([*_])(?=[\p{L}\p{N}])(.+?)(?<=[\p{L}\p{N}.!?])\3(?![\p{L}\p{N}*_])/gu
   let fim = 0
   for (const achado of linha.matchAll(marca)) {
@@ -38,7 +31,6 @@ export function blocos(texto: string): Bloco[] {
   const saida: Bloco[] = []
   let paragrafo: string[] = []
   const fecharParagrafo = () => {
-    // A quebra de linha simples continua quebra: o modelo às vezes separa itens só com ela.
     if (paragrafo.length) saida.push({ tipo: 'paragrafo', trechos: trechos(paragrafo.join('\n')) })
     paragrafo = []
   }

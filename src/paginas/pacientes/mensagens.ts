@@ -1,6 +1,5 @@
 import { ErroApi, ErroDeConexao } from '@/api/cliente'
 
-/** Texto para o alerta geral da tela, a partir do erro da API. Os erros por campo vão para os campos. */
 export function mensagemDoErro(falha: unknown) {
   if (falha instanceof ErroDeConexao) return falha.message
   if (falha instanceof ErroApi) {

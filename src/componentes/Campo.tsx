@@ -40,10 +40,6 @@ function MensagemDeErro({ id, erro }: { id: string; erro: string }) {
 
 type PropriedadesCampo = PartesDoCampo & InputHTMLAttributes<HTMLInputElement>
 
-/**
- * Campo com rótulo visível, ajuda e erro junto do campo, ligados por aria-describedby. O placeholder nunca
- * substitui o rótulo.
- */
 export const CampoTexto = forwardRef<HTMLInputElement, PropriedadesCampo>(function CampoTexto(
   { rotulo, ajuda, erro, opcional, id, className = '', 'aria-describedby': descritoPor, ...resto },
   ref,
@@ -119,7 +115,6 @@ export const CampoSenha = forwardRef<HTMLInputElement, PropriedadesSenha>(functi
 
 type PropriedadesSelecao = PartesDoCampo & SelectHTMLAttributes<HTMLSelectElement>
 
-/** Select nativo: teclado, leitor de tela e toque funcionam sem código extra. */
 export function Selecao({ rotulo, ajuda, erro, opcional, id, className = '', children, ...resto }: PropriedadesSelecao) {
   const gerado = useId()
   const campoId = id ?? gerado
@@ -152,7 +147,6 @@ export function Selecao({ rotulo, ajuda, erro, opcional, id, className = '', chi
 
 type PropriedadesAreaDeTexto = PartesDoCampo & TextareaHTMLAttributes<HTMLTextAreaElement>
 
-/** Texto longo. Com maxLength, mostra quantos caracteres faltam (anunciado só ao chegar perto do limite). */
 export const AreaDeTexto = forwardRef<HTMLTextAreaElement, PropriedadesAreaDeTexto>(function AreaDeTexto(
   { rotulo, ajuda, erro, opcional, id, className = '', rows = 3, maxLength, value, ...resto },
   ref,
@@ -204,13 +198,11 @@ interface PropriedadesGrupoDeOpcoes<T extends string> {
   ajuda?: ReactNode
   nome: string
   opcoes: readonly OpcaoDoGrupo<T>[]
-  /** Vazio: nenhuma opção marcada ainda. */
   valor: T | ''
   aoMudar: (valor: T) => void
   erro?: string
 }
 
-/** Rádios nativos num fieldset com legenda: setas do teclado e leitor de tela funcionam sem código extra. */
 export function GrupoDeOpcoes<T extends string>({ legenda, ajuda, nome, opcoes, valor, aoMudar, erro }: PropriedadesGrupoDeOpcoes<T>) {
   const gerado = useId()
   const ajudaId = ajuda ? `${gerado}-ajuda` : undefined

@@ -204,7 +204,6 @@ describe('FE-04: internar (só leitos livres são alocáveis)', () => {
     await waitFor(() => expect(chamadas.find((c) => c.chave === 'POST /internacoes')?.corpo).toEqual({ atendimentoId: 'a1', leitoId: 'l5' }))
     expect(await screen.findByText('João Lima internado no leito UTI-102.')).toBeInTheDocument()
     await waitFor(() => expect(screen.getByRole('heading', { level: 1, name: 'Internações' })).toHaveFocus())
-    // Os estados se atualizam depois da operação (critério do FE-04).
     await waitFor(() => {
       expect(quantas(chamadas, 'GET /leitos')).toBeGreaterThan(antes.leitos)
       expect(quantas(chamadas, 'GET /internacoes/atendimentos-sem-leito')).toBeGreaterThan(antes.fila)
@@ -303,7 +302,6 @@ describe('FE-04: pedidos de transferência entre instituições', () => {
     await userEvent.selectOptions(within(dialogo).getByLabelText('Leito'), 'l5')
     await userEvent.click(within(dialogo).getByRole('button', { name: 'Aceitar' }))
     await waitFor(() => expect(chamadas.find((c) => c.chave === 'POST /solicitacoes-transferencia/s1/aceite')?.corpo).toEqual({ leitoId: 'l5' }))
-    // Concluído, o diálogo fecha e o foco vai para o título.
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
     expect(await screen.findByText('Bia Rocha transferido para o leito UTI-102.')).toBeInTheDocument()
     await waitFor(() => expect(screen.getByRole('heading', { level: 1, name: 'Internações' })).toHaveFocus())
@@ -316,7 +314,6 @@ describe('FE-04: pedidos de transferência entre instituições', () => {
     const dialogo = screen.getByRole('dialog', { name: 'Recusar a transferência' })
     await userEvent.click(within(dialogo).getByRole('button', { name: 'Recusar' }))
     expect(within(dialogo).getByLabelText('Motivo')).toHaveAccessibleDescription(/Informe o motivo da recusa/)
-    // Só espaços também não vale.
     await userEvent.type(within(dialogo).getByLabelText('Motivo'), '   ')
     await userEvent.click(within(dialogo).getByRole('button', { name: 'Recusar' }))
     expect(within(dialogo).getByLabelText('Motivo')).toHaveAccessibleDescription(/Informe o motivo da recusa/)
@@ -340,7 +337,6 @@ describe('FE-04: pedidos de transferência entre instituições', () => {
     expect(caio).toHaveTextContent('Recusada')
     expect(caio).toHaveTextContent('Motivo: Sem vaga na UTI')
     expect(within(caio).queryByRole('button')).not.toBeInTheDocument()
-    // O nome acessível dos botões começa pelo texto visível (FE-12, WCAG 2.5.3).
     expect(nomesQueNaoComecamPeloTexto(enviados)).toEqual([])
     await userEvent.click(within(maria).getByRole('button', { name: 'Cancelar pedido de Maria Souza' }))
     await userEvent.click(within(screen.getByRole('alertdialog')).getByRole('button', { name: 'Cancelar pedido' }))
