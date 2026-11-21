@@ -167,3 +167,17 @@ Telas do Médico na instituição ativa (RF-004, RF-006, RF-007, RF-010, RN-003,
 - **Prontuário** (`GET /atendimentos/{id}/historico`): o que a instituição pode ver, inclusive de outras instituições, com o acesso de emergência com justificativa quando há informações restritas (o mesmo componente da triagem).
 - **Novo registro** (`POST /atendimentos/{id}/registros`): evolução e conduta, diagnóstico com CID-10 (validado no formato da API), prescrição, exame, alergia e resumo de internação ou alta, que o administrativo anexa à alta.
 - **Encerrar atendimento**, com confirmação.
+
+## Painel por hospital (FE-09)
+
+Primeira tela do Médico, do Enfermeiro, do Administrativo e do Auditor/Gestor (`/painel`, RF-005, RF-006, RF-011, RF-012). Mostra os números de agora de um hospital (`GET /painel`), sem nenhum dado de paciente, e se atualiza sozinha a cada 30 segundos com a aba visível.
+
+- **Pilha de hospitais:** um cartão por hospital, com foto genérica e véu de cor (créditos das fotos no `docs/design-system.md`, seção 2.14), e o escolhido na frente. O médico, o enfermeiro e o administrativo veem os hospitais do vínculo, e escolher um cartão troca a instituição ativa do topo. O gestor vê os hospitais credenciados da rede (`GET /api/instituicoes`), e a escolha fica só no painel. Cada cartão é um rádio: Tab chega ao marcado e as setas trocam de hospital. A ordem no DOM não muda com a escolha, só a posição na tela, para o foco não se perder.
+- **Ocupação de leitos:** a taxa de ocupação e uma barra dividida por situação, com a legenda e a contagem de cada uma.
+- **Aguardando triagem:** quantos e há quanto tempo espera o primeiro.
+- **Fila do médico por cor:** quantos em cada cor, a maior espera, o tempo máximo da cor e quantos passaram dele.
+- **Agora no hospital:** chegadas hoje, em atendimento e internados. **Leitos livres por categoria** e **transferências pendentes** (recebidas e enviadas).
+- **Links:** "Abrir leitos", "Abrir triagem", "Abrir atendimentos" e "Abrir internações" aparecem só para quem pode abrir a tela.
+- Na troca de hospital, os números do anterior somem até os do novo chegarem.
+- **Início com vários vínculos:** sem instituição escolhida, o Início mostra a mesma pilha, mas com botões: escolher leva ao Painel, então só Enter, Espaço ou clique escolhem, e as setas não tiram a pessoa da página.
+

@@ -1,4 +1,4 @@
-import { BedDouble, ClipboardList, FileClock, FileText, HeartPulse, Hospital, LockKeyhole, ShieldCheck, Users, type LucideIcon } from 'lucide-react'
+import { BedDouble, ClipboardList, FileClock, FileText, HeartPulse, Hospital, LayoutDashboard, LockKeyhole, ShieldCheck, Users, type LucideIcon } from 'lucide-react'
 import type { Perfil } from '@/api/tipos'
 
 export interface ItemDeMenu {
@@ -18,6 +18,15 @@ export interface ItemDeMenu {
  * cada item entregue fica em PAGINAS (App.tsx); as outras mostram "Em construção" até o card delas.
  */
 export const ITENS_DE_MENU: readonly ItemDeMenu[] = [
+  {
+    caminho: '/painel',
+    rotulo: 'Painel',
+    grupo: 'VISÃO GERAL',
+    icone: LayoutDashboard,
+    perfis: ['MEDICO', 'ENFERMEIRO', 'ADMINISTRATIVO', 'AUDITOR_GESTOR'],
+    descricao: 'Números de agora por hospital: leitos, fila por risco, espera e transferências.',
+    card: 'FE-09',
+  },
   {
     caminho: '/pacientes',
     rotulo: 'Pacientes',
