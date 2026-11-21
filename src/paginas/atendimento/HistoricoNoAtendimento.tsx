@@ -66,7 +66,7 @@ export function HistoricoNoAtendimento({ atendimentoId, semHistorico, versao = 0
     )
   }
   return (
-    <div className="grid gap-4">
+    <div className="grid grid-cols-1 gap-4">
       {historico.acessoDeEmergencia ? (
         <Alerta tom="atencao" anunciar={false} titulo="Acesso de emergência">
           Os registros restritos pelo paciente aparecem marcados. O acesso e a justificativa estão na auditoria.

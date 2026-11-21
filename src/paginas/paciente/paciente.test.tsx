@@ -161,6 +161,13 @@ describe('FE-05: Meu prontuário — quem acessou (RF-008)', () => {
     expect(within(linhas[2] as HTMLElement).getByText('Emergência')).toBeInTheDocument()
   })
 
+  it('a coluna da página não passa da largura da tela: a tabela rola dentro do painel (FE-11, WCAG 1.4.10)', async () => {
+    await abrir('/meu-prontuario')
+    const painel = await regiao('Quem acessou seu prontuário')
+    // grid-cols-1 é repeat(1, minmax(0, 1fr)): sem ele, a coluna implícita do grid cresce até a largura mínima da tabela.
+    expect(painel.parentElement).toHaveClass('grid-cols-1')
+  })
+
   it('pagina de 10 em 10', async () => {
     const dez = Array.from({ length: 10 }, (_, i) => acesso(i))
     const { chamadas } = await abrir('/meu-prontuario', {
