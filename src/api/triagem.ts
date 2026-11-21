@@ -1,5 +1,5 @@
 import { requisicao } from '@/api/cliente'
-import type { AguardandoTriagem, CorRisco, Pagina, PacienteNaFila, SinaisVitais, Triagem } from '@/api/tipos'
+import type { AguardandoTriagem, CorRisco, Pagina, PacienteNaFila, PreClassificacao, SinaisVitais, Triagem } from '@/api/tipos'
 
 /** Rotas do enfermeiro para a classificação de risco (RF-003, RN-005). */
 
@@ -18,3 +18,9 @@ export const sugerirRisco = (triagemId: string) => requisicao<Triagem>('POST', `
 
 export const confirmarRisco = (triagemId: string, cor: CorRisco) =>
   requisicao<Triagem>('POST', `/triagens/${encodeURIComponent(triagemId)}/confirmacao`, { corpo: { cor } })
+
+export const registrarSinaisVitais = (triagemId: string, sinaisVitais: SinaisVitais) =>
+  requisicao<Triagem>('PATCH', `/triagens/${encodeURIComponent(triagemId)}/sinais-vitais`, { corpo: { sinaisVitais } })
+
+export const preClassificacao = (atendimentoId: string, instituicaoId: string, sinal?: AbortSignal) =>
+  requisicao<PreClassificacao>('GET', '/triagens/pre-classificacao', { consulta: { atendimentoId, instituicaoId }, sinal })

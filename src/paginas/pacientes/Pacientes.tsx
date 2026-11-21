@@ -1,8 +1,9 @@
 import { CircleCheck, Search, UserPlus, UserRound } from 'lucide-react'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { buscarPacientePorCpf } from '@/api/pacientes'
+import { preClassificacao } from '@/api/triagem'
 import { ErroApi } from '@/api/cliente'
-import type { AdmissaoResposta, PacienteResumo, VinculoAtivo } from '@/api/tipos'
+import type { AdmissaoResposta, PacienteResumo, SituacaoSugestao, VinculoAtivo } from '@/api/tipos'
 import { useSessao } from '@/auth/SessaoProvider'
 import { Alerta, RegiaoDeAlerta } from '@/componentes/Alerta'
 import { Botao } from '@/componentes/Botao'
@@ -165,7 +166,7 @@ function RecepcaoDePacientes({ instituicao }: { instituicao: VinculoAtivo }) {
           </PainelComFoco>
         )}
 
-        {etapa.tipo === 'concluido' && <AtendimentoAberto etapa={etapa} aoRecomecar={recomecar} />}
+        {etapa.tipo === 'concluido' && <AtendimentoAberto etapa={etapa} instituicaoId={instituicao.instituicaoId} aoRecomecar={recomecar} />}
       </div>
     </>
   )
@@ -231,7 +232,7 @@ function PainelDoPaciente({ paciente, cpf, children }: { paciente: PacienteResum
   )
 }
 
-function AtendimentoAberto({ etapa, aoRecomecar }: { etapa: Extract<Etapa, { tipo: 'concluido' }>; aoRecomecar: () => void }) {
+function AtendimentoAberto({ etapa, instituicaoId, aoRecomecar }: { etapa: Extract<Etapa, { tipo: 'concluido' }>; instituicaoId: string; aoRecomecar: () => void }) {
   const titulo = useRef<HTMLHeadingElement>(null)
   useEffect(() => titulo.current?.focus(), [])
   const { resposta, nome, cadastroTentado } = etapa
@@ -249,6 +250,7 @@ function AtendimentoAberto({ etapa, aoRecomecar }: { etapa: Extract<Etapa, { tip
             {cadastroJaExistia || !nome ? 'O paciente' : nome} já pode seguir para a triagem.
             {resposta.novoCadastro && ' O cadastro e o prontuário dele foram criados na rede.'}
           </p>
+          <AndamentoDaPreClassificacao atendimentoId={resposta.atendimentoId} instituicaoId={instituicaoId} />
           {cadastroJaExistia && (
             <div className="mt-4">
               <Alerta tom="atencao" titulo="Este CPF já tinha cadastro na rede">
@@ -265,5 +267,51 @@ function AtendimentoAberto({ etapa, aoRecomecar }: { etapa: Extract<Etapa, { tip
         </div>
       </div>
     </section>
+  )
+}
+
+const INTERVALO_MS = 3000
+const TENTATIVAS = 40
+
+function AndamentoDaPreClassificacao({ atendimentoId, instituicaoId }: { atendimentoId: string; instituicaoId: string }) {
+  const [situacao, setSituacao] = useState<SituacaoSugestao | null>('EM_ANDAMENTO')
+  const [desistiu, setDesistiu] = useState(false)
+
+  useEffect(() => {
+    const controle = new AbortController()
+    let temporizador = 0
+    let tentativas = 0
+    async function consultar() {
+      try {
+        const resposta = await preClassificacao(atendimentoId, instituicaoId, controle.signal)
+        if (controle.signal.aborted) return
+        setSituacao(resposta.situacao)
+        if (resposta.situacao !== 'EM_ANDAMENTO') return
+        if (++tentativas >= TENTATIVAS) setDesistiu(true)
+        else temporizador = window.setTimeout(consultar, INTERVALO_MS)
+      } catch {
+        if (!controle.signal.aborted) setSituacao('INDISPONIVEL')
+      }
+    }
+    temporizador = window.setTimeout(consultar, 1000)
+    return () => {
+      controle.abort()
+      window.clearTimeout(temporizador)
+    }
+  }, [atendimentoId, instituicaoId])
+
+  if (situacao === null) return null
+  const texto =
+    situacao === 'PRONTA'
+      ? 'A pré-classificação por IA está pronta. O enfermeiro a vê e confirma na triagem.'
+      : situacao === 'INDISPONIVEL'
+        ? 'A IA não respondeu. O enfermeiro classifica na triagem, sem a sugestão.'
+        : desistiu
+          ? 'A pré-classificação ainda está em andamento. O paciente já pode seguir para a triagem.'
+          : 'A IA está preparando a pré-classificação…'
+  return (
+    <p role="status" className="mt-3 text-corpo text-texto-suave">
+      {texto}
+    </p>
   )
 }

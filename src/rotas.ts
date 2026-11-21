@@ -32,8 +32,8 @@ export const ITENS_DE_MENU: readonly ItemDeMenu[] = [
     rotulo: 'Pacientes',
     grupo: 'VISÃO GERAL',
     icone: Users,
-    perfis: ['ADMINISTRATIVO'],
-    descricao: 'Busca por CPF na rede, cadastro e consentimento inicial.',
+    perfis: ['RECEPCAO'],
+    descricao: 'Busca por CPF na rede, cadastro, consentimento inicial e o que o paciente sente.',
     card: 'FE-03',
   },
   {

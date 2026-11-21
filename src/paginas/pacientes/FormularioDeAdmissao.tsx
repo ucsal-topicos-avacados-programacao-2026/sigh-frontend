@@ -53,7 +53,7 @@ function validar(modo: PropriedadesFormulario['modo'], nome: string, dataNascime
     if (!dataNascimento) erros.dataNascimento = 'Informe a data de nascimento.'
     else if (dataNascimento > hojeIso()) erros.dataNascimento = 'A data de nascimento não pode estar no futuro.'
   }
-  if (!motivo.trim()) erros.motivo = 'Informe o motivo do atendimento.'
+  if (!motivo.trim()) erros.motivo = 'Informe o que o paciente está sentindo.'
   return erros
 }
 
@@ -167,8 +167,8 @@ export function FormularioDeAdmissao({ modo, cpf, instituicaoId, aoConcluir, aoM
       )}
       <AreaDeTexto
         ref={campoMotivo}
-        rotulo="Motivo do atendimento"
-        ajuda="O que trouxe o paciente, nas palavras dele. A classificação de risco é feita na triagem."
+        rotulo="O que o paciente está sentindo"
+        ajuda="Nas palavras dele. Não meça sinais vitais: a IA já sugere a prioridade e o enfermeiro confirma na triagem."
         value={motivo}
         onChange={(e) => {
           setMotivo(e.target.value)

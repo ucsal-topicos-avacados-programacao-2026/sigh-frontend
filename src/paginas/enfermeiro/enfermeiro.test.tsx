@@ -9,13 +9,13 @@ import { formatarEspera } from '@/util/espera'
 const ENFERMEIRO = usuario(['ENFERMEIRO'], [{ ...HOSPITAL_A, perfis: ['ENFERMEIRO'] }])
 const AGUARDANDO: AguardandoTriagem[] = [
   { atendimentoId: 'a1', paciente: 'Ana Lima', chegadaEm: '2026-11-20T08:00:00', motivo: 'Febre alta', triagemPendente: null },
-  { atendimentoId: 'a2', paciente: 'Beto Reis', chegadaEm: '2026-11-20T08:10:00', motivo: 'Dor no peito', triagemPendente: { id: 't2', sintomas: 'Dor no peito', corSugerida: 'AMARELO' } },
+  { atendimentoId: 'a2', paciente: 'Beto Reis', chegadaEm: '2026-11-20T08:10:00', motivo: 'Dor no peito', triagemPendente: { id: 't2', sintomas: 'Dor no peito', sinaisVitais: { frequenciaCardiaca: 100 }, corSugerida: 'AMARELO', sugestaoPreliminar: false, situacaoSugestao: 'PRONTA' } },
 ]
 const FILA: PacienteNaFila[] = [
   { triagemId: 't9', atendimentoId: 'a9', pacienteNome: 'Caio Dias', corConfirmada: 'VERMELHO', chegadaEm: '2026-11-20T07:00:00', minutosDeEspera: 12, tempoMaximoExcedido: true },
   { triagemId: 't8', atendimentoId: 'a8', pacienteNome: 'Davi Souza', corConfirmada: 'VERDE', chegadaEm: '2026-11-20T06:00:00', minutosDeEspera: 65, tempoMaximoExcedido: false },
 ]
-const triagem = (id: string, extra: object = {}) => ({ id, atendimentoId: 'a1', sintomas: 'x', sinaisVitais: null, corSugerida: null, corConfirmada: null, confirmadaEm: null, ...extra })
+const triagem = (id: string, extra: object = {}) => ({ id, atendimentoId: 'a1', sintomas: 'x', sinaisVitais: null, corSugerida: null, corConfirmada: null, confirmadaEm: null, sugestaoPreliminar: false, situacaoSugestao: null, ...extra })
 const pagina = <T,>(itens: T[]) => ({ content: itens, page: { size: 200, number: 0, totalElements: itens.length, totalPages: 1 } })
 const REGISTRO: RegistroDoHistorico = {
   id: 'r1',
@@ -217,7 +217,7 @@ describe('FE-06: retomar e reclassificar', () => {
 
   it('triagem começada sem sugestão: oferece pedir a sugestão', async () => {
     await abrir({
-      'GET /triagens/aguardando': { status: 200, corpo: [{ ...AGUARDANDO[1], triagemPendente: { id: 't1', sintomas: 'x', corSugerida: null } }] },
+      'GET /triagens/aguardando': { status: 200, corpo: [{ ...AGUARDANDO[1], triagemPendente: { id: 't1', sintomas: 'x', sinaisVitais: { frequenciaCardiaca: 90 }, corSugerida: null, sugestaoPreliminar: false, situacaoSugestao: null } }] },
     })
     await userEvent.click(await screen.findByRole('button', { name: 'Continuar triagem de Beto Reis' }))
     const dialogo = screen.getByRole('dialog')
@@ -235,6 +235,71 @@ describe('FE-06: retomar e reclassificar', () => {
     // Na reclassificação não há retomada: fechar descarta, e vale a cor anterior.
     expect(await within(dialogo).findByText(/Se fechar agora, ela é descartada, e continua valendo a cor anterior./)).toBeInTheDocument()
     expect(dialogo).not.toHaveTextContent('dá para retomar')
+  })
+})
+
+describe('Recepção abre a triagem e a IA sugere sozinha', () => {
+  const DA_RECEPCAO = (extra: object = {}) => ({
+    ...AGUARDANDO[1],
+    triagemPendente: { id: 't7', sintomas: 'Dor no peito há uma hora', sinaisVitais: null, corSugerida: 'LARANJA', sugestaoPreliminar: true, situacaoSugestao: 'PRONTA', ...extra },
+  })
+
+  it('a sugestão preliminar vem marcada, e registrar os sinais vitais atualiza a sugestão sem botão de pedir', async () => {
+    let atualizada = false
+    const { chamadas } = await abrir({
+      'GET /triagens/aguardando': () => ({
+        status: 200,
+        corpo: [atualizada
+          ? DA_RECEPCAO({ sinaisVitais: { saturacaoOxigenio: 88 }, corSugerida: 'VERMELHO', sugestaoPreliminar: false })
+          : DA_RECEPCAO()],
+      }),
+      'PATCH /triagens/t7/sinais-vitais': () => {
+        atualizada = true
+        return { status: 200, corpo: triagem('t7', { situacaoSugestao: 'EM_ANDAMENTO' }) }
+      },
+      'POST /triagens/t7/confirmacao': { status: 200, corpo: triagem('t7', { corConfirmada: 'VERMELHO' }) },
+    })
+    await userEvent.click(await screen.findByRole('button', { name: 'Continuar triagem de Beto Reis' }))
+    const dialogo = screen.getByRole('dialog')
+    expect(dialogo).toHaveTextContent('Dor no peito há uma hora')
+    expect(within(dialogo).queryByLabelText('Sintomas')).not.toBeInTheDocument()
+    await userEvent.type(within(dialogo).getByLabelText(/^Saturação de oxigênio/), '88')
+    await userEvent.click(within(dialogo).getByRole('button', { name: 'Registrar e atualizar a sugestão' }))
+
+    expect(await within(dialogo).findByText(/^Sugestão:/)).toBeInTheDocument()
+    expect(chamadas.find((c) => c.chave === 'PATCH /triagens/t7/sinais-vitais')?.corpo).toEqual({ sinaisVitais: { saturacaoOxigenio: 88 } })
+    expect(within(dialogo).getByRole('radio', { name: 'Vermelho · Emergência' })).toBeChecked()
+    expect(within(dialogo).queryByRole('button', { name: 'Pedir sugestão da IA' })).not.toBeInTheDocument()
+    await userEvent.click(within(dialogo).getByRole('button', { name: 'Confirmar classificação' }))
+    await waitFor(() => expect(chamadas.find((c) => c.chave === 'POST /triagens/t7/confirmacao')?.corpo).toEqual({ cor: 'VERMELHO' }))
+  })
+
+  it('dá para classificar sem registrar os sinais agora, com a sugestão marcada como preliminar', async () => {
+    await abrir({ 'GET /triagens/aguardando': { status: 200, corpo: [DA_RECEPCAO()] } })
+    await userEvent.click(await screen.findByRole('button', { name: 'Continuar triagem de Beto Reis' }))
+    const dialogo = screen.getByRole('dialog')
+    await userEvent.click(within(dialogo).getByRole('button', { name: 'Classificar sem registrar agora' }))
+    expect(within(dialogo).getByText(/Sugestão preliminar \(sem sinais vitais\)/)).toBeInTheDocument()
+    expect(within(dialogo).getByRole('radio', { name: 'Laranja · Muito urgente' })).toBeChecked()
+  })
+
+  it('Enter não confirma a classificação: só o clique em Confirmar', async () => {
+    const { chamadas } = await abrir({ 'GET /triagens/aguardando': { status: 200, corpo: [DA_RECEPCAO()] } })
+    await userEvent.click(await screen.findByRole('button', { name: 'Continuar triagem de Beto Reis' }))
+    const dialogo = screen.getByRole('dialog')
+    await userEvent.click(within(dialogo).getByRole('button', { name: 'Classificar sem registrar agora' }))
+    within(dialogo).getByRole('radio', { name: 'Laranja · Muito urgente' }).focus()
+    await userEvent.keyboard('{Enter}')
+    expect(chamadas.some((c) => c.chave === 'POST /triagens/t7/confirmacao')).toBe(false)
+  })
+
+  it('IA indisponível na recepção: segue sem sugestão e oferece tentar de novo', async () => {
+    await abrir({ 'GET /triagens/aguardando': { status: 200, corpo: [DA_RECEPCAO({ corSugerida: null, situacaoSugestao: 'INDISPONIVEL' })] } })
+    await userEvent.click(await screen.findByRole('button', { name: 'Continuar triagem de Beto Reis' }))
+    const dialogo = screen.getByRole('dialog')
+    await userEvent.click(within(dialogo).getByRole('button', { name: 'Classificar sem registrar agora' }))
+    expect(within(dialogo).getByText('Triagem sem sugestão da IA')).toBeInTheDocument()
+    expect(within(dialogo).getByRole('button', { name: 'Tentar a sugestão de novo' })).toBeInTheDocument()
   })
 })
 
