@@ -6,6 +6,7 @@ import type { ComponentType } from 'react'
 import { EmConstrucao, Inicio, NaoEncontrada } from '@/paginas/comuns/PaginasComuns'
 import { Internacoes } from '@/paginas/administrativo/Internacoes'
 import { Leitos } from '@/paginas/administrativo/Leitos'
+import { Usuarios } from '@/paginas/auditor/Usuarios'
 import { Auditoria } from '@/paginas/auditor/Auditoria'
 import { Triagem } from '@/paginas/enfermeiro/Triagem'
 import { AtendimentoDoPaciente } from '@/paginas/medico/AtendimentoDoPaciente'
@@ -18,7 +19,9 @@ import { PainelDosHospitais } from '@/paginas/painel/PainelDosHospitais'
 import { PacienteAtivoProvider } from '@/paciente/PacienteAtivo'
 import { CadastrarSegundoFator } from '@/paginas/publicas/CadastrarSegundoFator'
 import { Entrar } from '@/paginas/publicas/Entrar'
+import { TrocarSenha } from '@/paginas/publicas/TrocarSenha'
 import { ValidarSegundoFator } from '@/paginas/publicas/ValidarSegundoFator'
+import { AlterarSenha } from '@/paginas/senha/AlterarSenha'
 import { ITENS_DE_MENU } from '@/rotas'
 
 const PAGINAS: Partial<Record<string, ComponentType>> = {
@@ -32,6 +35,7 @@ const PAGINAS: Partial<Record<string, ComponentType>> = {
   '/consentimentos': Consentimentos,
   '/auditoria': Auditoria,
   '/relatorios': Relatorios,
+  '/usuarios': Usuarios,
 }
 
 const ITEM_ATENDIMENTOS = ITENS_DE_MENU.find((item) => item.caminho === '/atendimentos')
@@ -48,6 +52,7 @@ export function App() {
   return (
     <Routes>
       <Route path="/entrar" element={<SoSemSessao><Entrar /></SoSemSessao>} />
+      <Route path="/entrar/trocar-senha" element={<SoSemSessao><TrocarSenha /></SoSemSessao>} />
       <Route path="/entrar/segundo-fator" element={<SoSemSessao><ValidarSegundoFator /></SoSemSessao>} />
       <Route path="/entrar/segundo-fator/cadastro" element={<SoSemSessao><CadastrarSegundoFator /></SoSemSessao>} />
       <Route element={<RotaProtegida><PacienteAtivoProvider><AppLayout /></PacienteAtivoProvider></RotaProtegida>}>
@@ -55,6 +60,7 @@ export function App() {
         {ITENS_DE_MENU.map((item) => (
           <Route key={item.caminho} path={item.caminho} element={<RotaProtegida rota={item}><Pagina item={item} /></RotaProtegida>} />
         ))}
+        <Route path="/alterar-senha" element={<AlterarSenha />} />
         <Route path="/atendimentos/:atendimentoId" element={<RotaProtegida rota={ATENDIMENTO_DO_MEDICO}><AtendimentoDoPaciente /></RotaProtegida>} />
         <Route path="*" element={<NaoEncontrada />} />
       </Route>
