@@ -1,4 +1,4 @@
-import { BedDouble, ClipboardList, FileClock, FileText, HeartPulse, Hospital, LayoutDashboard, LockKeyhole, ShieldCheck, Users, type LucideIcon } from 'lucide-react'
+import { BedDouble, ClipboardList, FileClock, FileText, HeartPulse, Hospital, LayoutDashboard, LockKeyhole, ShieldCheck, UserCog, Users, type LucideIcon } from 'lucide-react'
 import type { Perfil } from '@/api/tipos'
 
 export interface ItemDeMenu {
@@ -83,6 +83,15 @@ export const ITENS_DE_MENU: readonly ItemDeMenu[] = [
     perfis: ['PACIENTE'],
     descricao: 'Compartilhamento dos seus dados, restrições e autorizações.',
     card: 'FE-05',
+  },
+  {
+    caminho: '/usuarios',
+    rotulo: 'Usuários',
+    grupo: 'GESTÃO DA REDE',
+    icone: UserCog,
+    perfis: ['AUDITOR_GESTOR'],
+    descricao: 'Cadastro de usuários, vínculos com hospitais, senhas e segundo fator.',
+    card: 'FE-13',
   },
   {
     caminho: '/auditoria',

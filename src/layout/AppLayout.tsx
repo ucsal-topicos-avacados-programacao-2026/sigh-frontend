@@ -1,4 +1,4 @@
-import { LogOut, Menu as IconeMenu, X } from 'lucide-react'
+import { KeyRound, LogOut, Menu as IconeMenu, X } from 'lucide-react'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router'
 import { NOME_DO_PERFIL } from '@/api/tipos'
@@ -244,6 +244,7 @@ export function AppLayout() {
           </div>
           <div className="flex items-center gap-4">
             {largo && <Usuario />}
+            <BotaoIcone icone={KeyRound} rotulo="Trocar a minha senha" onClick={() => navegar('/alterar-senha')} />
             {largo ? (
               <Botao variante="secundario" icone={LogOut} onClick={() => sair({ texto: 'Você saiu do SIGH.', tom: 'info' })}>
                 Sair
