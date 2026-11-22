@@ -65,15 +65,14 @@ function PainelDaTriagem({ instituicao }: { instituicao: VinculoAtivo }) {
       {
         titulo: 'Situação',
         celula: (a) =>
-          a.triagemPendente ? (
-            <div className="flex flex-col items-start gap-1">
-              <Etiqueta tom="atencao" texto="Falta confirmar" />
-              {a.triagemPendente.corSugerida && (
-                <span className="text-texto-suave">
-                  Sugestão da IA: <SeloRisco cor={a.triagemPendente.corSugerida} />
-                </span>
-              )}
-            </div>
+          a.triagemPendente?.corSugerida ? (
+            <span className="text-texto-suave">
+              Sugestão da IA: <SeloRisco cor={a.triagemPendente.corSugerida} />
+            </span>
+          ) : a.triagemPendente ? (
+            <span className="text-texto-suave">
+              {a.triagemPendente.situacaoSugestao === 'EM_ANDAMENTO' ? 'IA preparando a sugestão…' : 'Sem sugestão da IA'}
+            </span>
           ) : (
             'Sem triagem'
           ),

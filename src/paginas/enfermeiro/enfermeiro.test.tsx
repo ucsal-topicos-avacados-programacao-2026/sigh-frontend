@@ -60,7 +60,7 @@ describe('FE-06: listas da triagem', () => {
     const aguardando = await regiao('Aguardando triagem')
     await within(aguardando).findByText('Ana Lima')
     const beto = within(aguardando).getByText('Beto Reis').closest('tr') as HTMLElement
-    expect(beto).toHaveTextContent('Falta confirmar')
+    expect(beto).not.toHaveTextContent('Falta confirmar')
     expect(beto).toHaveTextContent('Sugestão da IA: Amarelo · Urgente')
     expect(within(beto).getByRole('button', { name: 'Continuar triagem de Beto Reis' })).toBeInTheDocument()
     expect(within(aguardando).getByText('Ana Lima').closest('tr')).toHaveTextContent('Sem triagem')
