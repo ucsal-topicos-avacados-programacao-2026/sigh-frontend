@@ -47,9 +47,12 @@ export function Entrar() {
         return
       }
       iniciarEntrada({ token: resposta.token, etapa: resposta.etapa })
-      navegar(resposta.etapa === 'CADASTRAR_SEGUNDO_FATOR' ? '/entrar/segundo-fator/cadastro' : '/entrar/segundo-fator', {
-        state: { de: destino },
-      })
+      const rotaDaEtapa = {
+        TROCAR_SENHA: '/entrar/trocar-senha',
+        CADASTRAR_SEGUNDO_FATOR: '/entrar/segundo-fator/cadastro',
+        VALIDAR_SEGUNDO_FATOR: '/entrar/segundo-fator',
+      }
+      navegar(rotaDaEtapa[resposta.etapa], { state: { de: destino } })
     } catch (falha) {
       if (falha instanceof ErroApi && Object.keys(falha.campos).length > 0) {
         setErros({ login: falha.campos.login, senha: falha.campos.senha })

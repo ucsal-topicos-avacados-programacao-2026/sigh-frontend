@@ -16,7 +16,7 @@ describe('menu por perfil (FE-02: o perfil vê somente o menu permitido)', () =>
     ['médico', ['MEDICO'], ['Painel', 'Atendimentos']],
     ['administrativo', ['ADMINISTRATIVO'], ['Painel', 'Leitos', 'Internações']],
     ['recepção', ['RECEPCAO'], ['Pacientes']],
-    ['auditor', ['AUDITOR_GESTOR'], ['Painel', 'Auditoria', 'Relatórios']],
+    ['auditor', ['AUDITOR_GESTOR'], ['Painel', 'Usuários', 'Auditoria', 'Relatórios']],
   ]
 
   it.each(casos)('%s', async (_nome, perfis, esperado) => {
