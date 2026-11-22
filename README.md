@@ -162,7 +162,7 @@ Duas telas do Administrativo, sempre na instituição ativa (RF-005, RF-006). As
 
 Tela do Enfermeiro, na instituição ativa (RF-003, RF-010, RN-001, RN-005, RN-008, RN-009). As listas se atualizam sozinhas a cada 30 segundos.
 
-- **Aguardando triagem** (`GET /triagens/aguardando`): por ordem de chegada. Quem tem triagem registrada e não confirmada aparece com "Falta confirmar" e a sugestão da IA, se houver, e o botão "Continuar triagem".
+- **Aguardando triagem** (`GET /triagens/aguardando`): por ordem de chegada. Quem tem triagem registrada e não confirmada aparece com a sugestão da IA, se houver, e o botão "Continuar triagem".
 - **Triagem aberta na recepção:** o paciente chega com o relato da recepção e a cor sugerida pela IA já marcada, como "Sugestão preliminar (sem sinais vitais)". O enfermeiro registra os sinais vitais (`PATCH /triagens/{id}/sinais-vitais`), a IA refaz a sugestão sozinha (a tela espera, sem botão de pedir) e ele confirma ou altera a cor. Também pode classificar sem registrar os sinais agora. A confirmação exige o clique em "Confirmar classificação": o Enter não confirma.
 - **Triagem sem recepção** (reclassificar, ou paciente sem triagem aberta):
   1. Sintomas e sinais vitais, validados como a API valida (`POST /triagens`).
