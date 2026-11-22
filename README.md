@@ -158,6 +158,18 @@ Duas telas do Administrativo, sempre na instituição ativa (RF-005, RF-006). As
 - **Internados** (`GET /internacoes`): transferir para outro leito livre da instituição (direto) ou pedir a transferência para outra instituição da rede, mostrando as vagas livres de lá na categoria; dar alta escolhendo o resumo de alta feito desde a admissão (sem resumo, a tela explica que a alta precisa dele).
 - **Pedidos recebidos:** aceitar escolhendo um leito livre da categoria pedida, ou recusar com motivo. **Pedidos enviados:** situação, motivo da recusa e cancelar o pendente.
 
+## Usuários e senhas (Auditor/Gestor)
+
+**Tela Usuários** (`/usuarios`, só o Auditor/Gestor): quem cria e administra os usuários da rede.
+- **Lista e busca** (`GET /usuarios`): por nome ou login, perfil e situação, com paginação, mostrando perfil, hospitais e se a senha ainda é temporária.
+- **Novo usuário** (`POST /usuarios`): login, nome, perfil e, para médico, enfermeiro, recepção e administrativo, os hospitais em que atua (com CRM ou COREN para médico e enfermeiro). Não há perfil Paciente: o paciente é cadastrado pela recepção. O sistema gera a senha temporária, que aparece **uma única vez** numa janela, com botão de copiar.
+- **Ações por usuário**, todas com confirmação: desativar e reativar (a sessão aberta do desativado cai na hora), redefinir a senha (gera outra temporária), zerar o segundo fator e gerenciar vínculos (adicionar e encerrar hospitais). O auditor não desativa nem redefine a própria senha.
+- **Ações administrativas** (`GET /usuarios/acoes`): registro imutável de quem fez o quê, em quem e quando.
+
+**Primeiro acesso:** quem entra com senha temporária (usuário novo ou com senha redefinida) vai para a tela **Troque a sua senha** (`/entrar/trocar-senha`) antes de tudo. Depois da troca seguem o segundo fator, se o perfil exigir, e o acesso. A senha nova tem de 10 a 72 caracteres, com letras e números.
+
+**Alterar a própria senha:** o botão de chave no topo abre `/alterar-senha`, que pede a senha atual (`POST /auth/senha/alteracao`).
+
 ## Triagem (FE-06)
 
 Tela do Enfermeiro, na instituição ativa (RF-003, RF-010, RN-001, RN-005, RN-008, RN-009). As listas se atualizam sozinhas a cada 30 segundos.
