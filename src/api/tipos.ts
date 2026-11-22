@@ -12,7 +12,7 @@ export const NOME_DO_PERFIL: Record<Perfil, string> = {
   AUDITOR_GESTOR: 'Auditor/Gestor de rede',
 }
 
-export type EtapaAutenticacao = 'ACESSO_LIBERADO' | 'VALIDAR_SEGUNDO_FATOR' | 'CADASTRAR_SEGUNDO_FATOR'
+export type EtapaAutenticacao = 'ACESSO_LIBERADO' | 'TROCAR_SENHA' | 'VALIDAR_SEGUNDO_FATOR' | 'CADASTRAR_SEGUNDO_FATOR'
 
 export interface TokenResposta {
   token: string
@@ -358,4 +358,69 @@ export interface PainelDaInstituicao {
   internados: number
   chegadasHoje: number
   transferencias: { recebidas: number; enviadas: number }
+}
+
+export const PERFIS_CRIAVEIS: readonly Perfil[] = ['MEDICO', 'ENFERMEIRO', 'RECEPCAO', 'ADMINISTRATIVO', 'AUDITOR_GESTOR']
+
+export interface VinculoDoUsuario {
+  id: string
+  instituicaoId: string
+  instituicaoNome: string
+  perfis: Perfil[]
+  registroProfissional: string | null
+  inicioEm: string
+  fimEm: string | null
+  ativo: boolean
+}
+
+export interface UsuarioDetalhe {
+  id: string
+  login: string
+  nome: string
+  perfis: Perfil[]
+  ativo: boolean
+  mfaHabilitado: boolean
+  senhaTemporaria: boolean
+  vinculos: VinculoDoUsuario[]
+}
+
+export interface UsuarioCriado {
+  usuario: UsuarioDetalhe
+  senhaTemporaria: string
+}
+
+export interface SenhaTemporaria {
+  login: string
+  senhaTemporaria: string
+}
+
+export interface NovoVinculo {
+  instituicaoId: string
+  perfis: Perfil[]
+  registroProfissional?: string
+}
+
+export interface NovoUsuario {
+  login: string
+  nome: string
+  perfis: Perfil[]
+  vinculos: NovoVinculo[]
+}
+
+export type TipoDeAcaoAdministrativa =
+  | 'USUARIO_CRIADO'
+  | 'USUARIO_DESATIVADO'
+  | 'USUARIO_REATIVADO'
+  | 'SENHA_REDEFINIDA'
+  | 'SEGUNDO_FATOR_ZERADO'
+  | 'VINCULO_ADICIONADO'
+  | 'VINCULO_ENCERRADO'
+
+export interface AcaoAdministrativa {
+  id: string
+  ator: string
+  alvo: string
+  acao: TipoDeAcaoAdministrativa
+  detalhe: string | null
+  ocorridoEm: string
 }

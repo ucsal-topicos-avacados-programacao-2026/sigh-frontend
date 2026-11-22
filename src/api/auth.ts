@@ -16,3 +16,11 @@ export function validarSegundoFator(tokenPendente: string, codigo: string) {
 export function usuarioLogado(sinal?: AbortSignal) {
   return requisicao<UsuarioLogado>('GET', '/usuarios/eu', { sinal })
 }
+
+export function trocarSenhaInicial(tokenPendente: string, novaSenha: string) {
+  return requisicao<TokenResposta>('POST', '/auth/senha/troca-inicial', { token: tokenPendente, corpo: { novaSenha } })
+}
+
+export function alterarSenha(senhaAtual: string, novaSenha: string) {
+  return requisicao<void>('POST', '/auth/senha/alteracao', { corpo: { senhaAtual, novaSenha } })
+}
